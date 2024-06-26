@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Users', {
-      userId: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -24,7 +24,7 @@ module.exports = {
       lastName: {
         type: Sequelize.STRING
       },
-      profilePicURL: {
+      profilePicUrl: {
         type: Sequelize.STRING
       },
       rank: {

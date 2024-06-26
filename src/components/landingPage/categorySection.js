@@ -5,7 +5,7 @@ import '../../common.css';
 const CategorySection = ({ categories }) => {
     return (
         <main>
-            <section id="category">
+            <section id="cathegory">
                 <h1>Choose your desired category</h1>
                 <div>
                     <ul>

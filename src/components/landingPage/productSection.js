@@ -11,10 +11,10 @@ const ProductSection = ({ session, cartProducts, products, db }) => {
         const fetchUsers = async () => {
             const newUsersList = {};
             for (const product of products) {
-                    const response = await fetch(`http://localhost:4005/api/users/id/${product.SellerID}`);                if (response.ok) {
+                    const response = await fetch(`http://localhost:4005/api/users/id/${product.sellerId}`);                if (response.ok) {
                     const userData = await response.json();
                     console.log("userData: ", userData);
-                    newUsersList[product.SellerID] = userData;
+                    newUsersList[product.sellerId] = userData;
                 } else {
                     console.error(`Failed to fetch user with ID ${product.SellerID}`);
                 }
@@ -63,13 +63,13 @@ const ProductSection = ({ session, cartProducts, products, db }) => {
                     </button>
                   )} */}
                 </div>
-                {console.log("vendedor: ", product.SellerID)}
-                {console.log("nome do vendedor: ", users[product.SellerID]?.Username)}
-                <div id="productSeller">@<Link to={`/profile/${users[product.SellerID]?.id}`}>{users[product.SellerID]?.Username}</Link></div>
+                {console.log("vendedor: ", product.sellerId)}
+                {console.log("nome do vendedor: ", users[product.sellerId]?.Username)}
+                <div id="productSeller">@<Link to={`/profile/${users[product.sellerId]?.id}`}>{users[product.sellerId]?.username}</Link></div>
                 <div>
-                  {console.log("nome do produto", product.productName)}
+                  {console.log("nome do produto", product.name)}
                   <div className="h3"><Link to={`/product/${product.id}`} title={product.name}>{product.name}</Link></div>
-                  <p className="description">{product.description}</p>
+                  <p className="description">{product.productDescription}</p>
                   <p>Condition: {product.condition}</p>
                   <p className="priceInGrid">${product.price}</p>
                 </div>

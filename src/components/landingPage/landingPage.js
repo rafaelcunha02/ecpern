@@ -5,9 +5,12 @@ import HeroSection from './heroSection';
 import ProductSection from './productSection';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '../../common.css';
+import CategorySection from './categorySection';
 
 const LandingPage = () => {
 
+
+  //PRODUTOS
   const user = {
     username: 'user',
     rank: 1
@@ -39,11 +42,34 @@ useEffect (() => {
 
   console.log(Array.isArray(produtos));
   console.log(produtos);
+  
+  //////////////////////////////////////
+
+  //CATEGORIAS
+
+  const [categorias, setCategorias] = useState([]);
+
+  useEffect (() => {
+    fetch('http://localhost:4005/api/caracs/Categories')
+    .then(res => {
+      if (!res.ok) { 
+        throw new Error('HTTP error ' + res.status);
+      }
+      return res.json();
+    })
+    .then(data => {
+      setCategorias(data);
+    })
+    .catch(error => {
+      console.error('Fetch failed:', error);
+    });
+  }, []);
 
   return (
       <div>
         <Header isLoggedIn={true} user={user} logout={logout}/>
         <HeroSection/>
+        <CategorySection categories={categorias}/>
         <ProductSection products={produtos}/>
         <Footer />
       </div>

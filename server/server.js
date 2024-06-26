@@ -21,6 +21,10 @@ app.use('/api/users', usersController);
 const productsController = require('./controllers/products_controller');
 app.use('/api/products', productsController);
 
+const caracsController = require('./controllers/caracs_controller');
+app.use('/api/caracs', caracsController);
+
+
 // LISTEN 
 
 app.listen(4005, () => {
