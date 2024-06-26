@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import HeroSection from './heroSection';
-import ProductSection from './productSection';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '../../common.css';
-import CategorySection from './categorySection';
+import './productPage.css';
 
-const LandingPage = () => {
+const ProductPage = () => {
 
 
   //PRODUTOS
@@ -65,17 +63,12 @@ useEffect (() => {
     });
   }, []);
 
-
-
   return (
       <div>
         <Header isLoggedIn={true} user={user} logout={logout}/>
-        <HeroSection/>
-        <CategorySection categories={categorias}/>
-        <ProductSection products={produtos}/>
         <Footer />
       </div>
   );
 }
 
-export default LandingPage;
+export default ProductPage;

@@ -30,8 +30,10 @@ const ProductSection = ({ session, cartProducts, products, db }) => {
     // Implement your add to cart logic here
   };
 
+  const [showCounter, setShowCounter] = useState(10);
+
   const loadMore = () => {
-    // Implement your load more logic here
+    setShowCounter(showCounter + 5);
   };
 
   return (
@@ -42,7 +44,7 @@ const ProductSection = ({ session, cartProducts, products, db }) => {
         {products.map((product, index) => {
           //if (product.SellerID !== session.getId()) {
             return (
-              <li key={index} style={{ display: index > 10 ? 'none' : 'block' }}>
+              <li key={index} style={{ display: index > showCounter ? 'none' : 'block' }}>
                 <div id="productImage">
                   <img src={product.imageUrl} alt={product.name} />
                   {/* {!session.isLoggedIn() ? (    
@@ -78,7 +80,7 @@ const ProductSection = ({ session, cartProducts, products, db }) => {
           //}
         })}
       </ul>
-      <button id="loadMore" onClick={loadMore}>Load more products</button>
+      <button id="loadMore" onClick={loadMore} style={{display: products.length < showCounter ? 'none':'block'}}>Load more products</button>
     </section>
   );
 };
