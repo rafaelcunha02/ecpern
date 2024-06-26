@@ -83,29 +83,29 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static async findNextAvailableProduct(id) {
-      const product = await this.findOne({ 
-        where: { 
-          id: { [sequelize.Op.gt]: id }, 
-          isAvailable: true 
-        }, 
-        order: [['id', 'ASC']] 
-      });
+  static async findNextAvailableProduct(id) {
+    const products = await this.findAll({ 
+      where: { 
+        isAvailable: 1 
+      }, 
+      order: [['id', 'ASC']] 
+    });
 
-      return product || null;
-    }
+    const currentIndex = products.findIndex(product => product.id === id);
+    return products[currentIndex + 1] || null;
+  }
 
-    static async findPreviousAvailableProduct(id) {
-      const product = await this.findOne({ 
-        where: { 
-          id: { [sequelize.Op.lt]: id }, 
-          isAvailable: true 
-        }, 
-        order: [['id', 'DESC']] 
-      });
+  static async findPreviousAvailableProduct(id) {
+    const products = await this.findAll({ 
+      where: { 
+        isAvailable: 1
+      }, 
+      order: [['id', 'ASC']] 
+    });
 
-      return product || null;
-    }
+    const currentIndex = products.findIndex(product => product.id === id);
+    return products[currentIndex - 1] || null;
+  }
   }
   Product.init({
     id: {

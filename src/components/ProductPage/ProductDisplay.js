@@ -52,7 +52,30 @@ const ProductDisplay = ({ sessionId }) => {
     }
   }, [id, product]);
 
-  console.log(product);
+useEffect(() => {
+    if (product) {
+        Promise.all([
+        fetch('http://localhost:4005/api/products/' + product.id + '/next'),
+        fetch('http://localhost:4005/api/products/' + product.id + '/previous')
+        ])
+        .then(([res1, res2]) => {
+            if (!res1.ok || !res2.ok) {
+            throw new Error('HTTP error ' + res1.status + ' ' + res2.status);
+            }
+            return Promise.all([res1.json(), res2.json()]);
+        })
+        .then(([data1, data2]) => {
+            setNextProductId(data1 ? data1.id : null);
+            setPrevProductId(data2 ? data2.id : null);
+        })
+        .catch(error => {
+            console.error('Fetch failed:', error);
+        });
+    }
+}, [id, product]);
+
+    console.log("product ids: ", prevProductId, nextProductId);
+    console.log(product);
 
   useEffect(() => {
     // Fetch product, seller, nextProductId, prevProductId, and inCart status here

@@ -2,9 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../../common.css';
-import profileIcon from '../../assets/profile-1341-svgrepo-com.svg';
-import searchIcon from '../../assets/search-svgrepo-com.svg';
-import shopcartIcon from '../../assets/shopcart.svg';
 
 const Header = ({ isLoggedIn, user, logout }) => {
 
@@ -46,7 +43,7 @@ const Header = ({ isLoggedIn, user, logout }) => {
                         <input style={showSearchBar ? {display: 'block', opacity: 1} : {display: 'none'}}
                         type="text" id="searchInput" placeholder="Search Products..." />
                         <div className="searchImgContainer">
-                            <img src={searchIcon} id="searchImg" 
+                            <img src='/assets/search-svgrepo-com.svg' id="searchImg" 
                             style={showSearchBar ? {display: 'block'} : {display: 'none'}}/>
                         </div>
                     </div>
@@ -54,16 +51,16 @@ const Header = ({ isLoggedIn, user, logout }) => {
                         {isLoggedIn ? (
                             <>
                                 <button id="announce" onClick={() => window.location.href=`/productSubmit/${user.username}`} className={isScrolled ? 'scrolled' : ''}>Sell a Product</button>
-                                <div className="header-left" onClick={() => window.location.href=`/cart/${user.username}`}><img src={shopcartIcon} /></div>
+                                <div className="header-left" onClick={() => window.location.href=`/cart/${user.username}`}><img src='/assets/shopcart.svg' /></div>
                                 <div className="header-left" id="perfil">
-                                    <Link to={`/profile/${user.username}`}><img src={profileIcon} alt="Profile" /></Link>
+                                    <Link to={`/profile/${user.username}`}><img src='/assets/profile-1341-svgrepo-com.svg' alt="Profile" /></Link>
                                 </div>
                             </>
                         ) : (
                             <>
                                 <button id="announce" onClick={() => window.location.href='/productSubmit/0'}>Sell a Product</button>
-                                <div className="header-left" onClick={() => window.location.href='/LogIn'}><img src={shopcartIcon} /></div>
-                                <div className="header-left" id="perfil"><Link to="/LogIn"><img src={profileIcon} /></Link></div>
+                                <div className="header-left" onClick={() => window.location.href='/LogIn'}><img src='/assets/shopcart.svg' /></div>
+                                <div className="header-left" id="perfil"><Link to="/LogIn"><img src='/assets/profile-1341-svgrepo-com.svg'/></Link></div>
                             </>
                         )}
                     </div>
