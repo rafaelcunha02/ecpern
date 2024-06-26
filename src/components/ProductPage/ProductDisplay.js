@@ -1,0 +1,155 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import './productPage.css';
+import '../../common.css';
+
+
+const ProductDisplay = ({ sessionId }) => {
+
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [seller, setSeller] = useState(null);
+  const [nextProductId, setNextProductId] = useState(null);
+  const [prevProductId, setPrevProductId] = useState(null);
+  const [inCart, setInCart] = useState(false);
+  const navigate = useNavigate();
+
+    
+
+  useEffect(() => {
+    fetch('http://localhost:4005/api/products/' + id)
+    .then(res => {
+        if (!res.ok) {
+        throw new Error('HTTP error ' + res.status);
+    }
+        return res.json();
+    })
+    .then(data => {
+        setProduct(data);
+    })
+    .catch(error => {
+        console.error('Fetch failed:', error);
+    });
+  }, [id]);
+
+
+
+  useEffect(() => {
+    if (product) {
+      fetch('http://localhost:4005/api/users/id/' + product.sellerId)
+      .then(res => {
+          if (!res.ok) {
+          throw new Error('HTTP error ' + res.status);
+      }
+          return res.json();
+      })
+      .then(data => {
+          setSeller(data);
+      })
+      .catch(error => {
+          console.error('Fetch failed:', error);
+      });
+    }
+  }, [id, product]);
+
+  console.log(product);
+
+  useEffect(() => {
+    // Fetch product, seller, nextProductId, prevProductId, and inCart status here
+    // and update the state variables using the set functions
+  }, [id]);
+
+  if (!product || !seller) {
+    return <div>Loading...</div>;
+  }
+
+  const handleBuy = () => {
+    // Add your logic for buying the product here
+  };
+
+  const handleAddToCart = () => {
+    // Add your logic for adding the product to the cart here
+  };
+
+  const handleEditProduct = () => {
+    navigate(`/productSubmitEdit/${sessionId}/${product.id}`);
+  };
+
+  const handleUnlistProduct = () => {
+    // Add your logic for unlisting the product here
+  };
+
+  return (
+    <span>
+    <div id="containerProduct">
+      {prevProductId && (
+        <button
+          className="nextProduct"
+          id="back"
+          onClick={() => navigate(`/product/${prevProductId}`)}
+        />
+      )}
+      <section id="s1">
+        <div>
+          <img src={`/${product.imageUrl}`} id="imagemproduto" alt={product.name} />
+        </div>
+        <div id="information">
+          <div id="info">
+            <h3 id="name">{product.name}</h3>
+            <h3 id="price">${product.price}</h3>
+            <p id="category">Category: {product.category}</p>
+            <p id="brand">Brand: {product.brand}</p>
+            <p id="model">Model: {product.model}</p>
+            <p id="size">Size: {product.tamanho}</p>
+            <p id="condition">Condition: {product.condition}</p>
+            <p id="seller">Seller: {seller.firstName} {seller.lastName}</p>
+
+            <div id="buttons">
+              {sessionId !== product.sellerId ? (
+                <>
+                  <button id="buy" onClick={handleBuy}>Buy</button>
+                  {!sessionId ? (
+                    <button id="toLogin" onClick={() => navigate('/LogIn')}>
+                      Log In to Add to Cart
+                    </button>
+                  ) : (
+                    <button id="cart" onClick={handleAddToCart} disabled={inCart}>
+                      {inCart ? "Already in your Cart" : "Add to Cart"}
+                    </button>
+                  )}
+                  <div id="sharedm">
+                    <button id="DM">Send Message</button>
+                    <button id="share">Share</button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <button id="Edit" onClick={handleEditProduct}>Edit Product</button>
+                  <button id="Unlist" onClick={handleUnlistProduct}>Unlist Product</button>
+                  <div id="sharedm"></div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+      {nextProductId && (
+        <button
+          className="nextProduct"
+          id="next"
+          onClick={() => navigate(`/product/${nextProductId}`)}
+        />
+      )}
+      </div>
+      <div style={{marginTop: '21em'}}
+      >
+      <h1>Product description</h1>
+      <p style={{ marginBottom: '5em' }} id="desc">
+        {product.productDescription}
+      </p>
+        </div>
+    </span>
+  );
+};
+
+export default ProductDisplay;

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, useParams } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { BrowserRouter as Router } from 'react-router-dom';
-import '../../common.css';
 import './productPage.css';
+import ProductDisplay from './ProductDisplay';
 
 const ProductPage = () => {
 
-
-  //PRODUTOS
+  //PRODUTO
   const user = {
     username: 'user',
     rank: 1
@@ -18,10 +17,11 @@ const ProductPage = () => {
     console.log('Logout');
   }
 
-  const [produtos, setProdutos] = useState([]);
+  const { id } = useParams();
+  const [produto, setProduto] = useState(null);
 
 useEffect (() => {
-  fetch('http://localhost:4005/api/products/')
+  fetch(`http://localhost:4005/api/products/${id}`)
   .then(res => {
     if (!res.ok) { // if HTTP status is not OK
       throw new Error('HTTP error ' + res.status);
@@ -29,7 +29,7 @@ useEffect (() => {
     return res.json();
   })
   .then(data => {
-    setProdutos(data);
+    setProduto(data);
   })
   .catch(error => {
     console.error('Fetch failed:', error);
@@ -37,9 +37,6 @@ useEffect (() => {
   });
 }, []);
 
-
-  console.log(Array.isArray(produtos));
-  console.log(produtos);
   
   //////////////////////////////////////
 
@@ -66,6 +63,7 @@ useEffect (() => {
   return (
       <div>
         <Header isLoggedIn={true} user={user} logout={logout}/>
+        <ProductDisplay sessionId={1} categorias={categorias}/>
         <Footer />
       </div>
   );
