@@ -296,7 +296,7 @@ a{
 
 .hero{
   background: url('../public/assets/gaming.png') no-repeat center center/cover;
-  height: 100vh;
+  height: 60vh;
   width: 100%;
   display: flex;
   justify-content: center;

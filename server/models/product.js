@@ -5,8 +5,9 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
-      Product.belongsTo(models.User, { foreignKey: 'sellerId' });
+      Product.belongsTo(models.User, { as: 'seller', foreignKey: 'sellerId' });
     }
+
 
     async saveProduct() {
       await this.save();
@@ -15,6 +16,13 @@ module.exports = (sequelize, DataTypes) => {
     static async getProductById(id) {
       return await this.findByPk(id);
     }
+
+    static async getAllProductsWithSeller(){
+      return await this.findAll({
+        include : { model: sequelize.models.User, as: 'seller' }
+      });
+    }
+
 
     async deleteProduct() {
       await this.destroy();
@@ -29,8 +37,20 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async getProductsFromCategory(category) {
-      return await this.findAll({ where: { category, isAvailable: 1 } });
+      return await this.findAll({ 
+        where: { category, isAvailable: 1 },
+        include: { model: sequelize.models.User, as: 'seller' }
+       });
+
     }
+
+    static async getProductAndSeller(id) {
+      return await this.findOne({
+        where: { id },
+        include: { model: sequelize.models.User, as: 'seller' }
+      });
+    }
+
 
     static async searchProducts(search, count) {
       return await this.findAll({ 
@@ -69,10 +89,6 @@ module.exports = (sequelize, DataTypes) => {
       return await this.findAll({ 
         attributes: [[sequelize.fn('DISTINCT', sequelize.col('condition')), 'condition']]
       });
-    }
-
-    static async getAllProducts() {
-      return await this.findAll();
     }
 
     static async getAvailableProducts() {

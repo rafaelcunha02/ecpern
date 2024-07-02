@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import './productPage.css';
 import ProductDisplay from './ProductDisplay';
+import RelatedProducts from './RelatedProducts';
 
 const ProductPage = () => {
 
@@ -64,6 +65,7 @@ useEffect (() => {
       <div>
         <Header isLoggedIn={true} user={user} logout={logout}/>
         <ProductDisplay sessionId={1} categorias={categorias}/>
+        <RelatedProducts />
         <Footer />
       </div>
   );

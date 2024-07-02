@@ -14,6 +14,16 @@ products.get('/', async (req, res) => {
 }
 );
 
+products.get('/withsellers', async (req, res) => {
+    try {
+        const allProducts = await Product.getAllProductsWithSeller();
+        res.status(200).json(allProducts);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+);
+
 //GET NEXT AVAILABLE PRODUCT
 products.get('/:id/next', async (req, res) => {
     try {
@@ -37,6 +47,18 @@ products.get('/:id/previous', async (req, res) => {
 });
 
 
+products.get('/category/:category', async (req, res) => {
+    try {
+        const products = await Product.getProductsFromCategory(req.params.category);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json(error);
+
+    }
+}
+);
+
+
 //GET PRODUCT BY ID
 
 products.get('/:id', async (req, res) => {
@@ -50,6 +72,17 @@ products.get('/:id', async (req, res) => {
 );
 
 
+//GET PRODUCT ASSOCIATED TO SELLER OBJECT
+
+products.get('/seller/:id', async (req, res) => {
+    try {
+        const product = await Product.getProductAndSeller(req.params.id);
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+);
 
 module.exports = products;
 

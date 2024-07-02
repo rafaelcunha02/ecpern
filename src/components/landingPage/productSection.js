@@ -4,28 +4,6 @@ import '../../common.css';
 
 const ProductSection = ({ session, cartProducts, products, db }) => {
 
-    const [users, setUsers] = useState({});
-
-    useEffect(() => {
-      console.log("entered useEffect");
-        const fetchUsers = async () => {
-            const newUsersList = {};
-            for (const product of products) {
-                    const response = await fetch(`http://localhost:4005/api/users/id/${product.sellerId}`);                if (response.ok) {
-                    const userData = await response.json();
-                    console.log("userData: ", userData);
-                    newUsersList[product.sellerId] = userData;
-                } else {
-                    console.error(`Failed to fetch user with ID ${product.SellerID}`);
-                }
-            }
-            setUsers(newUsersList);
-        };
-        fetchUsers();
-    }, [products]);
-
-    console.log("users: ", users);
-
   const handleAddToCart = (product) => {
     // Implement your add to cart logic here
   };
@@ -66,8 +44,8 @@ const ProductSection = ({ session, cartProducts, products, db }) => {
                   )} */}
                 </div>
                 {console.log("vendedor: ", product.sellerId)}
-                {console.log("nome do vendedor: ", users[product.sellerId]?.Username)}
-                <div id="productSeller">@<Link to={`/profile/${users[product.sellerId]?.id}`}>{users[product.sellerId]?.username}</Link></div>
+                {console.log("nome do vendedor: ", product.seller.username)}
+                <div id="productSeller">@<Link to={`/profile/${product.sellerId}`}>{product.seller.username}</Link></div>
                 <div>
                   {console.log("nome do produto", product.name)}
                   <div className="h3"><Link to={`/product/${product.id}`} title={product.name}>{product.name}</Link></div>

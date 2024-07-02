@@ -23,7 +23,7 @@ const LandingPage = () => {
   const [produtos, setProdutos] = useState([]);
 
 useEffect (() => {
-  fetch('http://localhost:4005/api/products/')
+  fetch('http://localhost:4005/api/products/withsellers')
   .then(res => {
     if (!res.ok) { // if HTTP status is not OK
       throw new Error('HTTP error ' + res.status);

@@ -1,5 +1,6 @@
 // Header.js
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import '../../common.css';
 
@@ -11,7 +12,10 @@ const Header = ({ isLoggedIn, user, logout }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
 
+  const location = useLocation();
+
   useEffect(() => {
+    if (location.pathname === '/') {
     window.onscroll = () => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
@@ -26,6 +30,11 @@ const Header = ({ isLoggedIn, user, logout }) => {
         setShowSearchBar(false);
       }
 
+    }
+    }
+    else{
+        setIsScrolled(true);
+        setShowSearchBar(true);
     }
   }, []);
 
