@@ -16,6 +16,7 @@ const Header = ({ isLoggedIn, user, logout }) => {
 
   useEffect(() => {
     if (location.pathname === '/') {
+        console.log("on landing page");
     window.onscroll = () => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
@@ -33,10 +34,11 @@ const Header = ({ isLoggedIn, user, logout }) => {
     }
     }
     else{
+        console.log("not on landing page");
         setIsScrolled(true);
         setShowSearchBar(true);
     }
-  }, []);
+  }, [location.pathname]);
 
 
     return (

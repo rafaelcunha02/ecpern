@@ -22,7 +22,7 @@ function ProductsGridSearch({products}) {
   }
 
   return (
-    <main>
+    <main id="searchMain">
       <aside id="filters">
       <h1>Filters</h1>
             <div class="dropdown">
@@ -56,10 +56,10 @@ function ProductsGridSearch({products}) {
                 </div>
             </div>
       </aside>
-      <section id="productsGrid" className="gridsection">
+      <section style={{marginLeft:"20em"}}id="productsGrid" className="gridsection">
         <h4><span className="divtitle">Search Results</span></h4>
         <div id="divfiltros" className="filtros">No Filters</div>
-        <ul>
+        <ul style={{display: "grid", gridTemplateColumns: "repeat(3,33%)"}} >
           {products.map(product => {
             //if (session.id === product.SellerID || product.isAvailable === 0) return null;
 

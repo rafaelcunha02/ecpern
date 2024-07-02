@@ -4,15 +4,15 @@
 }
 
 
-#productsGrid{
+#productsGridSearch{
     width: 66%;
     margin-left: 25%;
     margin-top: 25;
 }
 
-#productsGrid ul{
+#productsGridSearch ul{
     display: grid;
-    grid-template-columns: repeat(3, 33%);; 
+    grid-template-columns: repeat(3, 33%); 
 }
 
 p{
@@ -23,7 +23,7 @@ p{
     text-overflow: ellipsis;
 }
 
-main {
+#searchMain {
     display: flex;
     position: relative;
     min-height: 200vh;
@@ -156,6 +156,7 @@ main {
         font-size: 2em;
         margin-bottom: 0.5em;
     }
+
 }
 
 .gridtitle{

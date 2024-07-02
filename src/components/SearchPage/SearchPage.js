@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, useParams } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import './searchPage.css';
 import ProductsGridSearch from './SearchGrid';
 import '../../common.css';
+import './searchPage.css';
+
 
 const SearchPage = () => {
 
