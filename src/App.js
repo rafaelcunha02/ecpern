@@ -14,9 +14,25 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   // Check the user's login state when the component mounts
-  useEffect(() => {
-    setUser(supabase.auth.getUser());
-  }, []);
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const info = await supabase.auth.getUser();
+      setUser(info.data.user);
+    } catch (error) {
+      console.error('Failed to fetch user:', error);
+    }
+  };
+
+  fetchUser();
+}, []);
+
+  console.log("next log is user: ")
+  if (user) {
+    console.log(user.email);
+  } else {
+    console.log('User is not yet loaded');
+  }
 
   return (
     <SupabaseContext.Provider value={supabase}>
