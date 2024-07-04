@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import './SignUp.css';
 import '../../common.css';
+import supabase from '../../Client';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -8,11 +10,57 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Here you can handle the form submission. For example, you could send a request to your server.
-  };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        // Create a new user
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+        });
+
+        if (error) {
+            console.error('Error signing up:', error);
+            return;
+        }
+
+        console.log('User created successfully. Redirecting to login page...');
+
+        // The user data will be available under `data.user`
+        const user = data.user;
+
+        // Add the new user to the "Users" table
+        const { data: insertData, error: insertError } = await supabase
+            .from('Users')
+            .insert([
+                { 
+                    id: user.id, 
+                    username: username, 
+                    email: email, 
+                    firstName: firstName, 
+                    lastName: lastName, 
+                    profilePicUrl: null, 
+                    rank: 0,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+            ]);
+
+        if (insertError) {
+            console.error('Error inserting new user:', insertError);
+            return;
+        }
+
+        console.log('User inserted into Users table successfully');
+
+        // Wait for 2 seconds before navigating to the login page
+        setTimeout(() => {
+            navigate('/login');
+        }, 2000);
+    };
+
 
   return (
     <div className="containerLogin">

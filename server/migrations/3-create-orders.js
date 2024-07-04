@@ -18,7 +18,7 @@ module.exports = {
         onDelete: 'NO ACTION',
       },
       buyerId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'Users',
           key: 'id'
@@ -27,7 +27,7 @@ module.exports = {
         onDelete: 'NO ACTION',
       },
       sellerId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'Users',
           key: 'id'

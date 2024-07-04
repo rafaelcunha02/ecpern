@@ -1,5 +1,10 @@
 'use strict';
 
+const { v4: uuidv4 } = require('uuid');
+const { userUUIDs } = require('./1-users.js');
+
+
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Products', [
@@ -13,7 +18,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'The latest iPhone model from Apple',
         imageUrl: 'assets/uploads/iphone12.webp',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -26,7 +31,7 @@ module.exports = {
         condition: 'Good',
         productDescription: 'The latest Galaxy model from Samsung',
         imageUrl: 'assets/uploads/samsungS21.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       {
@@ -39,7 +44,7 @@ module.exports = {
         condition: 'Average',
         productDescription: 'The latest Pixel model from Google',
         imageUrl: 'assets/uploads/pixel5.webp',
-        sellerId: 3,
+        sellerId: userUUIDs[2],
         isAvailable: 1
       },
       {
@@ -52,7 +57,7 @@ module.exports = {
         condition: 'Bad',
         productDescription: 'The latest OnePlus model',
         imageUrl: 'assets/uploads/onePlus9.jpg',
-        sellerId: 4,
+        sellerId: userUUIDs[3],
         isAvailable: 1
       },
       {
@@ -65,7 +70,7 @@ module.exports = {
         condition: 'Very Bad',
         productDescription: 'The latest Xiaomi model',
         imageUrl: 'assets/uploads/xiaomi11.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -78,7 +83,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'The latest Sony Xperia model',
         imageUrl: 'assets/uploads/sonyXperia.jpg',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
 
@@ -93,7 +98,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance CPU from Intel',
         imageUrl: 'assets/uploads/i9.webp',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -106,7 +111,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance CPU from AMD',
         imageUrl: 'assets/uploads/amdRyzen.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // GPUs
@@ -120,7 +125,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance GPU from NVIDIA',
         imageUrl: 'assets/uploads/rtx3080.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -133,7 +138,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance GPU from AMD',
         imageUrl: 'assets/uploads/amdRadeon.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // Computers
@@ -147,7 +152,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance laptop from Dell',
         imageUrl: 'assets/uploads/dellXPS.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -160,7 +165,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance laptop from Apple',
         imageUrl: 'assets/uploads/appleMacBookPro.jpeg',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
 
@@ -175,7 +180,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance CPU from Intel',
         imageUrl: 'assets/uploads/i9.webp',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -188,7 +193,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance CPU from AMD',
         imageUrl: 'assets/uploads/amdRyzen.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // GPUs
@@ -202,7 +207,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance GPU from NVIDIA',
         imageUrl: 'assets/uploads/rtx3080.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -215,7 +220,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance GPU from AMD',
         imageUrl: 'assets/uploads/amdRadeon.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // Computers
@@ -229,7 +234,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance laptop from Dell',
         imageUrl: 'assets/uploads/dellXPS.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -242,7 +247,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance laptop from Apple',
         imageUrl: 'assets/uploads/appleMacBookPro.jpeg',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
 
@@ -256,7 +261,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance laptop from Apple',
         imageUrl: 'assets/uploads/appleMacBookPro.jpeg',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // Mouses
@@ -270,7 +275,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance mouse from Logitech',
         imageUrl: 'assets/uploads/logitechMX.jpeg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -283,7 +288,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance mouse from Razer',
         imageUrl: 'assets/uploads/RazerDeathAdderV2.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // Keyboards
@@ -297,7 +302,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance keyboard from Corsair',
         imageUrl: 'assets/uploads/corsair-k95-rgb-platinum-xt-featured.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -310,7 +315,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance keyboard from Logitech',
         imageUrl: 'assets/uploads/Logitech-Angle-2.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // Monitors
@@ -324,7 +329,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance monitor from Dell',
         imageUrl: 'assets/uploads/DellUltrasharpU2720Q.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -337,7 +342,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance monitor from LG',
         imageUrl: 'assets/uploads/LG27UK850-W.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // RAM
@@ -351,7 +356,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance RAM from Corsair',
         imageUrl: 'assets/uploads/CorsairVengeanceLPX16GB.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -364,7 +369,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance RAM from Kingston',
         imageUrl: 'assets/uploads/KingstonHyperXFury16GB.jpg',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
 
@@ -378,7 +383,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance RAM from Kingston',
         imageUrl: 'assets/uploads/KingstonHyperXFury16GB.jpg',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // SSDs
@@ -392,7 +397,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance SSD from Samsung',
         imageUrl: 'assets/uploads/Samsung970EVOPlus1TB.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -405,7 +410,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance SSD from Crucial',
         imageUrl: 'assets/uploads/CrucialMX5001TB.webp',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // HDDs
@@ -419,7 +424,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance HDD from Seagate',
         imageUrl: 'assets/uploads/disco-rigido-35.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       },
       {
@@ -432,7 +437,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance HDD from Western Digital',
         imageUrl: 'assets/uploads/wd_blue_6_1.jpg',
-        sellerId: 2,
+        sellerId: userUUIDs[1],
         isAvailable: 1
       },
       // Power Supplies
@@ -446,7 +451,7 @@ module.exports = {
         condition: 'Excellent',
         productDescription: 'High performance power supply from Corsair',
         imageUrl: 'assets/uploads/corsairRM850x.jpg',
-        sellerId: 1,
+        sellerId: userUUIDs[0],
         isAvailable: 1
       }
             

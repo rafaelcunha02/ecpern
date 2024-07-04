@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+import supabase from '../../Client';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(true);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Here you can handle the form submission. For example, you could send a request to your server.
-    // If the login is unsuccessful, you can set isValid to false to show an error message.
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+
+        if (error) {
+            console.error('Error signing up:', error);
+            return;
+        }
+
+        console.log('User Logged In Successfully; User Data:', data.user);
   };
 
   return (
@@ -22,8 +36,8 @@ const Login = () => {
               id="username"
               name="username"
               placeholder="Username or Email"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>

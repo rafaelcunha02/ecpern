@@ -26,7 +26,7 @@ module.exports = {
       productDescription: Sequelize.TEXT,
       imageUrl: Sequelize.STRING(200),
       sellerId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'Users',
           key: 'id'
