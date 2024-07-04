@@ -19,6 +19,7 @@ const Login = () => {
 
         if (error) {
             console.error('Error signing up:', error);
+            setIsValid(false);
             return;
         }
 
@@ -54,8 +55,8 @@ const Login = () => {
         </form>
         <div className="register">
           <p>Don't have an account? <a href="/signup" id="register">Sign Up</a></p>
-        </div>
-        {!isValid && <em>Invalid username/email or password</em>}
+        
+        {!isValid && <em style={{alignSelf:"center"}}>Invalid username/email or password</em>}</div>
       </div>
     </div>
   );
