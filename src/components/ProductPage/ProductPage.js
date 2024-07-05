@@ -14,10 +14,6 @@ const ProductPage = () => {
     rank: 1
   };
 
-  const logout = () => {
-    console.log('Logout');
-  }
-
   const { id } = useParams();
   const [produto, setProduto] = useState(null);
 
@@ -63,7 +59,7 @@ useEffect (() => {
 
   return (
       <div>
-        <Header isLoggedIn={true} user={user} logout={logout}/>
+        <Header user={user}/>
         <ProductDisplay sessionId={1} categorias={categorias}/>
         <RelatedProducts />
         <Footer />

@@ -84,6 +84,19 @@ products.get('/seller/:id', async (req, res) => {
 }
 );
 
+//GET PRODUCTS BY SELLER ID
+
+products.get('/user/:id', async (req, res) => {
+    try {
+        const products = await Product.getProductsFromUser(req.params.id);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+);
+
+
 module.exports = products;
 
 

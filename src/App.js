@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import LandingPage from './components/landingPage/landingPage'; 
-import ProductPage from './components/ProductPage/ProductPage'; 
+import ProductPage from './components/ProductPage/ProductPage';
+import ProfilePage from './components/ProfilePage/ProfilePage'; 
 import SearchPage from './components/SearchPage/SearchPage';
 import SignUpPage from './components/SignUp/SignUpPage';
 import LoginPage from './components/SignIn/SignInPage';
@@ -41,6 +42,7 @@ useEffect(() => {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="product/:id" element={<ProductPage />} />
+            <Route path="profile/:username" element={<ProfilePage />} />
             <Route path="search" element={<SearchPage />} />
             <Route path="SignUp" element={<SignUpPage />} />
             <Route path="Login" element={<LoginPage />} />

@@ -42,7 +42,7 @@ const ProductSection = ({ session, cartProducts, products, db }) => {
                     </button>
                   )} */}
                 </div>
-                <div id="productSeller">@<Link to={`/profile/${product.sellerId}`}>{product.seller.username}</Link></div>
+                <div id="productSeller">@<Link to={`/profile/${product.seller.username}`}>{product.seller.username}</Link></div>
                 <div>
                   <div className="h3"><Link to={`/product/${product.id}`} title={product.name}>{product.name}</Link></div>
                   <p className="description">{product.productDescription}</p>
