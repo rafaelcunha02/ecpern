@@ -2,16 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import '../../common.css';
+import supabase from '../../Client';
 
-const Header = ({ isLoggedIn, user, logout }) => {
-
+const Header = ({ isLoggedIn, user }) => {
 
 //LANDING PAGE SCROLL EFFECTS:
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
-
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -40,12 +41,62 @@ const Header = ({ isLoggedIn, user, logout }) => {
     }
   }, [location.pathname]);
 
+  const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+        if(showMenu){
+            let lateralmenu = document.querySelector('.menu-lateral');
+            let clickInMenu = lateralmenu.contains(e.target);
+            let hamburguer = document.querySelector('.hamburger');
+            let clickInHamburguer = hamburguer.contains(e.target);
+            if (!clickInMenu && !clickInHamburguer){
+                setShowMenu(false);
+                console.log("click outside");
+            }
+            else{
+                console.log("click inside");
+            }
+        }
+    }
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+        document.removeEventListener('click', handleClickOutside);
+    }
+}, [showMenu]);
+
+    useEffect(() => {
+        if(showMenu){
+        document.body.style.overflow = 'hidden';
+        console.log("hidden")
+        }
+        else{
+        document.body.style.overflow = 'auto';
+        console.log("auto");
+        }
+    }, [showMenu]);
+
+
+    const logout = () => {
+        supabase.auth.signOut();
+        if(window.location.pathname != '/'){
+            navigate('/');
+        }
+        else {window.location.reload();}
+    }
 
     return (
         <header id="header">
-            <h1 id="fixedHeader" className={isScrolled ? 'scrolled' : ''} >
+            <h1 style={{position: showMenu ? '' : "fixed"}} id="fixedHeader" className={isScrolled ? 'scrolled' : ''} >
                 <div>
-                    <input type="checkbox" id="hamburger" />
+                    <input onClick={(e) => 
+                                    {console.log("hamburguer"); 
+                                    setShowMenu(true); 
+                                    console.log(showMenu);
+                                    e.stopPropagation();
+                    }} type="checkbox" id="hamburger" />
                     <label className="hamburger" htmlFor="hamburger"></label>
                     <Link to="/"><div className="name" id="nomeheader">Vintech</div></Link>
                 </div>
@@ -78,7 +129,7 @@ const Header = ({ isLoggedIn, user, logout }) => {
                 </div>
             </h1>
             {isLoggedIn ? (
-                <div className="menu-lateral">
+                <div className={`menu-lateral ${showMenu ? 'animation' : ''}`}>
                     <ul>
                         <li><Link to={`/profile/${user.username}`}><button id="profile">Profile</button></Link></li>
                         {user.rank === 1 && <li><Link to="/admin/1"><button className="adminButton" id="admin">Admin</button></Link></li>}
@@ -86,7 +137,7 @@ const Header = ({ isLoggedIn, user, logout }) => {
                     </ul>
                 </div>
             ) : (
-                <div className="menu-lateral">
+                <div className={`menu-lateral ${showMenu ? 'animation' : ''}`}>
                     <ul>
                         <li><Link to="/SignUp"><button id="register">Sign Up</button></Link></li>
                         <li><Link to="/LogIn"><button id="LogIn">Log In</button></Link></li>

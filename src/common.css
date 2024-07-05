@@ -125,7 +125,7 @@ body.dimmed::before {
 }
 
 .menu-lateral.animation {
-  transform: translateX(0);
+  transform: translateX(0) !important;
 }
 
 

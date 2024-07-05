@@ -42,11 +42,8 @@ const ProductSection = ({ session, cartProducts, products, db }) => {
                     </button>
                   )} */}
                 </div>
-                {console.log("vendedor: ", product.sellerId)}
-                {console.log("nome do vendedor: ", product.seller.username)}
                 <div id="productSeller">@<Link to={`/profile/${product.sellerId}`}>{product.seller.username}</Link></div>
                 <div>
-                  {console.log("nome do produto", product.name)}
                   <div className="h3"><Link to={`/product/${product.id}`} title={product.name}>{product.name}</Link></div>
                   <p className="description">{product.productDescription}</p>
                   <p>Condition: {product.condition}</p>

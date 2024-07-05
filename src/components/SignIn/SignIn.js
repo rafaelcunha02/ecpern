@@ -8,6 +8,8 @@ const Login = () => {
   const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(true);
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,8 +24,10 @@ const Login = () => {
             setIsValid(false);
             return;
         }
-
-        console.log('User Logged In Successfully; User Data:', data.user);
+        else{
+            navigate('/');
+            window.location.reload();
+        }
   };
 
   return (
