@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import './Profile.css';
 
-function Profile({ user, currentUser }) {
+function Profile({ user, currentUser, count}) {
 
-    const [productCount, setProductCount] = useState(0);
     return (
         <div id="containerProfile">
             <section id="s1profile">
@@ -28,7 +27,7 @@ function Profile({ user, currentUser }) {
                         )}
                     </div>
                     <p id="username">@{user.username}</p>
-                    <p id="numberproducts">Currently selling {productCount} products</p>
+                    <p id="numberproducts">Currently selling {count} products</p>
                 </div>
             </section>
         </div>

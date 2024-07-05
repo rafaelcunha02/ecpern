@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Profile from './Profile';
+import UserProducts from './UserProducts';
 import { UserContext } from '../../App';
 import '../../common.css';
 
@@ -33,9 +34,10 @@ const ProfilePage = () => {
             if (!res.ok) throw new Error('HTTP error ' + res.status);
             const data = await res.json();
             setUser(data);
+            fetchProducts(data);
         };
 
-        const fetchProducts = async () => {
+        const fetchProducts = async (user) => {
             if (user) {
                 const res = await fetch(`http://localhost:4005/api/products/user/${user.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
@@ -44,17 +46,18 @@ const ProfilePage = () => {
             }
         };
 
-        Promise.all([fetchUser(), fetchProfile(), fetchProducts()])
+        Promise.all([fetchUser(), fetchProfile()])
             .then(() => setLoading(false)) // Set loading to false after all fetches are done
             .catch(error => console.error('Fetch failed:', error));
     }, []);
 
     if (loading) return <div>Loading...</div>; // Show a loading message while loading
-
+    console.log("products: ", products);
     return (
         <div>
             <Header />
-            <Profile user={user} currentUser={currentUser} />
+            <Profile user={user} currentUser={currentUser} count={products.length} />
+            <UserProducts  user={user} currentUser={currentUser} sellingProducts={products} cartProducts={[]}/>
             <Footer />
         </div>
     );
