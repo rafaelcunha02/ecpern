@@ -53,9 +53,10 @@ const ProfilePage = () => {
 
     if (loading) return <div>Loading...</div>; // Show a loading message while loading
     console.log("products: ", products);
+    console.log("logged user: ", currentUser)
     return (
         <div>
-            <Header />
+            <Header isLoggedIn ={currentUser} user = {currentUser}/>
             <Profile user={user} currentUser={currentUser} count={products.length} />
             <UserProducts  user={user} currentUser={currentUser} sellingProducts={products} cartProducts={[]}/>
             <Footer />

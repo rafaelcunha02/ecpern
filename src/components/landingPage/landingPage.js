@@ -55,10 +55,6 @@ useEffect(() => {
 const [produtos, setProdutos] = useState([]);
   
 
-  const logout = () => {
-    console.log("Logout");
-  }
-
 useEffect (() => {
   fetch('http://localhost:4005/api/products/withsellers')
   .then(res => {
@@ -106,7 +102,7 @@ useEffect (() => {
 
   return (
       <div>
-        <Header isLoggedIn={user} user={user} logout={logout}/>
+        <Header isLoggedIn={user} user={user}/>
         <HeroSection/>
         <CategorySection categories={categorias}/>
         <ProductSection products={produtos}/>
