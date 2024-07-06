@@ -86,7 +86,7 @@ function ProductsGridSearch({products}) {
                 <div id="productSeller">@<a id="productSeller" href={`../pages/profile.php?username=${product.seller.username}`}>{product.seller.username}</a></div>
                 <div>
                   <div className="h3"><a id="productPage" href={`../pages/product.php?id=${product.id}`} title={product.name}>{product.name}</a></div>
-                  <p className="description">{product.description}</p>
+                  <p className="description">{product.productDescription}</p>
                   <p>Condition: {product.condition}</p>
                   <p className="priceInGrid">${product.price}</p>
                 </div>

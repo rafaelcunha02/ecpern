@@ -5,14 +5,42 @@ import Footer from '../Footer/Footer';
 import './productPage.css';
 import ProductDisplay from './ProductDisplay';
 import RelatedProducts from './RelatedProducts';
+import {UserContext} from '../../App';
+
 
 const ProductPage = () => {
+  const loggedUser = React.useContext(UserContext);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  //PRODUTO
-  const user = {
-    username: 'user',
-    rank: 1
-  };
+  useEffect(() => {
+      const fetchUser = async () => {
+      try {
+          const usuario = await loggedUser;
+          setCurrentUser(usuario);
+      } catch (error) {
+          console.error('Failed to fetch user:', error);
+      }
+      };
+
+      fetchUser();
+    }, [loggedUser]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+        if (loggedUser) {
+            const res = await fetch(`http://localhost:4005/api/users/id/${loggedUser.id}`);
+            if (!res.ok) throw new Error('HTTP error ' + res.status);
+            const data = await res.json();
+            setCurrentUser(data);
+            localStorage.setItem('currentUser', JSON.stringify(data));
+        }
+    };
+
+    Promise.all([fetchUser()])
+        .then(() => setLoading(false)) 
+        .catch(error => console.error('Fetch failed:', error));
+}, []);
 
   const { id } = useParams();
   const [produto, setProduto] = useState(null);
@@ -20,7 +48,7 @@ const ProductPage = () => {
 useEffect (() => {
   fetch(`http://localhost:4005/api/products/${id}`)
   .then(res => {
-    if (!res.ok) { // if HTTP status is not OK
+    if (!res.ok) { 
       throw new Error('HTTP error ' + res.status);
     }
     return res.json();
@@ -57,9 +85,12 @@ useEffect (() => {
     });
   }, []);
 
+  if (loading) return <div>Loading...</div>; // Show a loading message while loading
+
+
   return (
       <div>
-        <Header user={user}/>
+        <Header isLoggedIn={currentUser} user={currentUser}/>
         <ProductDisplay sessionId={1} categorias={categorias}/>
         <RelatedProducts />
         <Footer />

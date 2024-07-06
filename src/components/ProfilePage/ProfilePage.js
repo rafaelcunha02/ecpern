@@ -15,9 +15,23 @@ const ProfilePage = () => {
     const [currentUser, setCurrentUser] = useState(null);
     const [user, setUser] = useState(null);
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true); // Add a loading state
+    const [loading, setLoading] = useState(true);
 
     const { username } = useParams();
+
+    
+    useEffect(() => {
+        const fetchUser = async () => {
+        try {
+            const usuario = await loggedUser;
+            setCurrentUser(usuario);
+        } catch (error) {
+            console.error('Failed to fetch user:', error);
+        }
+        };
+    
+        fetchUser();
+    }, [loggedUser]);
 
     useEffect(() => {
         const fetchUser = async () => {

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 import '../../common.css';
 import supabase from '../../Client';
+import { UserContext } from '../../App';
 
 const Header = ({ isLoggedIn, user }) => {
 
@@ -81,12 +82,15 @@ const Header = ({ isLoggedIn, user }) => {
     }, [showMenu]);
 
 
-    const logout = () => {
-        supabase.auth.signOut();
+    const logout = async () => {
+        await supabase.auth.signOut();
         if(window.location.pathname != '/'){
             navigate('/');
+            window.location.reload();
         }
-        else {window.location.reload();}
+        else {
+            window.location.reload();
+        }
     }
 
     return (

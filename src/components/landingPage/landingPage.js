@@ -15,13 +15,13 @@ const LandingPage = () => {
   console.log("LOGGED USER: " + loggedUser)
 
 
-  const [user,setUser] = useState(null);
+  const [currentUser,setCurrentUser] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const usuario = await loggedUser;
-        setUser(usuario);
+        setCurrentUser(usuario);
       } catch (error) {
         console.error('Failed to fetch user:', error);
       }
@@ -41,7 +41,7 @@ useEffect(() => {
         return res.json();
       })
       .then(data => {
-        setUser(data); // Set the user state to the fetched data
+        setCurrentUser(data); // Set the user state to the fetched data
       })
       .catch(error => {
         console.error('Fetch failed:', error);
@@ -50,7 +50,7 @@ useEffect(() => {
   }
 }, [loggedUser]); // Depend on loggedUser so the effect runs whenever loggedUser changes
 
-  console.log("user: " + user)  
+  console.log("user: " + currentUser)  
 
 const [produtos, setProdutos] = useState([]);
   
@@ -79,7 +79,7 @@ useEffect (() => {
   //////////////////////////////////////
 
   //CATEGORIAS
-  console.log(user);
+  console.log(currentUser);
   const [categorias, setCategorias] = useState([]);
 
   useEffect (() => {
@@ -102,7 +102,7 @@ useEffect (() => {
 
   return (
       <div>
-        <Header isLoggedIn={user} user={user}/>
+        <Header isLoggedIn={currentUser} user={currentUser}/>
         <HeroSection/>
         <CategorySection categories={categorias}/>
         <ProductSection products={produtos}/>
