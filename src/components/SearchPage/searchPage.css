@@ -52,7 +52,8 @@ p{
 }
 
 .dropdown-content{
-    display: none;
+    display: flex;
+    flex-direction: column;
     background-color: #f7fbfc;
     min-width: 10em;
     z-index: 1;
@@ -69,10 +70,17 @@ p{
     a:hover{
         margin-left: 0.5em;
     }
+
+    div{
+        display: flex;
+        justify-content: first baseline;
+        padding: 0.5em 1em;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
 }
 
 .dropdown-content {
-    display: block;
     width: 100%;
     text-align: center;
 }
@@ -106,8 +114,6 @@ p{
 
 
 
-
-
 .droparrow::after{
     content: "\25BC";
     font-size: 0.6em;
@@ -135,14 +141,16 @@ p{
 
 
 .dropdown-content {
-    max-height: 0;
-    overflow: hidden;
     transition: max-height 0.3s ease-in-out;
 }
 
-.dropdown-content.show {
+.dropdown-content {
+    overflow: auto;
     max-height: 20em; 
 }
+
+
+
 
 
 

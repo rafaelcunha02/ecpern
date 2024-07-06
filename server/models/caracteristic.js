@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
       return this.findAll({ where: { caracType: type } });
     }
 
+
+
   }
   Caracteristicas.init({
     caracID: {

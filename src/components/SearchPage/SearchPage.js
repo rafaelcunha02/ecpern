@@ -11,13 +11,16 @@ const SearchPage = () => {
 
   //PRODUTO
 
-  const loggedUser = React.useContext(UserContext).user;
+  const loggedUser = React.useContext(UserContext);
     console.log("LOGGED USER: " + loggedUser);
 
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [produtos, setProdutos] = useState([]);
+    const [categorias, setCategorias] = useState([]);
 
+
+    //USUARIO
     useEffect(() => {
       const fetchUser = async () => {
         try {
@@ -31,7 +34,7 @@ const SearchPage = () => {
       fetchUser();
     }, [loggedUser]);
     
-
+    //informações do usuário
     useEffect(() => {
         const fetchUser = async () => {
             if (loggedUser) {
@@ -47,6 +50,8 @@ const SearchPage = () => {
             .catch(error => console.error('Fetch failed:', error));
     }, []);
 
+
+  //PRODUTOS
   useEffect (() => {
     fetch('http://localhost:4005/api/products/withsellers')
     .then(res => {
@@ -64,16 +69,36 @@ const SearchPage = () => {
     });
   }, []);
 
-  if (loading) return <div>Loading...</div>; // Show a loading message while loading
-  
-  //////////////////////////////////////
 
   //CATEGORIAS
+  useEffect(() => {
+    fetch('http://localhost:4005/api/caracs')
+    .then(res => {
+      if (!res.ok) { 
+        throw new Error('HTTP error ' + res.status);
+      }
+      return res.json();
+    })
+    .then(data => {
+      setCategorias(data);
+    })
+    .catch(error => {
+      console.error('Fetch failed:', error);
+      // You could set produtos to a default value here if needed
+    });
+  }, []);
+
+
+  if (loading) return <div>Loading...</div>; // Show a loading message while loading
+  
+
+
+  
 
   return (
       <div>
         <Header isLoggedIn={currentUser} user={currentUser}/>
-        <ProductsGridSearch products={produtos} />
+        <ProductsGridSearch products={produtos} caracs={categorias}/>
         <Footer />
       </div>
   );

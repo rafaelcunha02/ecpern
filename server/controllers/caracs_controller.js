@@ -27,6 +27,10 @@ caracs.get('/:type', async (req, res) => {
 );
 
 
+
+
+
+
 module.exports = caracs;
 
 
