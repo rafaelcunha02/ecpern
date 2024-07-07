@@ -13,7 +13,6 @@ export const UserContext = createContext();
 
 const App = () => {
   const [user, setUser] = useState(null);
-
   // Check the user's login state when the component mounts
 useEffect(() => {
   const fetchUser = async () => {
@@ -43,7 +42,7 @@ useEffect(() => {
             <Route path="/" element={<LandingPage />} />
             <Route path="product/:id" element={<ProductPage />} />
             <Route path="profile/:username" element={<ProfilePage />} />
-            <Route path="search" element={<SearchPage />} />
+            <Route path="search/:input?" element={<SearchPage />} />
             <Route path="SignUp" element={<SignUpPage />} />
             <Route path="Login" element={<LoginPage />} />
           </Routes>

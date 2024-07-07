@@ -6,8 +6,9 @@ import {useNavigate} from 'react-router-dom';
 import '../../common.css';
 import supabase from '../../Client';
 import { UserContext } from '../../App';
+import { useParams} from 'react-router-dom';
 
-const Header = ({ isLoggedIn, user }) => {
+const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch }) => {
 
 //LANDING PAGE SCROLL EFFECTS:
 
@@ -15,6 +16,7 @@ const Header = ({ isLoggedIn, user }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const params = useParams();
 
   useEffect(() => {
     if (location.pathname === '/') {
@@ -81,6 +83,13 @@ const Header = ({ isLoggedIn, user }) => {
         }
     }, [showMenu]);
 
+    useEffect(() => {
+        if(params.input){
+            setCurrentInput(params.input);
+        let searchInput = document.getElementById('searchInput');
+        searchInput.value = params.input;}
+    }, [params.input]);
+
 
     const logout = async () => {
         await supabase.auth.signOut();
@@ -90,6 +99,25 @@ const Header = ({ isLoggedIn, user }) => {
         }
         else {
             window.location.reload();
+        }
+    }
+
+    const handleWriteEvent = (input) => {
+        if(setCurrentInput){
+            setCurrentInput(input);
+            console.log(currentInput);
+        }
+
+    }
+
+    const handleKeydownEvent = (event, input) => {
+        if(event.key === 'Enter'){
+            if(input){
+                navigate(`/search/${input}`);
+            }
+            else{
+                navigate(`/search`);
+            }
         }
     }
 
@@ -109,7 +137,9 @@ const Header = ({ isLoggedIn, user }) => {
                 <div className="left-header">
                     <div className="header-left" id="search">
                         <input style={showSearchBar ? {display: 'block', opacity: 1} : {display: 'none'}}
-                        type="text" id="searchInput" placeholder="Search Products..." />
+                        type="text" id="searchInput" 
+                        onKeyDown={(event) => {handleKeydownEvent(event, event.target.value)}}
+                        onChange={(event) => handleWriteEvent(event.target.value)} placeholder="Search Products..." />
                         <div className="searchImgContainer">
                             <img src='/assets/search-svgrepo-com.svg' id="searchImg" 
                             style={showSearchBar ? {display: 'block'} : {display: 'none'}}/>

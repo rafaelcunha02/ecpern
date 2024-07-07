@@ -10,6 +10,8 @@ import { UserContext } from '../../App';
 
 const LandingPage = () => {
 
+  const [heroSearch, setHeroSearch] = React.useState('')
+
   //USER
   const loggedUser = React.useContext(UserContext);
   console.log("LOGGED USER: " + loggedUser)
@@ -103,7 +105,7 @@ useEffect (() => {
   return (
       <div>
         <Header isLoggedIn={currentUser} user={currentUser}/>
-        <HeroSection/>
+        <HeroSection heroSearch={heroSearch} setHeroSearch={setHeroSearch}/>
         <CategorySection categories={categorias}/>
         <ProductSection products={produtos}/>
         <Footer />

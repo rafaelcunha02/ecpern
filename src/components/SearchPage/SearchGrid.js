@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-function ProductsGridSearch({products, caracs}) {
+
+function ProductsGridSearch({products, caracs, currentInput}) {
   const [cartProducts, setCartProducts] = useState([]);
-  const [session, setSession] = useState({});
   const [active, setActive] = useState([]);
   const [checked, setChecked] = useState({});
   const [countChecked, setCountChecked] = useState(0);
   const [typeToValues, setTypeToValues] = useState({});
   const [filteredTypes, setFilteredTypes] = useState({});
+
+ 
 
   useEffect(() => {
     const mapa = {};
@@ -74,6 +76,7 @@ const handleCheck = (index, key) => {
   });
 };
 
+  console.log("input aqui: " + currentInput);
 
   return (
     <main id="searchMain">
@@ -123,7 +126,9 @@ const handleCheck = (index, key) => {
                   (countChecked > 0 && 
                   (((filteredTypes["Categories"] > 0) && checked["Categories : " + product.category] == false) || 
                   ((filteredTypes["Condition"] > 0) && checked["Condition : " + product.condition] == false) || 
-                  ((filteredTypes["Tamanho"] > 0) && checked["Tamanho : " + product.size] == false)))
+                  ((filteredTypes["Tamanho"] > 0) && checked["Tamanho : " + product.size] == false)) ||
+                currentInput && currentInput.length > 3 && !product.name.toLowerCase().includes(currentInput.toLowerCase())
+                )
                   ? "none" : "block"
               }} 
                 id="productli" className="escolhido">

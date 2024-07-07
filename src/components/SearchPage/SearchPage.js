@@ -9,7 +9,7 @@ import {UserContext} from '../../App';
 
 const SearchPage = () => {
 
-  //PRODUTO
+
 
   const loggedUser = React.useContext(UserContext);
     console.log("LOGGED USER: " + loggedUser);
@@ -18,6 +18,10 @@ const SearchPage = () => {
     const [loading, setLoading] = useState(true);
     const [produtos, setProdutos] = useState([]);
     const [categorias, setCategorias] = useState([]);
+    const [currentInput, setCurrentInput] = useState('');
+    const params = useParams();
+
+
 
 
     //USUARIO
@@ -86,6 +90,9 @@ const SearchPage = () => {
       console.error('Fetch failed:', error);
       // You could set produtos to a default value here if needed
     });
+    if(params){
+      setCurrentInput(params.input);
+    }
   }, []);
 
 
@@ -97,8 +104,8 @@ const SearchPage = () => {
 
   return (
       <div>
-        <Header isLoggedIn={currentUser} user={currentUser}/>
-        <ProductsGridSearch products={produtos} caracs={categorias}/>
+        <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
+        <ProductsGridSearch products={produtos} caracs={categorias} currentInput={currentInput} />
         <Footer />
       </div>
   );
