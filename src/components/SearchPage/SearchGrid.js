@@ -5,25 +5,40 @@ function ProductsGridSearch({products, caracs}) {
   const [session, setSession] = useState({});
   const [active, setActive] = useState([]);
   const [checked, setChecked] = useState({});
+  const [countChecked, setCountChecked] = useState(0);
   const [typeToValues, setTypeToValues] = useState({});
+  const [filteredTypes, setFilteredTypes] = useState({});
 
   useEffect(() => {
     const mapa = {};
-    const arr = [];
+    const filtered = {};
     caracs.map(carac => {
       if (!mapa[carac.caracType]) {
         mapa[carac.caracType] = [];
       }
       mapa[carac.caracType].push(carac.caracValue);
+      filtered[carac.caracType] = 0;
     });
     setTypeToValues(mapa);
-    console.log("mapa: " + typeToValues["Categories"]);
+    setFilteredTypes(filtered);
 
+    Object.keys(mapa).map((key, index) => {
+      mapa[key].map((value, index) => {
+        setChecked(prevChecked => {
+          const newChecked = { ...prevChecked };
+          newChecked[key + " : " + value] = false;
+          return newChecked;
+        });
+      });
+    });
   }, [caracs]);
+
+  //console.log(caracs);
 
   //DROPDOWNS
   useEffect(() => {
     setActive(new Array(6).fill(false)); // Assuming you have 6 dropdowns/caracTypes
+
   }, []);
 
   const handleClick = index => {
@@ -35,14 +50,29 @@ function ProductsGridSearch({products, caracs}) {
   };
 
 
-  const handleCheck = index => {
-    setChecked(prevChecked => {
-      const newChecked = { ...prevChecked };
-      newChecked[index] = !newChecked[index];
+const handleCheck = (index, key) => {
+  setChecked(prevChecked => {
+    const newChecked = { ...prevChecked };
+    newChecked[index] = !newChecked[index];
+    if(newChecked[index]){
+      setCountChecked(countChecked + 1);
+    } else {
+      setCountChecked(countChecked - 1);
+    }
+
+    setFilteredTypes(prevFilteredTypes => {
+      const newFilteredTypes = { ...prevFilteredTypes };
       console.log(newChecked);
-      return newChecked;
+      console.log(index);
+      console.log(newChecked[index]);
+      newFilteredTypes[key] = newFilteredTypes[key] + (newChecked[index] ? 1 : -1);
+      console.log(newFilteredTypes);
+      return newFilteredTypes;
     });
-  };
+
+    return newChecked;
+  });
+};
 
 
   return (
@@ -53,80 +83,50 @@ function ProductsGridSearch({products, caracs}) {
           return (
             <div class="dropdown">
               <button className={`dropdown-button ${active[index] ? "ativo" : ''}`} id="category" onClick={() => handleClick(index)}><div>{key}</div><div class="droparrow"></div></button>              
-              <div class="dropdown-content" style={{display: active[index] ? "block" : "none"}}>
+              <div className="dropdown-content" style={{display: active[index] ? "block" : "none"}}>
                 {typeToValues[key].map((value, index) => {
                   return (
-                    <div><input data-keyname={key} type="checkbox" id={key + index} value={index} onClick={()=>handleCheck(key + typeToValues[key][index])}/><label for={key + index}>{value}</label></div>
+                    <div><input 
+                          data-keyname={key} 
+                          type="checkbox" 
+                          id={key + " : " + typeToValues[key][index]} 
+                          value={index} 
+                          onClick={(event) => 
+                            {handleCheck(event.target.id, key);
+                            }}/><label for={key + index}>{value}</label></div>
                   );
                 })}
               </div>
             </div>
           );
         }, [])}
-            <div class="dropdown">
-              <button className={`dropdown-button ${active[0] ? "ativo" : ''}`} id="category" onClick={() => handleClick(0)}><div>Category</div><div class="droparrow"></div></button>              
-              <div class="dropdown-content" style={{display: active[0] ? "block" : "none"}}>
-                <div><input type="checkbox" id="category1" value="1" onClick={()=>handleCheck("CategorySmartphone")}/><label for="category1">Electronics</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-              </div>
-            </div>
-            <div class="dropdown">
-              <button className={`dropdown-button ${active[1] ? "ativo" : ''}`} id="category" onClick={() => handleClick(1)}><div>Category</div><div class="droparrow"></div></button>              
-              <div class="dropdown-content" style={{display: active[1] ? "block" : "none"}}>
-                <div><input type="checkbox" id="category1" value="1" /><label for="category1">Electronics</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-
-              </div>
-            </div>
-            <div class="dropdown">
-              <button className={`dropdown-button ${active[2] ? "ativo" : ''}`} id="category" onClick={() => handleClick(2)}><div>Category</div><div class="droparrow"></div></button>              
-              <div class="dropdown-content" style={{display: active[2] ? "block" : "none"}}>
-                <div><input type="checkbox" id="category1" value="1" /><label for="category1">Electronics</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-              </div>
-            </div>
-            <div class="dropdown">
-              <button className={`dropdown-button ${active[3] ? "ativo" : ''}`} id="category" onClick={() => handleClick(3)}><div>Category</div><div class="droparrow"></div></button>              
-              <div class="dropdown-content" style={{display: active[3] ? "block" : "none"}}>
-                <div><input type="checkbox" id="category1" value="1" /><label for="category1">Electronics</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-              </div>
-            </div>
-            <div class="dropdown">
-              <button className={`dropdown-button ${active[4] ? "ativo" : ''}`} id="category" onClick={() => handleClick(4)}><div>Category</div><div class="droparrow"></div></button>              
-              <div class="dropdown-content" style={{display: active[4] ? "block" : "none"}}>
-                <div><input type="checkbox" id="category1" value="1" /><label for="category1">Electronics</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-              </div>
-            </div>
-            <div class="dropdown">
-              <button className={`dropdown-button ${active[5] ? "ativo" : ''}`} id="category" onClick={() => handleClick(5)}><div>Category</div><div class="droparrow"></div></button>              
-              <div class="dropdown-content" style={{display: active[5] ? "block" : "none"}}>
-                <div><input type="checkbox" id="category1" value="1" /><label for="category1">Electronics</label></div>
-                <div><input type="checkbox" id="category2" value="2" /><label for="category2">Clothing</label></div>
-              </div>
-            </div>
       </aside>
       <section style={{marginLeft:"20em"}}id="productsGrid" className="gridsection">
         <h4><span className="divtitle">Search Results</span></h4>
-        <div id="divfiltros" className="filtros">No Filters</div>
+        <div id="divfiltros" className="filtros"><span style={{display: countChecked == 0 ? "block" : "none"}}>No Filters</span>
+        {Object.keys(checked).map((key, index) => {
+          return (
+            <div className="nomefiltro" style={{display: checked[key] ? "block" : "none"}}>{key}</div>
+          );
+        })}
+        </div>
         <ul style={{display: "grid", gridTemplateColumns: "repeat(3,33%)"}} >
           {products.map(product => {
             //if (session.id === product.SellerID || product.isAvailable === 0) return null;
 
             let inCart = cartProducts.some(cartProduct => cartProduct.id === product.id);
             return (
-              <li id="productli" className="escolhido">
+              <li 
+              style=
+              {{
+                display: 
+                  (countChecked > 0 && 
+                  (((filteredTypes["Categories"] > 0) && checked["Categories : " + product.category] == false) || 
+                  ((filteredTypes["Condition"] > 0) && checked["Condition : " + product.condition] == false) || 
+                  ((filteredTypes["Tamanho"] > 0) && checked["Tamanho : " + product.size] == false)))
+                  ? "none" : "block"
+              }} 
+                id="productli" className="escolhido">
                 <div id="productImage">
                   <img src={`../${product.imageUrl}`} alt={product.name} />
                   {/*!session.isLoggedIn*/ false ? (
