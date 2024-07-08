@@ -65,7 +65,7 @@ const SignUp = () => {
   return (
     <div className="containerLogin">
       <div style={{ marginTop: '4em' }}>
-        <form onSubmit={handleSubmit}>
+        <form id="signUpForm" onSubmit={handleSubmit}>
           <h1 id="register">Sign Up</h1>
           <div>
             <input

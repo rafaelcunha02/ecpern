@@ -149,7 +149,7 @@ const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch })
                     <div className="left-header">
                         {isLoggedIn ? (
                             <>
-                                <button id="announce" onClick={() => window.location.href=`/productSubmit/${user.username}`} className={isScrolled ? 'scrolled' : ''}>Sell a Product</button>
+                                <button id="announce" onClick={() => window.location.href=`/Sell/${user.username}`} className={isScrolled ? 'scrolled' : ''}>Sell a Product</button>
                                 <div className="header-left" onClick={() => window.location.href=`/cart/${user.username}`}><img src='/assets/shopcart.svg' /></div>
                                 <div className="header-left" id="perfil">
                                     <Link to={`/profile/${user.username}`}><img src='/assets/profile-1341-svgrepo-com.svg' alt="Profile" /></Link>
@@ -157,7 +157,7 @@ const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch })
                             </>
                         ) : (
                             <>
-                                <button id="announce" onClick={() => window.location.href='/productSubmit/0'} className={isScrolled ? 'scrolled' : ''}> Sell a Product</button>
+                                <button id="announce" onClick={() => window.location.href='/Login'} className={isScrolled ? 'scrolled' : ''}> Sell a Product</button>
                                 <div className="header-left" onClick={() => window.location.href='/LogIn'}><img src='/assets/shopcart.svg' /></div>
                                 <div className="header-left" id="perfil"><Link to="/LogIn"><img src='/assets/profile-1341-svgrepo-com.svg'/></Link></div>
                             </>

@@ -4,6 +4,7 @@ import LandingPage from './components/landingPage/landingPage';
 import ProductPage from './components/ProductPage/ProductPage';
 import ProfilePage from './components/ProfilePage/ProfilePage'; 
 import SearchPage from './components/SearchPage/SearchPage';
+import SellPage from './components/SellPage/SellPage';
 import SignUpPage from './components/SignUp/SignUpPage';
 import LoginPage from './components/SignIn/SignInPage';
 import supabase from './Client';
@@ -30,7 +31,7 @@ useEffect(() => {
 
   return (
     <SupabaseContext.Provider value={supabase}>
-      <UserContext.Provider value={user}> {/* Provide UserContext */}
+      <UserContext.Provider value={user}>
         <Router>
           <Routes>
             <Route path="/" element={<LandingPage />} />
@@ -38,6 +39,7 @@ useEffect(() => {
             <Route path="profile/:username" element={<ProfilePage />} />
             <Route path="search/input/:input?" element={<SearchPage />} />
             <Route path="search/category/:category?" element={<SearchPage />} />
+            <Route path="sell/:username" element={<SellPage />} />
             <Route path="SignUp" element={<SignUpPage />} />
             <Route path="Login" element={<LoginPage />} />
           </Routes>
