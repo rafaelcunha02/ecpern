@@ -11,10 +11,10 @@ const SellPage = () => {
     const [categorias, setCategorias] = useState([]);
     const [currentInput, setCurrentInput] = useState('');
     const [currentCategory, setCurrentCategory] = useState('');
-    const [loading, setLoading] = useState(true);
     
     const loggedUser = React.useContext(UserContext);
     const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     //USUARIO
     useEffect(() => {
@@ -63,6 +63,8 @@ const SellPage = () => {
         })
         .catch(error => console.error('Fetch failed:', error));
     }, []);
+
+    if (!currentUser) return <div>Loading...</div>;
 
     return (
         <div>

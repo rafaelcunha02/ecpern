@@ -97,6 +97,43 @@ products.get('/user/:id', async (req, res) => {
 );
 
 
+app.post('/api/products/sell', async (req, res) => {
+    try {
+      // Validate the request data
+      if (!req.body.name || !req.body.price || !req.body.category 
+        || !req.body.brand || !req.body.model || !req.body.size
+        || !req.body.sellerId || !req.body.imageUrl || !req.body.description/* other validations */) {
+        return res.status(400).json({ error: 'Invalid data' });
+      }
+  
+      // Create a new product
+      const product = new Product({
+        name: req.body.name,
+        price: req.body.price,
+        category: req.body.category,
+        brand: req.body.brand,
+        model: req.body.model,
+        size: req.body.size,
+        condition: req.body.condition,
+        description: req.body.description,
+        imageUrl: req.body.imageUrl,
+        sellerId: req.body.sellerId
+
+      });
+  
+      // Save the product to the database
+      await product.save();
+  
+      // Respond with the created product
+      res.status(201).json(product);
+    } catch (error) {
+      // Handle any errors
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  });
+
+
 module.exports = products;
 
 
