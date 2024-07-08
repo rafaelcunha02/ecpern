@@ -11,7 +11,7 @@ const HeroSection = ({heroSearch, setHeroSearch}) => {
     const handleHeroSearch = (event, value) => {
         if(event.key !== 'Enter') return
         setHeroSearch(value)
-        navigate('/search/' + value)
+        navigate('/search/input/' + value)
     }
 
     return (

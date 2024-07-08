@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 
-function ProductsGridSearch({products, caracs, currentInput}) {
+function ProductsGridSearch({products, caracs, currentInput, currentCategory}) {
   const [cartProducts, setCartProducts] = useState([]);
   const [active, setActive] = useState([]);
   const [checked, setChecked] = useState({});
@@ -33,6 +33,20 @@ function ProductsGridSearch({products, caracs, currentInput}) {
         });
       });
     });
+
+    if(currentCategory){
+    setChecked(prevChecked => {
+      const newChecked = { ...prevChecked };
+      newChecked["Categories : " + currentCategory] = true;
+      return newChecked;
+    });
+    setCountChecked(1);
+    setFilteredTypes(prevFilteredTypes => {
+      const newFilteredTypes = { ...prevFilteredTypes };
+      newFilteredTypes["Categories"] = 1;
+      return newFilteredTypes;
+    });
+    }
   }, [caracs]);
 
   //console.log(caracs);
@@ -40,7 +54,6 @@ function ProductsGridSearch({products, caracs, currentInput}) {
   //DROPDOWNS
   useEffect(() => {
     setActive(new Array(6).fill(false)); // Assuming you have 6 dropdowns/caracTypes
-
   }, []);
 
   const handleClick = index => {
@@ -61,22 +74,28 @@ const handleCheck = (index, key) => {
     } else {
       setCountChecked(countChecked - 1);
     }
-
     setFilteredTypes(prevFilteredTypes => {
       const newFilteredTypes = { ...prevFilteredTypes };
-      console.log(newChecked);
-      console.log(index);
-      console.log(newChecked[index]);
       newFilteredTypes[key] = newFilteredTypes[key] + (newChecked[index] ? 1 : -1);
-      console.log(newFilteredTypes);
       return newFilteredTypes;
     });
-
     return newChecked;
   });
 };
 
-  console.log("input aqui: " + currentInput);
+/*
+useEffect(() => {
+  if(currentCategory){
+    let checkbox = document.getElementById("Categories : " + currentCategory);
+    if (checkbox) {
+      console.log("entrou");
+      checkbox.checked = true;
+      handleCheck(checkbox.id, "Categories");
+
+    }
+  }
+}, []);
+*/
 
   return (
     <main id="searchMain">
@@ -84,19 +103,20 @@ const handleCheck = (index, key) => {
       <h1>Filters</h1>
         {Object.keys(typeToValues).map((key, index) => {
           return (
-            <div class="dropdown">
-              <button className={`dropdown-button ${active[index] ? "ativo" : ''}`} id="category" onClick={() => handleClick(index)}><div>{key}</div><div class="droparrow"></div></button>              
+            <div className="dropdown">
+              <button className={`dropdown-button ${active[index] ? "ativo" : ''}`} id="category" onClick={() => handleClick(index)}><div>{key}</div><div className="droparrow"></div></button>              
               <div className="dropdown-content" style={{display: active[index] ? "block" : "none"}}>
                 {typeToValues[key].map((value, index) => {
                   return (
                     <div><input 
                           data-keyname={key} 
                           type="checkbox" 
+                          checked={checked[key + " : " + value]}
                           id={key + " : " + typeToValues[key][index]} 
                           value={index} 
                           onClick={(event) => 
                             {handleCheck(event.target.id, key);
-                            }}/><label for={key + index}>{value}</label></div>
+                            }}/><label htmlFor={key + index}>{value}</label></div>
                   );
                 })}
               </div>
@@ -104,7 +124,7 @@ const handleCheck = (index, key) => {
           );
         }, [])}
       </aside>
-      <section style={{marginLeft:"20em"}}id="productsGrid" className="gridsection">
+      <section style={{marginLeft:"20em", width:"100%"}}id="productsGrid" className="gridsection">
         <h4><span className="divtitle">Search Results</span></h4>
         <div id="divfiltros" className="filtros"><span style={{display: countChecked == 0 ? "block" : "none"}}>No Filters</span>
         {Object.keys(checked).map((key, index) => {
@@ -133,14 +153,14 @@ const handleCheck = (index, key) => {
               }} 
                 id="productli" className="escolhido">
                 <div id="productImage">
-                  <img src={`../${product.imageUrl}`} alt={product.name} />
+                  <img src={`../../${product.imageUrl}`} alt={product.name} />
                   {/*!session.isLoggedIn*/ false ? (
                     <button className="cartButtonLp" onClick={() => window.location.href='../pages/LogIn.php'}>
                       Log In to Add to Cart
                     </button>
                   ) : (
                     <button className="cartButtonLp"
-                      data-productId={product.id}
+                      //data-productId={product.id}
                       //data-sessionId={session.id}
                       //data-sellerId={product.SellerID}
                       //data-isAvailable={product.isAvailable}

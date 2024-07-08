@@ -27,12 +27,6 @@ useEffect(() => {
   fetchUser();
 }, []);
 
-  console.log("next log is user: ")
-  if (user) {
-    console.log(user.email);
-  } else {
-    console.log('User is not yet loaded');
-  }
 
   return (
     <SupabaseContext.Provider value={supabase}>
@@ -42,7 +36,8 @@ useEffect(() => {
             <Route path="/" element={<LandingPage />} />
             <Route path="product/:id" element={<ProductPage />} />
             <Route path="profile/:username" element={<ProfilePage />} />
-            <Route path="search/:input?" element={<SearchPage />} />
+            <Route path="search/input/:input?" element={<SearchPage />} />
+            <Route path="search/category/:category?" element={<SearchPage />} />
             <Route path="SignUp" element={<SignUpPage />} />
             <Route path="Login" element={<LoginPage />} />
           </Routes>

@@ -84,10 +84,11 @@ const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch })
     }, [showMenu]);
 
     useEffect(() => {
-        if(params.input){
+        if(params.input && params.input != " "){
             setCurrentInput(params.input);
         let searchInput = document.getElementById('searchInput');
-        searchInput.value = params.input;}
+        searchInput.value = params.input;
+    }
     }, [params.input]);
 
 
@@ -113,7 +114,7 @@ const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch })
     const handleKeydownEvent = (event, input) => {
         if(event.key === 'Enter'){
             if(input){
-                navigate(`/search/${input}`);
+                navigate(`/search/input/${input}`);
             }
             else{
                 navigate(`/search`);

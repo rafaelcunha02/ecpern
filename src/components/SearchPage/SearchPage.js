@@ -11,14 +11,14 @@ const SearchPage = () => {
 
 
 
-  const loggedUser = React.useContext(UserContext);
-    console.log("LOGGED USER: " + loggedUser);
+    const loggedUser = React.useContext(UserContext);
 
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [produtos, setProdutos] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [currentInput, setCurrentInput] = useState('');
+    const [currentCategory, setCurrentCategory] = useState('');
     const params = useParams();
 
 
@@ -90,8 +90,15 @@ const SearchPage = () => {
       console.error('Fetch failed:', error);
       // You could set produtos to a default value here if needed
     });
+
     if(params){
-      setCurrentInput(params.input);
+      if(params.input){
+        setCurrentInput(params.input);
+
+      }
+      if(params.category){
+        setCurrentCategory(params.category);
+      }
     }
   }, []);
 
@@ -105,7 +112,7 @@ const SearchPage = () => {
   return (
       <div>
         <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
-        <ProductsGridSearch products={produtos} caracs={categorias} currentInput={currentInput} />
+        <ProductsGridSearch products={produtos} caracs={categorias} currentInput={currentInput} currentCategory={currentCategory} />
         <Footer />
       </div>
   );
