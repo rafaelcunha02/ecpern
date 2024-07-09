@@ -14,6 +14,8 @@ const ProductDisplay = ({ user }) => {
   const [inCart, setInCart] = useState(false);
   const navigate = useNavigate();
 
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
     
 
   useEffect(() => {
@@ -95,11 +97,38 @@ useEffect(() => {
   };
 
   const handleEditProduct = () => {
-    navigate(`/productSubmitEdit/${user.id}/${product.id}`);
+    navigate(`/edit/${product.id}`);
   };
 
-  const handleUnlistProduct = () => {
-    // Add your logic for unlisting the product here
+  const handleUnlistProduct = async () => {
+    if(!confirmDelete){
+      setConfirmDelete(true);
+      return
+    }
+    
+    const data = {
+      id: product.id
+    }
+    console.log(data);
+
+    const response = await fetch('../api/products/delete',
+      { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+
+      }
+    )
+
+    if(response.ok){
+      navigate('/');
+    }
+    else{
+      console.error('Error:', response);
+    }
+
   };
 
   return (
@@ -148,7 +177,7 @@ useEffect(() => {
               ) : (
                 <>
                   <button id="Edit" onClick={handleEditProduct}>Edit Product</button>
-                  <button id="Unlist" onClick={handleUnlistProduct}>Unlist Product</button>
+                  <button id="Unlist" onClick={handleUnlistProduct}>{confirmDelete ? "Click Again to Confirm" : "Unlist Product"}</button>
                   <div id="sharedm"></div>
                 </>
               )}

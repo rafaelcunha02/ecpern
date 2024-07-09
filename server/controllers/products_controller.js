@@ -133,6 +133,65 @@ products.post('/sell', async (req, res) => {
   });
 
 
+products.post('/edit', async (req, res) => {
+    try {
+      // Validate the request data
+      if (!req.body.id || !req.body.name || !req.body.price || !req.body.category 
+        || !req.body.brand || !req.body.model || !req.body.size
+        || !req.body.sellerId || !req.body.imageUrl || !req.body.description) {
+          console.log("reqbody: " + req.body);
+  
+          return res.status(400).json({ error: 'Invalid data 400' });
+      }
+  
+      // Find the existing product
+      const oldProduct = await Product.findByPk(req.body.id);
+      oldProduct.name = req.body.name;
+      oldProduct.price = req.body.price;
+      oldProduct.category = req.body.category;
+      oldProduct.brand = req.body.brand;
+      oldProduct.model = req.body.model;
+      oldProduct.size = req.body.size;
+      oldProduct.condition = req.body.condition;
+      oldProduct.productDescription = req.body.description;
+      oldProduct.imageUrl = req.body.imageUrl;
+      oldProduct.sellerId = req.body.sellerId;
+      
+      // Save the product to the database
+      await oldProduct.save();
+  
+      // Respond with the updated product
+      res.status(201).json(oldProduct);
+    } catch (error) {
+      // Handle any errors
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  });
+
+
+  
+products.post('/delete', async (req, res) => {
+try {
+    // Validate the request data
+    if (!req.body.id) {
+    return res.status(400).json({ error: 'Invalid data' });
+    }
+
+    // Find the existing product
+    const oldProduct = await Product.findByPk(req.body.id);
+    await oldProduct.destroy();
+    res.status(201).json(oldProduct);
+} catch (error) {
+    // Handle any errors
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+    }
+}
+);
+
+
+
 module.exports = products;
 
 

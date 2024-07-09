@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { UserContext } from '../../App';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import SellForm from './SellForm';
-import './sellPage.css';
+import EditForm from './EditForm';
+import { useParams } from 'react-router-dom';
 
 
-const SellPage = () => {
 
-    const [produtos, setProdutos] = useState([]);
+const EditPage = () => {
+    const params = useParams();
+    const prodId = params.productId;
+    const [produto, setProduto] = useState(null);
 
     const [categorias, setCategorias] = useState([]);
     const [tamanhos, setTamanhos] = useState([]);
@@ -51,15 +53,6 @@ const SellPage = () => {
             .catch(error => console.error('Fetch failed:', error));
     }, []);
 
-    useEffect (() => {
-        fetch('http://localhost:4005/api/products/withsellers')
-        .then(res => res.json())
-        .then(data => {
-            setProdutos(data);
-        })
-        .catch(error => console.error('Fetch failed:', error));
-    }, []);
-
     useEffect(() => {
         const fetchCategorias = async () => {
             return fetch('http://localhost:4005/api/caracs/Categories')
@@ -88,24 +81,33 @@ const SellPage = () => {
                 .catch(error => console.error('Fetch failed:', error));
         };
 
-        Promise.all([fetchCategorias(), fetchTamanhos(), fetchCondicoes()])
+        const fetchProduto = async () => {
+            return fetch('http://localhost:4005/api/products/' + prodId)
+                .then(res => res.json())
+                .then(data => {
+                    setProduto(data);
+                })
+                .catch(error => console.error('Fetch failed:', error));
+        };
+
+
+        Promise.all([fetchProduto(), fetchCategorias(), fetchTamanhos(), fetchCondicoes()])
             .then(() => setLoading(false))
             .catch(error => console.error('Fetch failed:', error));
     }, []);
 
-    if (!currentUser
-        || !categorias
-        || !tamanhos
-        || !condicoes
-    ) return <div>Loading...</div>;
+    if (!currentUser || !produto 
+        || !categorias || !tamanhos || !condicoes
+    ) return <div>Loading... {prodId}</div>;
 
+    console.log(categorias);
     return (
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
-            <SellForm user={currentUser} categories={categorias} sizes={tamanhos} conditions={condicoes} />
+            <EditForm product={produto} user={currentUser} categories={categorias} sizes={tamanhos} conditions={condicoes} />
             <Footer/>
         </div>
     );
 }
 
-export default SellPage;
+export default EditPage;

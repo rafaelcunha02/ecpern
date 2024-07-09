@@ -3,20 +3,20 @@ import supabase from '../../Client';
 import { v4 as uuidv4 } from 'uuid';
 
 
-function SellForm({ user, categories, conditions, sizes, errors, session }) {
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('');
-  const [brand, setBrand] = useState('');
-  const [model, setModel] = useState('');
-  const [size, setSize] = useState('');
-  const [condition, setCondition] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+
+function EditForm({product, user, categories, conditions, sizes, errors, session }) {
+  const [name, setName] = useState(product.name);
+  const [price, setPrice] = useState(product.price);
+  const [category, setCategory] = useState(product.category);
+  const [brand, setBrand] = useState(product.brand);
+  const [model, setModel] = useState(product.model);
+  const [size, setSize] = useState(product.size);
+  const [condition, setCondition] = useState(product.condition);
+  const [description, setDescription] = useState(product.productDescription);
+  const [imageUrl, setImageUrl] = useState(product.imageUrl);
   const [file, setFile] = useState('');
 
 
-  
   useEffect(() => {
     if(categories[0] && sizes[0] && conditions[0]) {
       setCategory(categories[0].caracValue.replace(' ', ''));
@@ -25,114 +25,107 @@ function SellForm({ user, categories, conditions, sizes, errors, session }) {
     }
   }, [categories, sizes, conditions]);
 
-
-const handleSubmit = async (event) => {
-  event.preventDefault();
-
-  // Create an object representing the form data
-  const formData = {
-    name,
-    price,
-    category,
-    brand,
-    model,
-    size,
-    condition,
-    description,
-    imageUrl,
-    sellerId: user.id
-  };
-
-  console.log(formData);
-
-  // Make a POST request to your API
-  const response = await fetch('/api/products/sell', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(formData)
-  });
-
-  if (response.ok) {
-    // If the request was successful, clear the form
-    setName('');
-    setPrice('');
-    setCategory('');
-    setBrand('');
-    setModel('');
-    setSize('');
-    setCondition('');
-    setDescription('');
-    setImageUrl('');
-  } else {
-    // If there was an error, you can handle it here
-    console.error('Error:', response);
-  }
-};
-
-// Add this line at the beginning of your component
-const [isImageUploaded, setIsImageUploaded] = useState(false);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
 
-// Modify your handleFileUpload function like this
-const handleFileUpload = async (event) => {
-  event.preventDefault();
+    // Create an object representing the form data
+    const formData = {
+      id: product.id,
+      name,
+      price,
+      category,
+      brand,
+      model,
+      size,
+      condition,
+      description,
+      imageUrl,
+      sellerId: user.id
+    };
+    console.log(formData);
 
-  // Get the file from the file input field
-  const selectedFile = event.target.files[0];
-  setFile(selectedFile);
-  console.log(file);
 
-  // Define the path where the file will be stored
-  const filePath = user.id + "/" + uuidv4();
-  console.log(filePath);
-
-  // Upload the file to Supabase Storage
-  const { error } = await supabase.storage
-    .from('uploads')
-    .upload(filePath, selectedFile, {
-      cacheControl: '3600',
-      upsert: false
+    const response = await fetch('/api/products/edit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
     });
 
-  if (error) {
-    console.error('Error uploading file:', error);
-  } else {
-    console.log('File uploaded successfully');
+    if (response.ok) {
 
-    // Get the URL of the uploaded file
-    const { publicURL, error: urlError } = await supabase.storage
-    .from('uploads')
-    .getPublicUrl(filePath);
-
-    if (urlError) {
-      console.error('Error getting file URL:', urlError);
+      setName('');
+      setPrice('');
+      setCategory('');
+      setBrand('');
+      setModel('');
+      setSize('');
+      setCondition('');
+      setDescription('');
+      setImageUrl('');
     } else {
 
-    let totalUrl = "https://olssegxvsjfzoxdqounk.supabase.co/storage/v1/object/public/uploads/" + filePath;
-    console.log("total url: " + totalUrl);
-      // Update the imageUrl state with the URL of the uploaded file
-      setImageUrl(totalUrl);
-      // Set isImageUploaded to true
-      setIsImageUploaded(true);
+      console.error('Error:', response);
     }
-  }
-};
+  };
 
 
+  const [isImageUploaded, setIsImageUploaded] = useState(true);
 
-  if(!categories[0] || !conditions[0] || !sizes[0]) {
-    return <p>Loading...</p>;
-  }
 
-  
+  const handleFileUpload = async (event) => {
+    event.preventDefault();
+
+    // Get the file from the file input field
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    console.log(file);
+
+    // Define the path where the file will be stored
+    const filePath = user.id + "/" + uuidv4();
+    console.log(filePath);
+
+    // Upload the file to Supabase Storage
+    const { error } = await supabase.storage
+      .from('uploads')
+      .upload(filePath, selectedFile, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (error) {
+      console.error('Error uploading file:', error);
+    } else {
+      console.log('File uploaded successfully');
+
+      // Get the URL of the uploaded file
+      const { publicURL, error: urlError } = await supabase.storage
+      .from('uploads')
+      .getPublicUrl(filePath);
+
+      if (urlError) {
+        console.error('Error getting file URL:', urlError);
+      } else {
+
+      let totalUrl = "https://olssegxvsjfzoxdqounk.supabase.co/storage/v1/object/public/uploads/" + filePath;
+      console.log("total url: " + totalUrl);
+        // Update the imageUrl state with the URL of the uploaded file
+        setImageUrl(totalUrl);
+        // Set isImageUploaded to true
+        setIsImageUploaded(true);
+      }
+    }
+  };
+
+
 
   return (
     <div id="SubmitProductContainer">
       <div className="submit-section">
         <div className="submit-info">
-          <h1>Sell a Product</h1>
+          <h1>Edit Product</h1>
 
           {/*{ errors && errors.length > 0 && (
             <div className="errors">
@@ -141,7 +134,7 @@ const handleFileUpload = async (event) => {
               ))}
             </div>
           )}*/}
-        {console.log(categories[0].caracValue)}
+
         <form id="uploadForm" onSubmit={handleFileUpload}>
             <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
             <div id="infoItem" className="info-item">
@@ -192,15 +185,7 @@ const handleFileUpload = async (event) => {
             <div className="info-item">
               <label htmlFor="model">MODEL</label>
               <div className="relativeCounterContainer">
-                <input type="text" id="mode// Before the return statement where you check if the arrays are loaded
-if(!categories[0] || !conditions[0] || !sizes[0]) {
-  return <p>Loading...</p>;
-}
-
-// After the arrays are confirmed to be loaded, set the initial state
-const [category, setCategory] = useState(categories[0].caracValue.replace(' ', ''));
-const [size, setSize] = useState(sizes[0].caracValue.replace(' ', ''));
-const [condition, setCondition] = useState(conditions[0].caracValue.replace(' ', ''));l" name="model" maxLength="50" value={model} onChange={(e) => setModel(e.target.value)} />
+                <input type="text" id="model" name="model" maxLength="50" value={model} onChange={(e) => setModel(e.target.value)} />
                 <p id="modelCounter" className="counter">{`${model.length} / 50`}</p>
               </div>
             </div>
@@ -244,4 +229,4 @@ const [condition, setCondition] = useState(conditions[0].caracValue.replace(' ',
   );
 }
 
-export default SellForm;
+export default EditForm;
