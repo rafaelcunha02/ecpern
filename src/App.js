@@ -6,6 +6,7 @@ import ProfilePage from './components/ProfilePage/ProfilePage';
 import SearchPage from './components/SearchPage/SearchPage';
 import SellPage from './components/SellPage/SellPage';
 import EditPage from './components/SellEditPage/EditPage';
+import CartPage from './components/CartPage/CartPage'
 import SignUpPage from './components/SignUp/SignUpPage';
 import LoginPage from './components/SignIn/SignInPage';
 import supabase from './Client';
@@ -42,6 +43,7 @@ useEffect(() => {
             <Route path="search/category/:category?" element={<SearchPage />} />
             <Route path="sell/:username" element={<SellPage />} />
             <Route path="edit/:productId" element={<EditPage />} />
+            <Route path="Cart/:username?" element={<CartPage />} />
             <Route path="SignUp" element={<SignUpPage />} />
             <Route path="Login" element={<LoginPage />} />
           </Routes>
