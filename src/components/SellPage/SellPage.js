@@ -7,8 +7,13 @@ import './sellPage.css';
 
 
 const SellPage = () => {
+
     const [produtos, setProdutos] = useState([]);
+
     const [categorias, setCategorias] = useState([]);
+    const [tamanhos, setTamanhos] = useState([]);
+    const [condicoes, setCondicoes] = useState([]);
+
     const [currentInput, setCurrentInput] = useState('');
     const [currentCategory, setCurrentCategory] = useState('');
     
@@ -55,21 +60,46 @@ const SellPage = () => {
         .catch(error => console.error('Fetch failed:', error));
     }, []);
 
-    useEffect (() => {
-        fetch('http://localhost:4005/api/categories')
-        .then(res => res.json())
-        .then(data => {
-            setCategorias(data);
-        })
-        .catch(error => console.error('Fetch failed:', error));
+    useEffect(() => {
+        const fetchCategorias = async () => {
+            return fetch('http://localhost:4005/api/caracs/Categories')
+                .then(res => res.json())
+                .then(data => {
+                    setCategorias(data);
+                })
+                .catch(error => console.error('Fetch failed:', error));
+        }
+
+        const fetchTamanhos = async () => {
+            return fetch('http://localhost:4005/api/caracs/Tamanho')
+                .then(res => res.json())
+                .then(data => {
+                    setTamanhos(data);
+                })
+                .catch(error => console.error('Fetch failed:', error));
+        }
+
+        const fetchCondicoes = async () => {
+            return fetch('http://localhost:4005/api/caracs/Condition')
+                .then(res => res.json())
+                .then(data => {
+                    setCondicoes(data);
+                })
+                .catch(error => console.error('Fetch failed:', error));
+        };
+
+        Promise.all([fetchCategorias(), fetchTamanhos(), fetchCondicoes()])
+            .then(() => setLoading(false))
+            .catch(error => console.error('Fetch failed:', error));
     }, []);
 
     if (!currentUser) return <div>Loading...</div>;
 
+    console.log(categorias);
     return (
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
-            <SellForm user={currentUser} categories={categorias} sizes={Array(0)} conditions={Array(0)} />
+            <SellForm user={currentUser} categories={categorias} sizes={tamanhos} conditions={condicoes} />
             <Footer/>
         </div>
     );

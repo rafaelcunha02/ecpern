@@ -61,7 +61,7 @@ function RelatedProducts({ session }) {
             return (
                 <li key={relatedProduct.id}>
                 <div id="productImage">
-                    <img src={`../${relatedProduct.imageUrl}`} alt={relatedProduct.name} />
+                    <img src={relatedProduct.imageUrl.startsWith("http") ? relatedProduct.imageUrl : `../${relatedProduct.imageUrl}`} alt={relatedProduct.name} />
                 </div>
                 <div>
                     <h3>

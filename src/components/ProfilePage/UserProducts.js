@@ -26,7 +26,7 @@ function UserProducts({user, currentUser, sellingProducts, cartProducts }) {
                     return (
                       <li key={product.id}>
                         <div id="productImage">
-                          <img src={`../${product.imageUrl}`} alt={product.name} />
+                          <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `../${product.imageUrl}`} alt={product.name} />
                           {
                             product.sellerId !== (currentUser && currentUser.id) 
                             && (
@@ -67,19 +67,19 @@ function UserProducts({user, currentUser, sellingProducts, cartProducts }) {
                           <h3>
                             <a
                               id="productPage"
-                              href={`../pages/product.php?id=${product.id}`}
+                              href={`../product/${product.id}`}
                               title={product.name}
                             >
                               {product.name}
                             </a>
                           </h3>
-                          <p>{product.description}</p>
+                          <p>{product.productDescription}</p>
                           <p>{product.price}</p>
                           <p id="productSeller">
                             @
                             <a
                               id="productSeller"
-                              href={`../pages/profile.php?username=${product.seller.username}`}
+                              href={`../profile/${product.seller.username}`}
                             >
                               {product.seller.username}
                             </a>

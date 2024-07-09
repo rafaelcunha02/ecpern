@@ -4,7 +4,7 @@ import './productPage.css';
 import '../../common.css';
 
 
-const ProductDisplay = ({ sessionId }) => {
+const ProductDisplay = ({ user }) => {
 
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -95,7 +95,7 @@ useEffect(() => {
   };
 
   const handleEditProduct = () => {
-    navigate(`/productSubmitEdit/${sessionId}/${product.id}`);
+    navigate(`/productSubmitEdit/${user.id}/${product.id}`);
   };
 
   const handleUnlistProduct = () => {
@@ -114,7 +114,7 @@ useEffect(() => {
       )}
       <section id="s1">
         <div>
-          <img src={`/${product.imageUrl}`} id="imagemproduto" alt={product.name} />
+          <img src={product.imageUrl.startsWith("http") ? product.imageUrl : `/${product.imageUrl}`} id="imagemproduto" alt={product.name} />
         </div>
         <div id="information">
           <div id="info">
@@ -128,10 +128,10 @@ useEffect(() => {
             <p id="seller">Seller: {seller.firstName} {seller.lastName}</p>
 
             <div id="buttons">
-              {sessionId !== product.sellerId ? (
+              {!user || (user.id !== product.sellerId) ? (
                 <>
-                  <button id="buy" onClick={handleBuy}>Buy</button>
-                  {!sessionId ? (
+                  <button id="buy" onClick={!user ? () => navigate('/LogIn') : handleBuy}>Buy</button>
+                  {!user ? (
                     <button id="toLogin" onClick={() => navigate('/LogIn')}>
                       Log In to Add to Cart
                     </button>

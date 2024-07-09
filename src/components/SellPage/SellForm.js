@@ -132,8 +132,8 @@ const handleFileUpload = async (event) => {
                 <input style={{display: 'none'}} value='' type="file" id="image" name="image" onChange={handleFileUpload} />
                 {isImageUploaded ? (
                 <>
+                <img id="imagemUploaded" src={isImageUploaded ? imageUrl : ''} alt="Uploaded content" />
                 <label htmlFor="image" className="uploadButton">Upload another image</label>
-                <img src={isImageUploaded ? imageUrl : ''} alt="Uploaded content" />
                 </>
                 ) : (
                 <label htmlFor="image" className="uploadButton">Upload</label>
@@ -159,7 +159,7 @@ const handleFileUpload = async (event) => {
               <label htmlFor="category">CATEGORY</label>
               <select id="category" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
                 {categories.map((category, index) => (
-                  <option key={index} value={category.replace(' ', '')}>{category}</option>
+                  <option key={index} value={category.caracValue.replace(' ', '')}>{category.caracValue}</option>
                 ))}
               </select>
             </div>
@@ -185,7 +185,7 @@ const handleFileUpload = async (event) => {
               <div className="relativeCounterContainer">
                 <select id="size" name="size" value={size} onChange={(e) => setSize(e.target.value)}>
                   {sizes.map((size, index) => (
-                    <option key={index} value={size.replace(' ', '')}>{size}</option>
+                    <option key={index} value={size.caracValue.replace(' ', '')}>{size.caracValue}</option>
                   ))}
                 </select>
               </div>
@@ -195,7 +195,7 @@ const handleFileUpload = async (event) => {
               <label htmlFor="condition">CONDITION</label>
               <select id="condition" name="condition" value={condition} onChange={(e) => setCondition(e.target.value)}>
                 {conditions.map((condition, index) => (
-                  <option key={index} value={condition}>{condition}</option>
+                  <option key={index} value={condition.caracValue.replace(' ','')}>{condition.caracValue}</option>
                 ))}
               </select>
             </div>

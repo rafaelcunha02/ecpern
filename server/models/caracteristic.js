@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async getCaracteristicasByType(type) {
-      return await this.findAll({ where: { caracType: type } });
+      return await this.findAll({ where: { "caracType": type } });
     }
 
     async update() {

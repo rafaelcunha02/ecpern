@@ -91,7 +91,7 @@ useEffect (() => {
   return (
       <div>
         <Header isLoggedIn={currentUser} user={currentUser}/>
-        <ProductDisplay sessionId={1} categorias={categorias}/>
+        <ProductDisplay user={currentUser} categorias={categorias}/>
         <RelatedProducts />
         <Footer />
       </div>

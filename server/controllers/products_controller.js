@@ -96,13 +96,12 @@ products.get('/user/:id', async (req, res) => {
 }
 );
 
-
-app.post('/api/products/sell', async (req, res) => {
+products.post('/sell', async (req, res) => {
     try {
       // Validate the request data
       if (!req.body.name || !req.body.price || !req.body.category 
         || !req.body.brand || !req.body.model || !req.body.size
-        || !req.body.sellerId || !req.body.imageUrl || !req.body.description/* other validations */) {
+        || !req.body.sellerId || !req.body.imageUrl || !req.body.description) {
         return res.status(400).json({ error: 'Invalid data' });
       }
   
@@ -115,7 +114,7 @@ app.post('/api/products/sell', async (req, res) => {
         model: req.body.model,
         size: req.body.size,
         condition: req.body.condition,
-        description: req.body.description,
+        productDescription: req.body.description,
         imageUrl: req.body.imageUrl,
         sellerId: req.body.sellerId
 
@@ -135,6 +134,7 @@ app.post('/api/products/sell', async (req, res) => {
 
 
 module.exports = products;
+
 
 
 

@@ -153,8 +153,7 @@ useEffect(() => {
               }} 
                 id="productli" className="escolhido">
                 <div id="productImage">
-                  <img src={`../../${product.imageUrl}`} alt={product.name} />
-                  {/*!session.isLoggedIn*/ false ? (
+                  <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `/${product.imageUrl}`} alt={product.name} />                  {/*!session.isLoggedIn*/ false ? (
                     <button className="cartButtonLp" onClick={() => window.location.href='../pages/LogIn.php'}>
                       Log In to Add to Cart
                     </button>
