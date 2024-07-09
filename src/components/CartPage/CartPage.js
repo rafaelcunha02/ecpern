@@ -8,7 +8,7 @@ import './CartPage.css';
 
 const CartPage = () => {
 
-    const [produtos, setProdutos] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     const [categorias, setCategorias] = useState([]);
     const [tamanhos, setTamanhos] = useState([]);
@@ -52,13 +52,17 @@ const CartPage = () => {
     }, []);
 
     useEffect (() => {
-        fetch('http://localhost:4005/api/products/withsellers')
+        if(currentUser){
+
+        
+        fetch('http://localhost:4005/api/orders/cart/' + currentUser.id)
         .then(res => res.json())
         .then(data => {
-            setProdutos(data);
+            setOrders(data);
         })
         .catch(error => console.error('Fetch failed:', error));
-    }, []);
+        }
+    }, [currentUser]);
 
     useEffect(() => {
         const fetchCategorias = async () => {
@@ -97,12 +101,13 @@ const CartPage = () => {
         || !categorias
         || !tamanhos
         || !condicoes
+        || !orders
     ) return <div>Loading...</div>;
 
     return (
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
-            <Cart session={currentUser} products={produtos} />
+            <Cart session={currentUser} orders={orders} />
             <Footer/>
         </div>
     );

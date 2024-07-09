@@ -93,7 +93,32 @@ useEffect(() => {
   };
 
   const handleAddToCart = () => {
-    // Add your logic for adding the product to the cart here
+    const data = {
+      productId: product.id,
+      buyerId: user.id,
+      sellerId: product.sellerId,
+    }
+
+    fetch('http://localhost:4005/api/orders/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('HTTP error ' + res.status);
+      }
+      return res.json();
+    })
+    .then(data => {
+      setInCart(true);
+    })
+    .catch(error => {
+      console.error('Fetch failed:', error);
+    });
+
   };
 
   const handleEditProduct = () => {

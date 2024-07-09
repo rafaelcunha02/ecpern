@@ -24,6 +24,9 @@ app.use('/api/products', productsController);
 const caracsController = require('./controllers/caracs_controller');
 app.use('/api/caracs', caracsController);
 
+const ordersController = require('./controllers/orders_controller');
+app.use('/api/orders', ordersController);
+
 
 // LISTEN 
 

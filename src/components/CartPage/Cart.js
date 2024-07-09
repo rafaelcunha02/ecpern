@@ -1,47 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-const Cart = ({ session, products }) => {
+const Cart = ({ session, orders }) => {
   const [isFirstProduct, setIsFirstProduct] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [shippingMethod, setShippingMethod] = useState('');
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(0);
   const [user, setUser] = useState(null);
+  const sectionRef1 = useRef(null);
+  const sectionRef2 = useRef(null);
+
+  const scrollToSection2 = () => {
+    sectionRef2.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToSection1 = () => {
+    sectionRef1.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  document.body.style.overflow = 'hidden';
 
   useEffect(() => {
-    let totalPrice = 0;
-    let productCount = 0;
-    products.forEach(product => {
-      totalPrice += product.price;
-      productCount++;
-    });
-    setTotal(totalPrice);
-    setCount(productCount);
-    
-    const fetchUser = async () => {
-      const user = 1;
-      setUser(user);
-    };
+    const { totalPrice, productCount } = orders.reduce((acc, order) => {
+      acc.totalPrice += parseFloat(order.Product.price);
+      acc.productCount++;
+      return acc;
+    }, { totalPrice: 0, productCount: 0 });
 
-    fetchUser();
-  }, [products]);
+    setTotal(totalPrice.toFixed(2));
+    setCount(productCount);
+    setUser(1);
+  }, [orders]);
 
   const showForm = (formId) => {
-    document.getElementById('mbWayForm').style.display = 'none';
-    document.getElementById('creditCardForm').style.display = 'none';
-    document.getElementById('ATMForm').style.display = 'none';
-    document.getElementById(formId).style.display = 'block';
+    const forms = ['mbWayForm', 'creditCardForm', 'ATMForm'];
+    forms.forEach(id => document.getElementById(id).style.display = id === formId ? 'block' : 'none');
   };
 
   return (
     <div>
-      <section id="cartSection" className="cartContainer">
+      <section ref={sectionRef1} id="cartSection" className="cartContainer">
         <div className="inlineContain">
           <div className="topFlex" id="first">
             <div>Your Cart</div>
           </div>
           <div className="overflowContainer">
-            {products.map((product, index) => (
+            {orders.map((order, index) => (
               <>
                 {isFirstProduct && (
                   <div className="topFlex" id="second">
@@ -50,23 +54,23 @@ const Cart = ({ session, products }) => {
                     <div id="seller">SELLER</div>
                   </div>
                 )}
-                <li className="topFlex" id="productlisting" key={product.id}>
+                <li className="topFlex" id="productlisting" key={order.Product.id}>
                   <div className="productInfo">
                     <div id="imgproduct">
-                      <img src={`../${product.imageUrl}`} alt={product.name} />
+                      <img src={`../${order.Product.imageUrl}`} alt={order.Product.name} />
                     </div>
                     <div className="infoList">
                       <h3>
-                        <a id="productHref" href={`product.php?id=${product.id}`} title={product.name}>
-                          {product.name}
+                        <a id="productHref" href={`product.php?id=${order.Product.id}`} title={order.Product.name}>
+                          {order.Product.name}
                         </a>
                       </h3>
-                      <div>{product.category}</div>
+                      <div>{order.Product.category}</div>
                       <div id="removeDiv">
                         <button
                           id="remover"
-                          data-price={product.price}
-                          data-productid={product.id}
+                          data-price={order.Product.price}
+                          data-productid={order.Product.id}
                           data-buyerid={user ? user.username : ''}
                           className="removeButton"
                         >
@@ -75,10 +79,10 @@ const Cart = ({ session, products }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="priceInfo">{product.price}</div>
+                  <div className="priceInfo">{order.Product.price}</div>
                   <div className="sellerInfo">
                     <div id="productSeller">
-                      <a id="productSeller" href={`profile.php?id=${product.SellerID}`}>
+                      <a id="productSeller" href={`profile.php?id=${order.Product.SellerID}`}>
                         {`${user ? `${user.firstName} ${user.lastName}` : ''}`}
                       </a>
                     </div>
@@ -116,12 +120,12 @@ const Cart = ({ session, products }) => {
             <div id="finalPriceValue">${total}</div>
           </div>
           <div id="buttonDiv">
-            <button data-productslength={count} id="checkoutButton">Checkout</button>
+            <button onClick={() => scrollToSection2()} data-productslength={count} id="checkoutButton">Checkout</button>
           </div>
         </div>
       </section>
 
-      <section className="cartContainer" id="paymentSection">
+      <section ref={sectionRef2} className="cartContainer" id="paymentSection">
         <div className="inlineContain">
           <div className="topFlex" id="first">
             <div>Payment & Shipping</div>
@@ -208,7 +212,7 @@ const Cart = ({ session, products }) => {
               </div>
             </li>
           </div>
-          <button id="backToCart" className="goBack" onClick={() => window.location.href = 'cart.php'}>Go Back to the Cart</button>
+          <button id="backToCart" className="goBack" onClick={() => scrollToSection1()}>Go Back to the Cart</button>
         </div>
 
         <div className="inlineContain" id="rightSide">
