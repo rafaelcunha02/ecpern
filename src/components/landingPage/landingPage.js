@@ -73,10 +73,6 @@ useEffect (() => {
     // You could set produtos to a default value here if needed
   });
 }, []);
-
-
-  console.log(Array.isArray(produtos));
-  console.log(produtos);
   
   //////////////////////////////////////
 
@@ -107,7 +103,7 @@ useEffect (() => {
         <Header isLoggedIn={currentUser} user={currentUser}/>
         <HeroSection heroSearch={heroSearch} setHeroSearch={setHeroSearch}/>
         <CategorySection categories={categorias}/>
-        <ProductSection products={produtos}/>
+        <ProductSection cartProducts={Array(produtos[0])} currentUser={currentUser} products={produtos}/>
         <Footer />
       </div>
   );

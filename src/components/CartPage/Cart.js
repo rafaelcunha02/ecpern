@@ -57,7 +57,7 @@ const Cart = ({ session, orders }) => {
                 <li className="topFlex" id="productlisting" key={order.Product.id}>
                   <div className="productInfo">
                     <div id="imgproduct">
-                      <img src={`../${order.Product.imageUrl}`} alt={order.Product.name} />
+                      <img src={order.Product.imageUrl.startsWith('http') ? order.Product.imageUrl : `../${order.Product.imageUrl}`} alt={order.Product.name} />
                     </div>
                     <div className="infoList">
                       <h3>
@@ -82,8 +82,8 @@ const Cart = ({ session, orders }) => {
                   <div className="priceInfo">{order.Product.price}</div>
                   <div className="sellerInfo">
                     <div id="productSeller">
-                      <a id="productSeller" href={`profile.php?id=${order.Product.SellerID}`}>
-                        {`${user ? `${user.firstName} ${user.lastName}` : ''}`}
+                      <a id="productSeller" href={`../profile/${order.Seller.username}`}>
+                        {`${user ? `${order.Seller.firstName} ${order.Seller.lastName}` : ''}`}
                       </a>
                     </div>
                   </div>

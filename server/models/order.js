@@ -14,12 +14,15 @@ module.exports = (sequelize, DataTypes) => {
       return await this.findAll({ where: { orderGroup: group } });
     }
 
-static async getUnprocessedOrdersByBuyerId(buyerId) {
-  return await this.findAll({ 
-    where: { buyerId: buyerId, isProcessed: 0 },
-    include: { model: sequelize.models.Product }
-  });
-}
+  static async getUnprocessedOrdersByBuyerId(buyerId) {
+    return await this.findAll({ 
+      where: { buyerId: buyerId, isProcessed: 0 },
+      include: [
+        { model: sequelize.models.Product },
+        { model: sequelize.models.User, as: 'Seller' }
+      ]
+    });
+  }
 
     static async getProcessedOrdersByBuyerId(buyerId) {
       return await this.findAll({ 
