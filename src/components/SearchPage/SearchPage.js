@@ -8,11 +8,7 @@ import './searchPage.css';
 import {UserContext} from '../../App';
 
 const SearchPage = () => {
-
-
-
     const loggedUser = React.useContext(UserContext);
-
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [produtos, setProdutos] = useState([]);
@@ -20,102 +16,50 @@ const SearchPage = () => {
     const [currentInput, setCurrentInput] = useState('');
     const [currentCategory, setCurrentCategory] = useState('');
     const params = useParams();
+    const [error, setError] = useState(null);
 
-
-
-
-    //USUARIO
-    useEffect(() => {
-      const fetchUser = async () => {
+    const fetchData = async (url, setter) => {
         try {
-          const usuario = await loggedUser;
-          setCurrentUser(usuario);
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('HTTP error ' + res.status);
+            const data = await res.json();
+            setter(data);
         } catch (error) {
-          console.error('Failed to fetch user:', error);
+            console.error('Fetch failed:', error);
+            setError('Failed to fetch data');
         }
-      };
-    
-      fetchUser();
-    }, [loggedUser]);
-    
-    //informações do usuário
-    useEffect(() => {
-        const fetchUser = async () => {
-            if (loggedUser) {
-                const res = await fetch(`http://localhost:4005/api/users/id/${loggedUser.id}`);
-                if (!res.ok) throw new Error('HTTP error ' + res.status);
-                const data = await res.json();
-                setCurrentUser(data);
-            }
-        };
+    };
 
-        Promise.all([fetchUser()])
-            .then(() => setLoading(false)) 
-            .catch(error => console.error('Fetch failed:', error));
-    }, []);
-
-
-  //PRODUTOS
-  useEffect (() => {
-    fetch('http://localhost:4005/api/products/withsellers')
-    .then(res => {
-      if (!res.ok) { 
-        throw new Error('HTTP error ' + res.status);
-      }
-      return res.json();
-    })
-    .then(data => {
-      setProdutos(data);
-    })
-    .catch(error => {
-      console.error('Fetch failed:', error);
-      // You could set produtos to a default value here if needed
-    });
-  }, []);
-
-
-  //CATEGORIAS
-  useEffect(() => {
-    fetch('http://localhost:4005/api/caracs')
-    .then(res => {
-      if (!res.ok) { 
-        throw new Error('HTTP error ' + res.status);
-      }
-      return res.json();
-    })
-    .then(data => {
-      setCategorias(data);
-    })
-    .catch(error => {
-      console.error('Fetch failed:', error);
-      // You could set produtos to a default value here if needed
-    });
-
-    if(params){
-      if(params.input){
-        setCurrentInput(params.input);
-
-      }
-      if(params.category){
-        setCurrentCategory(params.category);
-      }
+useEffect(() => {
+    if (loggedUser) {
+        fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser);
     }
-  }, []);
+}, [loggedUser]);
 
+    useEffect(() => {
+        fetchData('http://localhost:4005/api/products/withsellers', setProdutos);
+        fetchData('http://localhost:4005/api/caracs', setCategorias);
+        if(params){
+            if(params.input){
+                setCurrentInput(params.input);
+            }
+            if(params.category){
+                setCurrentCategory(params.category);
+            }
+        }
+        setLoading(false);
+    }, [params]);
 
-  if (loading) return <div>Loading...</div>; // Show a loading message while loading
-  
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
 
-
-  
-
-  return (
-      <div>
-        <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
-        <ProductsGridSearch products={produtos} caracs={categorias} currentInput={currentInput} currentCategory={currentCategory} />
-        <Footer />
-      </div>
-  );
+    return (
+        <div>
+            <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
+            <ProductsGridSearch products={produtos} caracs={categorias} currentInput={currentInput} currentCategory={currentCategory} />
+            <Footer />
+        </div>
+    );
 }
 
 export default SearchPage;

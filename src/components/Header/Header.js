@@ -122,68 +122,75 @@ const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch })
         }
     }
 
-    return (
-        <header id="header">
-            <h1 style={{position: showMenu ? '' : "fixed"}} id="fixedHeader" className={isScrolled ? 'scrolled' : ''} >
-                <div>
-                    <input onClick={(e) => 
-                                    {console.log("hamburguer"); 
-                                    setShowMenu(true); 
-                                    console.log(showMenu);
-                                    e.stopPropagation();
-                    }} type="checkbox" id="hamburger" />
-                    <label className="hamburger" htmlFor="hamburger"></label>
-                    <Link to="/"><div className="name" id="nomeheader">Vintech</div></Link>
-                </div>
-                <div className="left-header">
-                    <div className="header-left" id="search">
-                        <input style={showSearchBar ? {display: 'block', opacity: 1} : {display: 'none'}}
-                        type="text" id="searchInput" 
-                        onKeyDown={(event) => {handleKeydownEvent(event, event.target.value)}}
-                        onChange={(event) => handleWriteEvent(event.target.value)} placeholder="Search Products..." />
-                        <div className="searchImgContainer">
-                            <img src='/assets/search-svgrepo-com.svg' id="searchImg" 
-                            style={showSearchBar ? {display: 'block'} : {display: 'none'}}/>
-                        </div>
-                    </div>
-                    <div className="left-header">
-                        {isLoggedIn ? (
-                            <>
-                                <button id="announce" onClick={() => window.location.href=`/Sell/${user.username}`} className={isScrolled ? 'scrolled' : ''}>Sell a Product</button>
-                                <div className="header-left" onClick={() => window.location.href=`/cart/${user.username}`}><img src='/assets/shopcart.svg' /></div>
-                                <div className="header-left" id="perfil">
-                                    <Link to={`/profile/${user.username}`}><img src='/assets/profile-1341-svgrepo-com.svg' alt="Profile" /></Link>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <button id="announce" onClick={() => window.location.href='/Login'} className={isScrolled ? 'scrolled' : ''}> Sell a Product</button>
-                                <div className="header-left" onClick={() => window.location.href='/LogIn'}><img src='/assets/shopcart.svg' /></div>
-                                <div className="header-left" id="perfil"><Link to="/LogIn"><img src='/assets/profile-1341-svgrepo-com.svg'/></Link></div>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </h1>
-            {isLoggedIn ? (
-                <div className={`menu-lateral ${showMenu ? 'animation' : ''}`}>
-                    <ul>
-                        <li><Link to={`/profile/${user.username}`}><button id="profile">Profile</button></Link></li>
-                        {user.rank === 1 && <li><Link to="/admin/1"><button className="adminButton" id="admin">Admin</button></Link></li>}
-                        <li><button id="LogOut" onClick={logout}>Log Out</button></li>
-                    </ul>
-                </div>
-            ) : (
-                <div className={`menu-lateral ${showMenu ? 'animation' : ''}`}>
-                    <ul>
-                        <li><Link to="/SignUp"><button id="register">Sign Up</button></Link></li>
-                        <li><Link to="/LogIn"><button id="LogIn">Log In</button></Link></li>
-                    </ul>
-                </div>
-            )}
-        </header>
-    );
+    
+
+return (
+  <header id="header">
+    <h1 style={{position: showMenu ? '' : "fixed"}} id="fixedHeader" className={isScrolled ? 'scrolled' : ''} >
+      <div>
+        <input onClick={(e) => 
+                        {console.log("hamburguer"); 
+                        setShowMenu(true); 
+                        console.log(showMenu);
+                        e.stopPropagation();
+        }} type="checkbox" id="hamburger" />
+        <label className="hamburger" htmlFor="hamburger"></label>
+        <Link to="/"><div className="name" id="nomeheader">Vintech</div></Link>
+      </div>
+      <div className="left-header">
+        <div className="header-left" id="search">
+          <input style={showSearchBar ? {display: 'block', opacity: 1} : {display: 'none'}}
+          type="text" id="searchInput" 
+          onKeyDown={(event) => {handleKeydownEvent(event, event.target.value)}}
+          onChange={(event) => handleWriteEvent(event.target.value)} placeholder="Search Products..." />
+          <div className="searchImgContainer">
+            <img src='/assets/search-svgrepo-com.svg' id="searchImg" 
+            style={showSearchBar ? {display: 'block'} : {display: 'none'}}/>
+          </div>
+        </div>
+        <div className="left-header">
+          {isLoggedIn ? (
+            <>
+              <button id="announce" onClick={() => navigate(`/Sell/${user.username}`)} className={isScrolled ? 'scrolled' : ''}>Sell a Product</button>
+              <div className="header-left" onClick={() => navigate(`/cart/${user.username}`)}><img src='/assets/shopcart.svg' /></div>
+              <div className="header-left" id="perfil">
+                <Link to={`/profile/${user.username}`} onClick={(e) => {
+                  if (!isLoggedIn) {
+                    e.preventDefault();
+                    navigate('/Login');
+                  }
+                }}><img src='/assets/profile-1341-svgrepo-com.svg' alt="Profile" /></Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <button id="announce" onClick={() => navigate('/Login')} className={isScrolled ? 'scrolled' : ''}> Sell a Product</button>
+              <div className="header-left" onClick={() => navigate('/LogIn')}><img src='/assets/shopcart.svg' /></div>
+              <div className="header-left" id="perfil"><Link to="/LogIn"><img src='/assets/profile-1341-svgrepo-com.svg'/></Link></div>
+            </>
+          )}
+        </div>
+      </div>
+    </h1>
+    {isLoggedIn ? (
+      <div className={`menu-lateral ${showMenu ? 'animation' : ''}`}>
+        <ul>
+          <li><Link to={`/profile/${user.username}`}><button id="profile">Profile</button></Link></li>
+          {user.rank === 1 && <li><Link to="/admin/1"><button className="adminButton" id="admin">Admin</button></Link></li>}
+          <li><button id="LogOut" onClick={logout}>Log Out</button></li>
+        </ul>
+      </div>
+    ) : (
+      <div className={`menu-lateral ${showMenu ? 'animation' : ''}`}>
+        <ul>
+          <li><Link to="/SignUp"><button id="register">Sign Up</button></Link></li>
+          <li><Link to="/LogIn"><button id="LogIn">Log In</button></Link></li>
+        </ul>
+      </div>
+    )}
+  </header>
+);
 }
 
-export default Header;
 
+export default Header;
