@@ -87,4 +87,19 @@ orders.get('/sales/:userId', async (req, res) => {
 }
 );
 
+orders.delete('/delete/:id', async (req, res) => {
+    try {
+        const order = await Order.findByPk(req.params.id);
+        if(!order){
+            res.status(404).json({error: 'Order not found'});
+            return;
+        }
+        await order.destroy();
+        res.status(200).json(order);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+);
+
 module.exports = orders;

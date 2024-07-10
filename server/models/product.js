@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static async getProductsFromUser(sellerId) {
       return await this.findAll({ where: { sellerId },
-                                  include: { model: sequelize.models.User, as: 'seller' }});
+      include: { model: sequelize.models.User, as: 'seller' }});
     }
 
     static async countProductsFromUser(sellerId) {

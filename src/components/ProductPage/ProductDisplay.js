@@ -4,93 +4,81 @@ import './productPage.css';
 import '../../common.css';
 
 
-const ProductDisplay = ({ user }) => {
+const ProductDisplay = ({ user, cartProducts }) => {
 
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [seller, setSeller] = useState(null);
   const [nextProductId, setNextProductId] = useState(null);
   const [prevProductId, setPrevProductId] = useState(null);
-  const [inCart, setInCart] = useState(false);
+  const [inCart, setInCart] = useState(cartProducts.some(cartProduct => cartProduct.productId === product.id));
+  console.log("inCart: ", inCart);
+
   const navigate = useNavigate();
 
   const [confirmDelete, setConfirmDelete] = useState(false);
 
     
 
-  useEffect(() => {
-    fetch('http://localhost:4005/api/products/' + id)
-    .then(res => {
-        if (!res.ok) {
-        throw new Error('HTTP error ' + res.status);
-    }
-        return res.json();
-    })
-    .then(data => {
-        setProduct(data);
-    })
-    .catch(error => {
-        console.error('Fetch failed:', error);
-    });
-  }, [id]);
-
-
-
-  useEffect(() => {
-    if (product) {
-      fetch('http://localhost:4005/api/users/id/' + product.sellerId)
-      .then(res => {
-          if (!res.ok) {
-          throw new Error('HTTP error ' + res.status);
-      }
-          return res.json();
-      })
-      .then(data => {
-          setSeller(data);
-      })
-      .catch(error => {
-          console.error('Fetch failed:', error);
-      });
-    }
-  }, [id, product]);
+const fetchData = async (url, setter) => {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP error ' + res.status);
+  const data = await res.json();
+  setter(data);
+};
 
 useEffect(() => {
-    if (product) {
-        Promise.all([
-        fetch('http://localhost:4005/api/products/' + product.id + '/next'),
-        fetch('http://localhost:4005/api/products/' + product.id + '/previous')
-        ])
-        .then(([res1, res2]) => {
-            if (!res1.ok || !res2.ok) {
-            throw new Error('HTTP error ' + res1.status + ' ' + res2.status);
-            }
-            return Promise.all([res1.json(), res2.json()]);
-        })
-        .then(([data1, data2]) => {
-            setNextProductId(data1 ? data1.id : null);
-            setPrevProductId(data2 ? data2.id : null);
-        })
-        .catch(error => {
-            console.error('Fetch failed:', error);
-        });
-    }
-}, [id, product]);
+  fetchData('http://localhost:4005/api/products/' + id, setProduct)
+    .catch(error => console.error('Fetch failed:', error));
+}, [id]);
+
+useEffect(() => {
+  if (product) {
+    fetchData('http://localhost:4005/api/users/id/' + product.sellerId, setSeller)
+      .catch(error => console.error('Fetch failed:', error));
+  }
+}, [product]);
+
+useEffect(() => {
+  if (product) {
+    Promise.all([
+      fetch('http://localhost:4005/api/products/' + product.id + '/next'),
+      fetch('http://localhost:4005/api/products/' + product.id + '/previous')
+    ])
+    .then(([res1, res2]) => {
+      if (!res1.ok || !res2.ok) {
+        throw new Error('HTTP error ' + res1.status + ' ' + res2.status);
+      }
+      return Promise.all([res1.json(), res2.json()]);
+    })
+    .then(([data1, data2]) => {
+      setNextProductId(data1 ? data1.id : null);
+      setPrevProductId(data2 ? data2.id : null);
+    })
+    .catch(error => {
+      console.error('Fetch failed:', error);
+    });
+
+    setInCart(cartProducts.some(cartProduct => cartProduct.productId === product.id));
+  }
+}, [product, cartProducts]);
 
     console.log("product ids: ", prevProductId, nextProductId);
     console.log(product);
 
-  useEffect(() => {
-    // Fetch product, seller, nextProductId, prevProductId, and inCart status here
-    // and update the state variables using the set functions
-  }, [id]);
-
-  if (!product || !seller) {
+  if (!product || !seller ) {
     return <div>Loading...</div>;
   }
+
+
+
 
   const handleBuy = () => {
     // Add your logic for buying the product here
   };
+
+
+
 
   const handleAddToCart = () => {
     const data = {
@@ -121,9 +109,18 @@ useEffect(() => {
 
   };
 
+
+
+
+
   const handleEditProduct = () => {
     navigate(`/edit/${product.id}`);
+    
   };
+
+
+
+
 
   const handleUnlistProduct = async () => {
     if(!confirmDelete){
@@ -156,6 +153,9 @@ useEffect(() => {
 
   };
 
+
+
+  
   return (
     <span>
     <div id="containerProduct">
@@ -163,7 +163,10 @@ useEffect(() => {
         <button
           className="nextProduct"
           id="back"
-          onClick={() => navigate(`/product/${prevProductId}`)}
+          onClick={() => {
+            navigate(`/product/${prevProductId}`);
+            setInCart(cartProducts.some(cartProduct => cartProduct.id === prevProductId));
+          }}
         />
       )}
       <section id="s1">
@@ -214,8 +217,11 @@ useEffect(() => {
         <button
           className="nextProduct"
           id="next"
-          onClick={() => navigate(`/product/${nextProductId}`)}
-        />
+          onClick={() => {
+            navigate(`/product/${nextProductId}`);
+            setInCart(cartProducts.some(cartProduct => cartProduct.id === nextProductId));
+          }}        
+          />
       )}
       </div>
       <div style={{marginTop: '21em'}}

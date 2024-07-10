@@ -13,55 +13,40 @@ const ProductPage = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-      const fetchUser = async () => {
-      try {
-          const usuario = await loggedUser;
-          setCurrentUser(usuario);
-      } catch (error) {
-          console.error('Failed to fetch user:', error);
-      }
-      };
+  const [cartProducts, setCartProducts] = useState([]);
 
-      fetchUser();
-    }, [loggedUser]);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-        if (loggedUser) {
-            const res = await fetch(`http://localhost:4005/api/users/id/${loggedUser.id}`);
-            if (!res.ok) throw new Error('HTTP error ' + res.status);
-            const data = await res.json();
-            setCurrentUser(data);
-            localStorage.setItem('currentUser', JSON.stringify(data));
-        }
-    };
+// Define a helper function to handle fetch requests
+const fetchData = async (url, setter) => {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP error ' + res.status);
+  const data = await res.json();
+  setter(data);
+};
 
-    Promise.all([fetchUser()])
-        .then(() => setLoading(false)) 
-        .catch(error => console.error('Fetch failed:', error));
-}, []);
+useEffect(() => {
+  if (loggedUser) {
+    fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser)
+      .catch(error => console.error('Fetch failed:', error))
+      .finally(() => setLoading(false));
+  }
+}, [loggedUser]);
 
-  const { id } = useParams();
-  const [produto, setProduto] = useState(null);
+const { id } = useParams();
+const [produto, setProduto] = useState(null);
 
-useEffect (() => {
-  fetch(`http://localhost:4005/api/products/${id}`)
-  .then(res => {
-    if (!res.ok) { 
-      throw new Error('HTTP error ' + res.status);
-    }
-    return res.json();
-  })
-  .then(data => {
-    setProduto(data);
-  })
-  .catch(error => {
-    console.error('Fetch failed:', error);
-    // You could set produtos to a default value here if needed
-  });
-}, []);
+useEffect(() => {
+  fetchData(`http://localhost:4005/api/products/${id}`, setProduto)
+    .catch(error => console.error('Fetch failed:', error));
+}, [id]);
 
+useEffect(() => {
+  if (currentUser) {
+    fetchData(`http://localhost:4005/api/orders/cart/${currentUser.id}`, setCartProducts)
+      .catch(error => console.error('Fetch failed:', error))
+      .finally(() => setLoading(false));
+  }
+}, [currentUser]);
   
   //////////////////////////////////////
 
@@ -88,10 +73,13 @@ useEffect (() => {
   if (loading) return <div>Loading...</div>; // Show a loading message while loading
 
 
+  console.log("cart: ")
+  console.log(cartProducts);
+
   return (
       <div>
         <Header isLoggedIn={currentUser} user={currentUser}/>
-        <ProductDisplay user={currentUser} categorias={categorias}/>
+        <ProductDisplay user={currentUser} cartProducts={cartProducts}/>
         <RelatedProducts />
         <Footer />
       </div>

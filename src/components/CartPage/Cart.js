@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Cart = ({ session, orders }) => {
+const Cart = ({ session, orders, setOrders }) => {
   const [isFirstProduct, setIsFirstProduct] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [shippingMethod, setShippingMethod] = useState('');
@@ -30,7 +30,31 @@ const Cart = ({ session, orders }) => {
     setTotal(totalPrice.toFixed(2));
     setCount(productCount);
     setUser(1);
+
   }, [orders]);
+
+
+  const handleRemove = async (event) => {
+    const orderid = event.target.getAttribute('data-orderid');
+
+    const response = await fetch(`http://localhost:4005/api/orders/delete/${orderid}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const updatedOrders = orders.filter(order => order.id !== parseInt(orderid));
+      console.log(updatedOrders);
+      setOrders(updatedOrders);
+    }
+    else {
+      console.error('HTTP error ' + response.status);
+    }
+
+  }
+
 
   const showForm = (formId) => {
     const forms = ['mbWayForm', 'creditCardForm', 'ATMForm'];
@@ -72,7 +96,9 @@ const Cart = ({ session, orders }) => {
                           data-price={order.Product.price}
                           data-productid={order.Product.id}
                           data-buyerid={user ? user.username : ''}
+                          data-orderid={order.id}
                           className="removeButton"
+                          onClick={(event) => {handleRemove(event)}}
                         >
                           Remove from Cart
                         </button>
