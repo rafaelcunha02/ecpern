@@ -4,6 +4,7 @@ const Cart = ({ session, orders, setOrders }) => {
   const [isFirstProduct, setIsFirstProduct] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [shippingMethod, setShippingMethod] = useState('');
+  const [shippingPrice, setShippingPrice] = useState(0);
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(0);
   const [user, setUser] = useState(null);
@@ -138,12 +139,12 @@ const Cart = ({ session, orders, setOrders }) => {
           <div id="second" className="topFlex">
             <div>Shipping</div>
             <div></div>
-            <div className="shippingPrice" id="shipping">$0.00</div>
+            <div className="shippingPrice" id="shipping">${shippingPrice}</div>
           </div>
           <div className="topFlex" id="finalPrice">
             <div>FINAL PRICE</div>
             <div></div>
-            <div id="finalPriceValue">${total}</div>
+            <div id="finalPriceValue">${Number(total) + Number(shippingPrice)}</div>
           </div>
           <div id="buttonDiv">
             <button onClick={() => scrollToSection2()} data-productslength={count} id="checkoutButton">Checkout</button>
@@ -221,17 +222,29 @@ const Cart = ({ session, orders, setOrders }) => {
               <div className="shippingMethods">
                 <h3>Choose a Shipping Method</h3>
                 <div className="radioinputs">
-                  <input type="radio" id="expressDelivery" name="shippingMethod" value="expressDelivery" />
+                  <input 
+                  onChange = {() => {
+                    setShippingPrice(10*orders.length);
+                  }}
+                  type="radio" id="expressDelivery" name="shippingMethod" value="expressDelivery" />
                   <label htmlFor="expressDelivery">Express Delivery - Additional $10 per product</label>
                   <br />
                 </div>
                 <div className="radioinputs">
-                  <input type="radio" id="standardShipping" name="shippingMethod" value="standardShipping" />
+                  <input 
+                  onChange = {() => {
+                    setShippingPrice(5*orders.length);
+                  }}
+                  type="radio" id="standardShipping" name="shippingMethod" value="standardShipping" />
                   <label htmlFor="standardShipping">Standard Shipping - Additional $5 per product</label>
                   <br />
                 </div>
                 <div className="radioinputs">
-                  <input type="radio" id="economyShipping" name="shippingMethod" value="economyShipping" />
+                  <input
+                  onChange = {() => {
+                    setShippingPrice(2*orders.length);
+                  }}
+                  type="radio" id="economyShipping" name="shippingMethod" value="economyShipping" />
                   <label htmlFor="economyShipping">Economy Shipping - Additional $2 per product</label>
                   <br />
                 </div>
@@ -259,12 +272,12 @@ const Cart = ({ session, orders, setOrders }) => {
           <div id="second" className="topFlex">
             <div>Shipping</div>
             <div></div>
-            <div className="shippingPrice" id="shipping">$0.00</div>
+            <div className="shippingPrice" id="shipping">${shippingPrice}</div>
           </div>
           <div className="topFlex" id="finalPrice">
             <div>FINAL PRICE</div>
             <div></div>
-            <div id="finalPriceValue" className="finalPriceValue">${total}</div>
+            <div id="finalPriceValue" className="finalPriceValue">${Number(total) + Number(shippingPrice)}</div>
           </div>
           <div id="buttonDiv">
             <button data-buyerid={user ? user.username : ''} id="payButton">PAY</button>
