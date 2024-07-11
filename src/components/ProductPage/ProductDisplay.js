@@ -11,8 +11,7 @@ const ProductDisplay = ({ user, cartProducts }) => {
   const [seller, setSeller] = useState(null);
   const [nextProductId, setNextProductId] = useState(null);
   const [prevProductId, setPrevProductId] = useState(null);
-  const [inCart, setInCart] = useState(cartProducts.some(cartProduct => cartProduct.productId === product.id));
-  console.log("inCart: ", inCart);
+  const [inCart, setInCart] = useState(false);
 
   const navigate = useNavigate();
 

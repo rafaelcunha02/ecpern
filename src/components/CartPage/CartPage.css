@@ -84,7 +84,7 @@ body{
 }
 
 
-.infoList{
+.infoLista{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -96,7 +96,7 @@ body{
         margin: 0;
     }
     a{
-        color: black;
+        color: #007BFF;
         transition: all 0.3s ease;
     }
     a:hover{
@@ -107,12 +107,12 @@ body{
     }
 }
 
-.infoList div:nth-child(1),
-.infoList div:nth-child(2) {
+.infoLista div:nth-child(1),
+.infoLista div:nth-child(2) {
     flex: 0.8;
 }
 
-.infoList div:nth-child(3) {
+.infoLista div:nth-child(3) {
     flex: 0;
 }
 
@@ -280,7 +280,7 @@ form#mbWay {
     margin-bottom: 2em;
 }
 
-form label {
+.cartForms label {
     display: block;
     font-size: 0.875em;
     color: #666;
@@ -291,7 +291,7 @@ form label {
     display: flex;
 }
 
-form input[type="text"], select {
+.cartForms input[type="text"], select {
     width: 100%;
     padding: 0.625em;
     border: 0.0625em solid #ccc;
@@ -301,14 +301,14 @@ form input[type="text"], select {
     margin-bottom: 1em;
 }
 
-form input[type="text"]:focus {
+.cartForms input[type="text"]:focus {
     border-color: #007BFF;
     outline: none;
 }
 
 
 
-form input[type="submit"] {
+.cartForms input[type="submit"] {
     display: block;
     width: 100%;
     padding: 0.625em;
@@ -321,7 +321,7 @@ form input[type="submit"] {
     box-sizing: border-box;
 }
 
-form input[type="submit"]:hover {
+.cartForms input[type="submit"]:hover {
     background-color: #0056b3;
 }
 

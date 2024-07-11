@@ -41,19 +41,22 @@ h1#register {
     margin-top: 0;
 }
 
-input#username, input#password, input#email, input#firstName, input#lastName {
-    font-weight: bold;
-    width: 100%;
-    border: 1px solid #ddd;
-    padding-top: 1em;
-    margin: 0;
-    padding-bottom: 1em;
-    margin-bottom: 2em;
-    padding-left: 1em;
-    border-radius: 3px;
-}
-input::placeholder {
-    color: #a9a9a9;
+
+#signUpForm{
+    input#username, input#password, input#email, input#firstName, input#lastName {
+        font-weight: bold;
+        width: 100%;
+        border: 1px solid #ddd;
+        padding-top: 1em;
+        margin: 0;
+        padding-bottom: 1em;
+        margin-bottom: 2em;
+        padding-left: 1em;
+        border-radius: 3px;
+    }
+    input::placeholder {
+        color: #a9a9a9;
+    }
 }
 
 button#signup {

@@ -84,7 +84,7 @@ const Cart = ({ session, orders, setOrders }) => {
                     <div id="imgproduct">
                       <img src={order.Product.imageUrl.startsWith('http') ? order.Product.imageUrl : `../${order.Product.imageUrl}`} alt={order.Product.name} />
                     </div>
-                    <div className="infoList">
+                    <div className="infoLista">
                       <h3>
                         <a id="productHref" href={`product.php?id=${order.Product.id}`} title={order.Product.name}>
                           {order.Product.name}
@@ -169,7 +169,7 @@ const Cart = ({ session, orders, setOrders }) => {
                   </label>
                   <br />
                 </div>
-                <form id="mbWayForm" style={{ display: 'none' }}>
+                <form className="cartForms" id="mbWayForm" style={{ display: 'none' }}>
                   <label htmlFor="phoneNumber">Phone Number:</label>
                   <input type="text" id="phoneNumber" name="phoneNumber" defaultValue="+351" required maxLength="13" />
                   <p style={{ marginTop: '0em' }} id="atmtext">Submit your payment through the MBWAY Mobile App in the next 24 hours.</p>
@@ -182,7 +182,7 @@ const Cart = ({ session, orders, setOrders }) => {
                     <img src="../assets/mastercard.svg" alt="mc" id="mcimg" />
                   </label>
                 </div>
-                <form id="creditCardForm" style={{ display: 'none' }}>
+                <form className="cartForms" id="creditCardForm" style={{ display: 'none' }}>
                   <label htmlFor="cardNumber">Card Number:</label>
                   <input type="text" id="cardNumber" name="cardNumber" required /><br />
                   <label htmlFor="expiryDate">Expiry Date:</label>
@@ -213,7 +213,7 @@ const Cart = ({ session, orders, setOrders }) => {
                   </label>
                   <br />
                 </div>
-                <form id="ATMForm" style={{ display: 'none' }}>
+                <form className="cartForms" id="ATMForm" style={{ display: 'none' }}>
                   <p id="atmtext">Proceed to an ATM within the next 24 hours to complete your payment.</p>
                 </form>
               </div>

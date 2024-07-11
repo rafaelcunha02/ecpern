@@ -9,7 +9,11 @@ import EditPage from './components/SellEditPage/EditPage';
 import CartPage from './components/CartPage/CartPage'
 import SignUpPage from './components/SignUp/SignUpPage';
 import LoginPage from './components/SignIn/SignInPage';
+import SettingsPage from './components/SettingsPage/SettingsPage';
+import CredentialsPage from './components/SettingsPage/CredentialsPage';
+import DeleteAccountPage from './components/SettingsPage/EditCredentials/DeleteAccountPage';
 import supabase from './Client';
+import DeleteAccountForm from './components/SettingsPage/EditCredentials/DeleteAccountForm';
 
 export const SupabaseContext = createContext();
 export const UserContext = createContext();
@@ -46,6 +50,11 @@ useEffect(() => {
             <Route path="Cart/:username?" element={<CartPage />} />
             <Route path="SignUp" element={<SignUpPage />} />
             <Route path="Login" element={<LoginPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="account" element={<CredentialsPage />} />
+            <Route path="account/email" element={<CredentialsPage />} />
+            <Route path="account/password" element={<CredentialsPage />} />
+            <Route path="account/delete" element={<DeleteAccountForm />} />
           </Routes>
         </Router>
       </UserContext.Provider>
