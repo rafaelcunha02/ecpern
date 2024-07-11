@@ -26,17 +26,17 @@ const EditEmailForm = ({ user, onSubmit }) => {
           )}
 
           <form onSubmit={handleSubmit}>
-            <div className="info-item">
+            <div className="info-items">
               <label htmlFor="newEmail">New E-mail</label>
               <input type="email"
                 id="newEmail" name="newEmail" onChange={e => setNewEmail(e.target.value)} />
             </div>
-            <div className="info-item">
+            <div className="info-items">
               <label htmlFor="repeatEmail">Confirm new E-mail</label>
               <input type="email"
                 id="repeatEmail" name="repeatEmail" onChange={e => setRepeatEmail(e.target.value)} />
             </div>
-            <div className="info-item">
+            <div className="info-items">
               <label htmlFor="Password">Password</label>
               <input type="password"
                 id="Password" name="Password" onChange={e => setPassword(e.target.value)} />

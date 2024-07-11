@@ -26,17 +26,17 @@ const EditPasswordForm = ({ user, onSubmit }) => {
           )}
 
           <form onSubmit={handleSubmit}>
-            <div className="info-item">
+            <div className="info-items">
               <label htmlFor="oldPassword">Current Password</label>
               <input type="password"
                 id="oldPassword" name="oldPassword" onChange={e => setOldPassword(e.target.value)} />
             </div>
-            <div className="info-item">
+            <div className="info-items">
               <label htmlFor="newPassword">New Password</label>
               <input type="password"
                 id="newPassword" name="newPassword" onChange={e => setNewPassword(e.target.value)} />
             </div>
-            <div className="info-item">
+            <div className="info-items">
               <label htmlFor="repeatPassword">Repeat Password</label>
               <input type="password"
                 id="repeatPassword" name="repeatPassword" onChange={e => setRepeatPassword(e.target.value)} />

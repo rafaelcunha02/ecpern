@@ -25,12 +25,12 @@ const DeleteAccountForm = ({ user, onSubmit }) => {
           )}
 
           <form onSubmit={handleSubmit}>
-            <div className="info-item">
+            <div className="info-items">
               <label htmlFor="password">Password</label>
               <input type="password"
                 id="password" name="password" onChange={e => setPassword(e.target.value)} />
             </div>
-            <div className="info-item">
+            <div className="info-items">
               <label htmlFor="repeatPassword">Repeat Password</label>
               <input type="password"
                 id="repeatPassword" name="repeatPassword" onChange={e => setRepeatPassword(e.target.value)} />

@@ -10,7 +10,7 @@ const EditCredentialsForm = ({ user }) => {
         <div className="profile-info">
           <h1>Manage Credentials</h1>
 
-          <Link to={`../account/delete`}>
+          <Link to={`../account/email`}>
             <div className="info-items">
               <label htmlFor="email">Change E-mail</label>
             </div>

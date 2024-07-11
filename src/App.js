@@ -12,8 +12,10 @@ import LoginPage from './components/SignIn/SignInPage';
 import SettingsPage from './components/SettingsPage/SettingsPage';
 import CredentialsPage from './components/SettingsPage/CredentialsPage';
 import DeleteAccountPage from './components/SettingsPage/EditCredentials/DeleteAccountPage';
+import EmailFormPage from './components/SettingsPage/EditCredentials/EmailFormPage';
+import PasswordFormPage from './components/SettingsPage/EditCredentials/PasswordFormPage';
+
 import supabase from './Client';
-import DeleteAccountForm from './components/SettingsPage/EditCredentials/DeleteAccountForm';
 
 export const SupabaseContext = createContext();
 export const UserContext = createContext();
@@ -52,9 +54,9 @@ useEffect(() => {
             <Route path="Login" element={<LoginPage />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="account" element={<CredentialsPage />} />
-            <Route path="account/email" element={<CredentialsPage />} />
-            <Route path="account/password" element={<CredentialsPage />} />
-            <Route path="account/delete" element={<DeleteAccountForm />} />
+            <Route path="account/email" element={<EmailFormPage />} />
+            <Route path="account/password" element={<PasswordFormPage />} />
+            <Route path="account/delete" element={<DeleteAccountPage />} />
           </Routes>
         </Router>
       </UserContext.Provider>
