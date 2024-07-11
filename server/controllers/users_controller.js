@@ -46,7 +46,20 @@ users.get('/:username', async (req, res) => {
 });
 
 
-
+users.post('/change-email', async (req, res) => {
+    try {
+        const user = await User.getUserById(req.body.id);
+        if (user) {
+            user.email = req.body.email;
+            await user.save();
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 
 
 

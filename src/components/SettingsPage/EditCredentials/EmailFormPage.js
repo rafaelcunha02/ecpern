@@ -42,6 +42,8 @@ useEffect(() => {
     if (loading || !loggedUser || !currentUser) return null;
     if (error) return <div>{error}</div>;
 
+    console.log("LOGADO: ");
+    console.log(loggedUser);
 
     return (
         <div>
