@@ -8,7 +8,7 @@ const SideMenu = ({ user }) => {
 
   return (
     <div id="sideOptions">
-      <h1>Settings</h1>
+      <h1 style={{textAlign:"left"}}>Settings</h1>
       <ul>
         <Link to={`/settings`} className={pathname === `/settings` ? 'active' : ''}>
           <li>Profile Settings</li>

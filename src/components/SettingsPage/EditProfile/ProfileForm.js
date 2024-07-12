@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import supabase from '../../../Client';
 
 const ProfileForm = ({ user, onSubmit }) => {
   const [username, setUsername] = useState(user.username);
@@ -6,10 +7,33 @@ const ProfileForm = ({ user, onSubmit }) => {
   const [lastName, setLastName] = useState(user.lastName);
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({ username, firstName, lastName });
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const { data, error } = await supabase
+      .from('Users')
+      .update({
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+      })
+      .eq('id', user.id);
+
+    if (error) {
+      console.error('Supabase update error:', error);
+      setErrors([`Supabase update error: ${JSON.stringify(error)}`]);
+      return;
+    }
+
+    console.log('Supabase update response:', data);
+
+    alert('Profile updated successfully');
+  } catch (error) {
+    console.error('Error:', error);
+    setErrors([`Error: ${JSON.stringify(error)}`]);
+  }
+};
 
   return (
     <div id="EditProfileContainer">

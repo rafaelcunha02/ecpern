@@ -208,7 +208,7 @@
     border-color: #eaeaea;
     padding: 1em;
     align-items: center;
-
+    transition: 0.3s ease;
     input{
         background-color: #f7fbfc;
         font-size: 100%;
@@ -230,6 +230,9 @@
     }
 }
 
+.info-items:hover{
+    background-color: #e6f2f5;
+}
 
 #change{
 
