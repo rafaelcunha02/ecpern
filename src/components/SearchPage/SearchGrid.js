@@ -1,15 +1,40 @@
 import React, { useState, useEffect } from 'react';
 
 
-function ProductsGridSearch({products, caracs, currentInput, currentCategory}) {
-  const [cartProducts, setCartProducts] = useState([]);
+function ProductsGridSearch({products, caracs, currentInput, currentCategory, cartProducts, currentUser}) {
   const [active, setActive] = useState([]);
   const [checked, setChecked] = useState({});
   const [countChecked, setCountChecked] = useState(0);
   const [typeToValues, setTypeToValues] = useState({});
   const [filteredTypes, setFilteredTypes] = useState({});
 
- 
+  const handleAddToCart = async (event, product) => {
+
+    const Data = {
+      productId: product.id,
+      buyerId: currentUser.id,
+      sellerId: product.sellerId,
+    };
+    fetch('http://localhost:4005/api/orders/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(Data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        let button = event.target;
+        button.innerHTML = "Added to Cart";
+        button.disabled = true;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+  };
+
 
   useEffect(() => {
     const mapa = {};
@@ -137,7 +162,7 @@ useEffect(() => {
           {products.map(product => {
             //if (session.id === product.SellerID || product.isAvailable === 0) return null;
 
-            let inCart = cartProducts.some(cartProduct => cartProduct.id === product.id);
+            let inCart = cartProducts.some(cartProduct => cartProduct.productId === product.id);
             return (
               <li 
               style=
@@ -159,6 +184,8 @@ useEffect(() => {
                     </button>
                   ) : (
                     <button className="cartButtonLp"
+                    onClick={(e) => handleAddToCart(e, product)}
+                    style={{top: "50%"}}
                       //data-productId={product.id}
                       //data-sessionId={session.id}
                       //data-sellerId={product.SellerID}

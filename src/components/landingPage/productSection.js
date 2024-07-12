@@ -2,9 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const ProductSection = ({ currentUser, cartProducts, products}) => {
+  
+  console.log(cartProducts);
+  console.log(cartProducts[0]);
+  
+  const handleAddToCart = async (event, product) => {
 
-  const handleAddToCart = (product) => {
-    // Implement your add to cart logic here
+    const Data = {
+      productId: product.id,
+      buyerId: currentUser.id,
+      sellerId: product.sellerId,
+    };
+    fetch('http://localhost:4005/api/orders/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(Data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        let button = event.target;
+        button.innerHTML = "Added to Cart";
+        button.disabled = true;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
   };
 
   const [showCounter, setShowCounter] = useState(10);
@@ -36,9 +62,9 @@ return (
                     data-sellerId={product.sellerId}
                     data-isAvailable={product.isAvailable}
                     //disabled={cartProducts.some(cartProduct => cartProduct.id === product.id)}
-                    onClick={() => handleAddToCart(product)}
+                    onClick={(event) => handleAddToCart(event, product)}
                   >
-                    {cartProducts.some(cartProduct => cartProduct.id === product.id) ? "Already in your Cart" : "Add to Cart"}
+                    {cartProducts.some(cartProduct => cartProduct.productId == product.id) ? "Already in your Cart" : "Add to Cart"}
                   </button>
                 )}
               </div>

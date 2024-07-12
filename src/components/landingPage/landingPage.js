@@ -11,7 +11,7 @@ import { UserContext } from '../../App';
 const LandingPage = () => {
 
   const [heroSearch, setHeroSearch] = React.useState('')
-
+  const [cartProducts, setCartProducts] = useState([]);
   //USER
   const loggedUser = React.useContext(UserContext);
   console.log("LOGGED USER: " + loggedUser)
@@ -96,14 +96,34 @@ useEffect (() => {
     });
   }, []);
 
+  useEffect (() => {
+    if(currentUser === null) return;
+    fetch(`http://localhost:4005/api/orders/cart/${currentUser.id}`)
+    .then(res => {
+      if (!res.ok) { 
+        console.log(res.status);
+        console.log(res);
+        throw new Error('HTTP error ' + res.status);
+      }
+      return res.json();
+    })
+    .then(data => {
+      setCartProducts(data);
+    })
+    .catch(error => {
+      console.error('Fetch failed:', error);
+    });
+  }, [currentUser]);
 
+  console.log("CART PRODUCTS: ");
+  console.log(cartProducts[0]);
 
   return (
       <div>
         <Header isLoggedIn={currentUser} user={currentUser}/>
         <HeroSection heroSearch={heroSearch} setHeroSearch={setHeroSearch}/>
         <CategorySection categories={categorias}/>
-        <ProductSection cartProducts={Array(produtos[0])} currentUser={currentUser} products={produtos}/>
+        <ProductSection cartProducts={cartProducts} currentUser={currentUser} products={produtos}/>
         <Footer />
       </div>
   );

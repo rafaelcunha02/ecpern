@@ -41,7 +41,6 @@ const EditEmailForm = ({ user }) => {
     }
   
     try {
-      // Fetch the authenticated user
       const { data: { user }, error: authError } = await supabase.auth.getUser();
       if (authError || !user) {
         throw new Error('User not authenticated');
@@ -53,7 +52,6 @@ const EditEmailForm = ({ user }) => {
   
       console.log('Current user data:', user);
   
-      // Sign in to verify current password
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: user.email,
         password: password,
