@@ -311,10 +311,11 @@ a{
   .hero-text{
       position: absolute;
       background-color: rgba(0, 0, 0, 0.5);
-      padding: 1em;
+      padding: 0.25em 1em;
       width: 40%;
       left: 50%;
       transform: translateX(-50%);
+      top: 13.5%;
       }
 
   .hero-input{
