@@ -24,6 +24,21 @@ function CommentSection({ user }) {
     fetchComments();
   }, [params.id, newComment]);
 
+  useEffect(() => {
+    const fetchReplies = async () => {
+      try {
+        const response = await fetch(`http://localhost:4005/api/replies/${params.id}`);
+        const data = await response.json();
+        setComments(data || []);
+      } catch (error) {
+        console.error('Failed to fetch replies:', error);
+      }
+    };
+  
+    fetchReplies();
+  }, [params.id], newReply); 
+
+
 
   useEffect(() => {
     const initialActiveReplies = comments.reduce((acc, comment) => {

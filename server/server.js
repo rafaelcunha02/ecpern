@@ -30,6 +30,10 @@ app.use('/api/orders', ordersController);
 const commentsController = require('./controllers/comments_controller');
 app.use('/api/comments', commentsController);
 
+const repliesController = require('./controllers/replies_controller');
+app.use('/api/replies', repliesController);
+
+
 // LISTEN 
 
 app.listen(4005, () => {
