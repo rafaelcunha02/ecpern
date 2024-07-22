@@ -5,6 +5,7 @@ import Footer from '../Footer/Footer';
 import './productPage.css';
 import ProductDisplay from './ProductDisplay';
 import RelatedProducts from './RelatedProducts';
+import CommentSection from './CommentSection';
 import {UserContext} from '../../App';
 
 
@@ -80,6 +81,7 @@ useEffect(() => {
       <div>
         <Header isLoggedIn={currentUser} user={currentUser}/>
         <ProductDisplay user={currentUser} cartProducts={cartProducts}/>
+        <CommentSection user={currentUser} />
         <RelatedProducts />
         <Footer />
       </div>
