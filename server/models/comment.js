@@ -13,9 +13,13 @@ module.exports = (sequelize, DataTypes) => {
       await this.save();
     }
 
-    static async getCommentsFromProduct(productId) {
-      return await this.findAll({ where: { productId: productId }, order: [['id', 'ASC']] });
-    }
+static async getCommentsFromProduct(productId) {
+    return await this.findAll({
+        where: { productId: productId },
+        order: [['id', 'ASC']],
+        include: sequelize.models.User
+    });
+}
 
     async delete() {
       await this.destroy();
@@ -34,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Comment',
     tableName: 'Comments',
-    timestamps: true,
+    timestamps: false,
   });
   return Comment;
 };

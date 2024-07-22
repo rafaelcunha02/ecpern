@@ -27,6 +27,8 @@ app.use('/api/caracs', caracsController);
 const ordersController = require('./controllers/orders_controller');
 app.use('/api/orders', ordersController);
 
+const commentsController = require('./controllers/comments_controller');
+app.use('/api/comments', commentsController);
 
 // LISTEN 
 

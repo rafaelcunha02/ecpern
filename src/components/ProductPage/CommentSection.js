@@ -6,18 +6,21 @@ function CommentSection({ user }) {
   const [content, setContent] = useState('');
   const params = useParams();
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState(false);
 
   useEffect(() => {
-    const fetchComments = async () => {
-      const { data } = await supabase
-        .from('Comments')
-        .select('id, authorId, content')
-        .eq('productId', params.id);
-      setComments(data  || []);
-    };
+  const fetchComments = async () => {
+    try {
+        const response = await fetch(`http://localhost:4005/api/comments/${params.id}`);
+        const data = await response.json();
+        setComments(data || []);
+    } catch (error) {
+        console.error('Failed to fetch comments:', error);
+    }
+};
 
     fetchComments();
-  }, [params.id, comments]);
+  }, [params.id, newComment]);
 
   const publishComment = (event) => {
     event.preventDefault();
@@ -28,12 +31,11 @@ function CommentSection({ user }) {
             productId: params.id,
             authorId: user.id,
             content: content,
-
         },
         ]).then(() => {
         setContent('');
         });
-
+    setNewComment(!newComment);
   };
 
   const toggleReplies = (event) => {
@@ -64,7 +66,7 @@ function CommentSection({ user }) {
 
       <ul id="commented">
         {comments.map((comment) => {
-          const user = {}; // Fetch user data here
+          const user = comment.User; // Fetch user data here
           return (
             <li key={comment.commentID}>
               <img src="../assets/placeholder-1-1.webp" alt="User" />
