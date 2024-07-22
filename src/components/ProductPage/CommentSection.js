@@ -8,6 +8,7 @@ function CommentSection({ user }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState(false);
   const [activeReply, setActiveReply] = useState({});
+  const [newReply, setNewReply] = useState(false);
 
   useEffect(() => {
   const fetchComments = async () => {
@@ -32,6 +33,8 @@ function CommentSection({ user }) {
     setActiveReply(initialActiveReplies);
   }, [comments]);
 
+
+
   const publishComment = (event) => {
     event.preventDefault();
     
@@ -48,6 +51,23 @@ function CommentSection({ user }) {
     setNewComment(!newComment);
   };
 
+
+  const publishReply = (event, idComment) => {
+    event.preventDefault();
+  
+  supabase.from('Replies').insert([
+      {
+          commentId: idComment,
+          authorId: user.id,
+          replyText: content,
+      },
+      ]).then(() => {
+      setContent('');
+      });
+  setNewReply(!newReply);
+  }
+
+
   const toggleReplies = (event) => {
     // Handle replies here
   }
@@ -59,9 +79,7 @@ function CommentSection({ user }) {
     }));
   };
   
-    const publishReply = (event) => {
-    // Handle reply publishing here
-    }
+
 
 
 
@@ -100,11 +118,12 @@ return (
                   <button className="responder" onClick={() => toggleActiveReply(comment.id)}>
                     Reply
                   </button>
-                  <form id="replyForm" className="commentForm" onSubmit={publishReply} style={{display : activeReply[comment.id] ? "flex" : "none"}}>
+                  <form id="replyForm" className="commentForm" onSubmit={(e) => publishReply(e, comment.id)} style={{display : activeReply[comment.id] ? "flex" : "none"}}>
                     <textarea
                       name="replyContent"
                       id="replyContent"
                       placeholder="Reply to this Question..."
+                      onChange={(e) => setContent(e.target.value)}
                     />
                     <button id="replySubmit" type="submit">
                       Submit
