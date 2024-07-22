@@ -301,7 +301,6 @@ h1 {
         resize: none;
         border: none;
         background-color: transparent;
-        height: 2em;
         border-bottom-style: solid;
         border-bottom-width: 0.1em;
     }

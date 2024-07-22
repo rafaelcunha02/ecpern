@@ -7,6 +7,7 @@ function CommentSection({ user }) {
   const params = useParams();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState(false);
+  const [activeReply, setActiveReply] = useState({});
 
   useEffect(() => {
   const fetchComments = async () => {
@@ -21,6 +22,15 @@ function CommentSection({ user }) {
 
     fetchComments();
   }, [params.id, newComment]);
+
+
+  useEffect(() => {
+    const initialActiveReplies = comments.reduce((acc, comment) => {
+      acc[comment.id] = false;
+      return acc;
+    }, {});
+    setActiveReply(initialActiveReplies);
+  }, [comments]);
 
   const publishComment = (event) => {
     event.preventDefault();
@@ -42,13 +52,18 @@ function CommentSection({ user }) {
     // Handle replies here
   }
 
-    const toggleReplyForm = (event) => {
-    // Handle reply form here
-    }
+  const toggleActiveReply = (commentId) => {
+    setActiveReply(prevActiveReplies => ({
+      ...prevActiveReplies,
+      [commentId]: !prevActiveReplies[commentId]
+    }));
+  };
   
     const publishReply = (event) => {
     // Handle reply publishing here
     }
+
+
 
 return (
   <section id="comments">
@@ -82,10 +97,10 @@ return (
 
               {user && (
                 <div>
-                  <button className="responder" onClick={toggleReplyForm}>
+                  <button className="responder" onClick={() => toggleActiveReply(comment.id)}>
                     Reply
                   </button>
-                  <form id="replyForm" className="commentForm" onSubmit={publishReply}>
+                  <form id="replyForm" className="commentForm" onSubmit={publishReply} style={{display : activeReply[comment.id] ? "flex" : "none"}}>
                     <textarea
                       name="replyContent"
                       id="replyContent"
@@ -100,7 +115,7 @@ return (
 
               <div>
                 <button className="seeReplies" onClick={toggleReplies}>
-                  <span>&#x25BC;</span> Replies
+                  <span>&#x25BC;</span> See replies
                 </button>
               </div>
               <div className="replies">
