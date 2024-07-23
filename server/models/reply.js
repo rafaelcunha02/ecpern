@@ -14,7 +14,16 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async getRepliesFromComment(commentId) {
-      return await this.findAll({ where: { commentId: commentId }, order: [['id', 'ASC']] });
+      try {
+        return await this.findAll({ 
+          where: { commentId: commentId },
+          order: [['id', 'ASC']],
+          include: sequelize.models.User
+        });
+      } catch (error) {
+        console.error('Error fetching replies:', error);
+        throw error;
+      }
     }
 
     async delete() {

@@ -8,8 +8,9 @@ function CommentSection({ user }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState(false);
   const [activeReply, setActiveReply] = useState({});
+  const [activeSeeReply, setActiveSeeReply] = useState({});
+  const [replyContent, setReplyContent] = useState({}); 
   const [newReply, setNewReply] = useState(false);
-
   const [commentsFetched, setCommentsFetched] = useState(false);
 
   useEffect(() => {
@@ -18,41 +19,42 @@ function CommentSection({ user }) {
         const response = await fetch(`http://localhost:4005/api/comments/${params.id}`);
         const data = await response.json();
         setComments(data || []);
-        setCommentsFetched(true); 
+        setCommentsFetched(true);
       } catch (error) {
         console.error('Failed to fetch comments:', error);
       }
     };
-  
+
     fetchComments();
   }, [params.id, newComment]);
-  
-  useEffect(() => {
-    const fetchReplies = async () => {
-      try {
-        const promises = comments.map(comment =>
-          fetch(`http://localhost:4005/api/replies/${comment.id}`)
-            .then(response => response.json())
-            .then(repliesData => ({ commentId: comment.id, repliesData }))
-            .catch(error => console.error(`Failed to fetch replies for comment ${comment.id}:`, error))
-        );
-  
-        const results = await Promise.all(promises);
-  
-        setComments(currentComments =>
-          currentComments.map(comment => ({
-            ...comment,
-            replies: results.find(result => result && result.commentId === comment.id)?.repliesData || []
-          }))
-        );
-      } catch (error) {
-        console.error('Failed to fetch replies:', error);
-      }
-    };
-  
-    fetchReplies();
-  }, [params.id, newReply, comments]);
 
+  useEffect(() => {
+    if (comments) {
+      const fetchReplies = async () => {
+        try {
+          const promises = comments.map(comment =>
+            fetch(`http://localhost:4005/api/replies/${comment.id}`)
+              .then(response => response.json())
+              .then(repliesData => ({ commentId: comment.id, repliesData }))
+              .catch(error => console.error(`Failed to fetch replies for comment ${comment.id}:`, error))
+          );
+
+          const results = await Promise.all(promises);
+
+          setComments(currentComments =>
+            currentComments.map(comment => ({
+              ...comment,
+              replies: results.find(result => result && result.commentId === comment.id)?.repliesData || []
+            }))
+          );
+        } catch (error) {
+          console.error('Failed to fetch replies:', error);
+        }
+      };
+
+      fetchReplies();
+    }
+  }, [params.id, newReply, commentsFetched]);
 
   useEffect(() => {
     const initialActiveReplies = comments.reduce((acc, comment) => {
@@ -60,46 +62,50 @@ function CommentSection({ user }) {
       return acc;
     }, {});
     setActiveReply(initialActiveReplies);
+    setActiveSeeReply(initialActiveReplies);
   }, [comments]);
-
-
 
   const publishComment = (event) => {
     event.preventDefault();
-    
-    supabase.from('Comments').insert([
 
-        {
-            productId: params.id,
-            authorId: user.id,
-            content: content,
-        },
-        ]).then(() => {
-        setContent('');
-        });
+    supabase.from('Comments').insert([
+      {
+        productId: params.id,
+        authorId: user.id,
+        content: content,
+      },
+    ]).then(() => {
+      setContent('');
+    });
     setNewComment(!newComment);
   };
 
+  const handleReplyChange = (commentId, value) => {
+    setReplyContent(prev => ({ ...prev, [commentId]: value }));
+  };
 
-  const publishReply = (event, idComment) => {
+  const publishReply = (event, commentId) => {
     event.preventDefault();
-  
-  supabase.from('Replies').insert([
+    const replyText = replyContent[commentId] || '';
+
+    supabase.from('Replies').insert([
       {
-          commentId: idComment,
-          authorId: user.id,
-          replyText: content,
+        commentId: commentId,
+        authorId: user.id,
+        replyText: replyText,
       },
-      ]).then(() => {
-      setContent('');
-      });
-  setNewReply(!newReply);
-  }
+    ]).then(() => {
+      setReplyContent(prev => ({ ...prev, [commentId]: '' })); 
+    });
+    setNewReply(!newReply);
+  };
 
-
-  const toggleReplies = (event) => {
-    // Handle replies here
-  }
+  const toggleReplies = (event, commentId) => {
+    setActiveSeeReply(prevActiveSeeReplies => ({
+      ...prevActiveSeeReplies,
+      [commentId]: !prevActiveSeeReplies[commentId]
+    }));
+  };
 
   const toggleActiveReply = (commentId) => {
     setActiveReply(prevActiveReplies => ({
@@ -107,10 +113,6 @@ function CommentSection({ user }) {
       [commentId]: !prevActiveReplies[commentId]
     }));
   };
-  
-
-
-
 
   return (
     <section id="comments">
@@ -129,10 +131,10 @@ function CommentSection({ user }) {
           </button>
         </form>
       )}
-  
+
       <ul id="commented">
         {comments.map((comment) => {
-          const user = comment.User; // Fetch user data here
+          const user = comment.User;
           return (
             <li key={comment.id}>
               <img src="../assets/placeholder-1-1.webp" alt="User" />
@@ -141,18 +143,19 @@ function CommentSection({ user }) {
                   {user.firstName} {user.lastName}
                 </div>
                 <div className="commentContent">{comment.content}</div>
-  
+
                 {user && (
                   <div>
                     <button className="responder" onClick={() => toggleActiveReply(comment.id)}>
                       Reply
                     </button>
-                    <form id={`replyForm-${comment.id}`} className="commentForm" onSubmit={(e) => publishReply(e, comment.id)} style={{display : activeReply[comment.id] ? "flex" : "none"}}>
+                    <form id={`replyForm-${comment.id}`} className="commentForm" onSubmit={(e) => publishReply(e, comment.id)} style={{ display: activeReply[comment.id] ? "flex" : "none" }}>
                       <textarea
                         name="replyContent"
                         id={`replyContent-${comment.id}`}
                         placeholder="Reply to this Question..."
-                        onChange={(e) => setContent(e.target.value)}
+                        value={replyContent[comment.id] || ''}
+                        onChange={(e) => handleReplyChange(comment.id, e.target.value)}
                       />
                       <button id={`replySubmit-${comment.id}`} type="submit">
                         Submit
@@ -160,19 +163,18 @@ function CommentSection({ user }) {
                     </form>
                   </div>
                 )}
-  
+
                 <div>
-                  <button className="seeReplies" onClick={() => toggleReplies(comment.id)}>
-                    <span>&#x25BC;</span> See replies
+                  <button className="seeReplies" onClick={(e) => toggleReplies(e, comment.id)}>
+                    <span>{activeSeeReply[comment.id] ? "▲" : "▼"}</span> See replies
                   </button>
                 </div>
-                <div className="replies" style={{ display: activeReply[comment.id] ? "block" : "block" }}>
+                <div className="replies" style={{ display: activeSeeReply[comment.id] ? "block" : "none" }}>
                   {comment.replies && comment.replies.map((reply) => (
-                    console.log(reply),
                     <div key={reply.id} className="reply">
                       <img src="../assets/placeholder-1-1.webp" alt="User" />
                       <div className="comment">
-                        <div className="commentUser">{reply.authorId} {reply.authorId}</div>
+                        <div className="commentUser">{reply.User.firstName} {reply.User.lastName}</div>
                         <div className="commentContent">{reply.replyText}</div>
                       </div>
                     </div>
