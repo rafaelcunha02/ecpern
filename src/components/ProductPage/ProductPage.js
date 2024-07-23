@@ -74,8 +74,7 @@ useEffect(() => {
   if (loading) return <div>Loading...</div>; // Show a loading message while loading
 
 
-  console.log("cart: ")
-  console.log(cartProducts);
+
 
   return (
       <div>

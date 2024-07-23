@@ -62,8 +62,6 @@ useEffect(() => {
   }
 }, [product, cartProducts]);
 
-    console.log("product ids: ", prevProductId, nextProductId);
-    console.log(product);
 
   if (!product || !seller ) {
     return <div>Loading...</div>;
@@ -130,7 +128,6 @@ useEffect(() => {
     const data = {
       id: product.id
     }
-    console.log(data);
 
     const response = await fetch('../api/products/delete',
       { 
