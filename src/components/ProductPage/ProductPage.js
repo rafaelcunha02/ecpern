@@ -6,85 +6,79 @@ import './productPage.css';
 import ProductDisplay from './ProductDisplay';
 import RelatedProducts from './RelatedProducts';
 import CommentSection from './CommentSection';
-import {UserContext} from '../../App';
-
+import { UserContext } from '../../App';
 
 const ProductPage = () => {
   const loggedUser = React.useContext(UserContext);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [cartProducts, setCartProducts] = useState([]);
-
-
-// Define a helper function to handle fetch requests
-const fetchData = async (url, setter) => {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('HTTP error ' + res.status);
-  const data = await res.json();
-  setter(data);
-};
-
-useEffect(() => {
-  if (loggedUser) {
-    fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser)
-      .catch(error => console.error('Fetch failed:', error))
-      .finally(() => setLoading(false));
-  }
-}, [loggedUser]);
-
-const { id } = useParams();
-const [produto, setProduto] = useState(null);
-
-useEffect(() => {
-  fetchData(`http://localhost:4005/api/products/${id}`, setProduto)
-    .catch(error => console.error('Fetch failed:', error));
-}, [id]);
-
-useEffect(() => {
-  if (currentUser) {
-    fetchData(`http://localhost:4005/api/orders/cart/${currentUser.id}`, setCartProducts)
-      .catch(error => console.error('Fetch failed:', error))
-      .finally(() => setLoading(false));
-  }
-}, [currentUser]);
-  
-  //////////////////////////////////////
-
-  //CATEGORIAS
-
   const [categorias, setCategorias] = useState([]);
+  const { id } = useParams();
+  const [produto, setProduto] = useState(null);
 
-  useEffect (() => {
+  // Helper function remains the same
+  const fetchData = async (url, setter) => {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP error ' + res.status);
+    const data = await res.json();
+    setter(data);
+  };
+
+  // Adjusted to handle null loggedUser
+  useEffect(() => {
+    if (loggedUser) {
+      fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser)
+        .catch(error => console.error('Fetch failed:', error))
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false); // Ensure loading is set to false even if no user is logged in
+    }
+  }, [loggedUser]);
+
+  // Fetch product details regardless of user login
+  useEffect(() => {
+    fetchData(`http://localhost:4005/api/products/${id}`, setProduto)
+      .catch(error => console.error('Fetch failed:', error));
+  }, [id]);
+
+  // Adjusted to handle null currentUser
+  useEffect(() => {
+    if (currentUser) {
+      fetchData(`http://localhost:4005/api/orders/cart/${currentUser.id}`, setCartProducts)
+        .catch(error => console.error('Fetch failed:', error))
+        .finally(() => setLoading(false));
+    }
+  }, [currentUser]);
+
+  // Fetch categories regardless of user login
+  useEffect(() => {
     fetch('http://localhost:4005/api/caracs/Categories')
-    .then(res => {
-      if (!res.ok) { 
-        throw new Error('HTTP error ' + res.status);
-      }
-      return res.json();
-    })
-    .then(data => {
-      setCategorias(data);
-    })
-    .catch(error => {
-      console.error('Fetch failed:', error);
-    });
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('HTTP error ' + res.status);
+        }
+        return res.json();
+      })
+      .then(data => {
+        setCategorias(data);
+      })
+      .catch(error => {
+        console.error('Fetch failed:', error);
+      });
   }, []);
 
-  if (loading) return <div>Loading...</div>; // Show a loading message while loading
-
-
-
+  if (loading) return <div>Loading...</div>;
 
   return (
-      <div>
-        <Header isLoggedIn={currentUser} user={currentUser}/>
-        <ProductDisplay user={currentUser} cartProducts={cartProducts}/>
-        <CommentSection user={currentUser} />
-        <RelatedProducts />
-        <Footer />
-      </div>
+    <div>
+      <Header isLoggedIn={currentUser} user={currentUser} />
+      <ProductDisplay user={currentUser} cartProducts={cartProducts} />
+      <CommentSection user={currentUser} />
+      <RelatedProducts />
+      <Footer />
+    </div>
   );
-}
+};
 
 export default ProductPage;
