@@ -266,8 +266,11 @@ useEffect(() => {
               }} 
                 id="productli" className="escolhido">
                 <div id="productImage">
-                  <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `/${product.imageUrl}`} alt={product.name} />                  {/*!session.isLoggedIn*/ false ? (
-                    <button className="cartButtonLp" onClick={() => window.location.href='../pages/LogIn.php'}>
+                  <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `/${product.imageUrl}`} alt={product.name} /> 
+                  {!currentUser ? (
+                    <button className="cartButtonLp"
+                    style={{top: "50%"}}
+                    onClick={() => window.location.href='../../LogIn'}>
                       Log In to Add to Cart
                     </button>
                   ) : (
@@ -283,9 +286,9 @@ useEffect(() => {
                     </button>
                   )}
                 </div>
-                <div id="productSeller">@<a id="productSeller" href={`../pages/profile.php?username=${product.seller.username}`}>{product.seller.username}</a></div>
+                <div id="productSeller">@<a id="productSeller" href={`../../profile/${product.seller.username}`}>{product.seller.username}</a></div>
                 <div>
-                  <div className="h3"><a id="productPage" href={`../pages/product.php?id=${product.id}`} title={product.name}>{product.name}</a></div>
+                  <div className="h3"><a id="productPage" href={`../../product/${product.id}`} title={product.name}>{product.name}</a></div>
                   <p className="description">{product.productDescription}</p>
                   <p>Condition: {product.condition}</p>
                   <p className="priceInGrid">${product.price}</p>
