@@ -194,6 +194,29 @@ p{
     margin: 0.5em;
 }
 
+#minPriceLabel, #maxPriceLabel {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#minPrice, #maxPrice {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+#minPrice:focus, #maxPrice:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
 .searchfilter{
     display: none !important;
 }
+

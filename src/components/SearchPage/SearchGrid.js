@@ -93,10 +93,9 @@ function ProductsGridSearch({products, caracs, currentInput, currentCategory, ca
 
 
 const handleCheck = (index, key) => {
-
-
   setChecked(prevChecked => {
     const newChecked = { ...prevChecked };
+    
     newChecked[index] = !newChecked[index];
     if(newChecked[index]){
       setCountChecked(countChecked + 1);
@@ -109,9 +108,65 @@ const handleCheck = (index, key) => {
       return newFilteredTypes;
     });
 
+    if(key.startsWith("Price")){
+      handlePriceCheck(newChecked);
+    }
+
     return newChecked;
   });
 };
+
+const unCheckOtherPrices = (index) => {
+  setChecked(prevChecked => {
+    const newChecked = { ...prevChecked };
+    Object.keys(newChecked).forEach((key) => {
+      if (key.startsWith("Price") && key !== index) {
+        newChecked[key] = false;
+      }
+    });
+    return newChecked;
+  });
+};
+
+const handlePriceCheck = (checks) => {
+  const minimo = 0;
+  const maximo = 9999999;
+
+  let min = maximo;
+  let max = minimo;
+
+  console.log(checks);
+  Object.keys(checks).forEach((key) => {
+    if (key.startsWith("Price") && checks[key]) {
+      let values = key.split(" : ")[1].split("-");
+      let currentMin = parseInt(values[0], 10);
+      let currentMax = parseInt(values[1], 10);
+
+      if (currentMin < min) {
+        min = currentMin;
+      }
+      if (currentMax > max) {
+        max = currentMax;
+      }
+    }
+  });
+
+  if (min < minimo) {
+    min = minimo;
+  }
+  if (max > maximo) {
+    max = maximo;
+  }
+
+  setMinPrice(min);
+  setMaxPrice(max);
+};
+
+
+useEffect(() => {
+  console.log('Min Price:', minPrice);
+  console.log('Max Price:', maxPrice);
+}, [minPrice, maxPrice]);
 
 /*
 useEffect(() => {
@@ -155,40 +210,29 @@ useEffect(() => {
           );
         }, [])}
         <div className="dropdown">
-          <button className="dropdown-button" id="category" onClick={() => handleClick(6)}><div>Price</div><div className="droparrow"></div></button>
-          <div className="dropdown-content" style={{display: active[6] ? "block" : "none"}}>
-            <div>
-              <input type="checkbox" onClick={(event) => {
-                handleCheck(event.target.id, "Price");
-                setMinPrice(parseInt(event.target.getAttribute('data-min'), 10));
-                setMaxPrice(parseInt(event.target.getAttribute('data-max'), 10));
-              }} id="Price : 0-200" value="0-200" data-min="0" data-max="200"/>
-              <label htmlFor="price1">$0 - $200</label>
-            </div>
-            <div>
-              <input type="checkbox" onClick={(event) => {
-                handleCheck(event.target.id, "Price");
-                setMinPrice(parseInt(event.target.getAttribute('data-min'), 10));
-                setMaxPrice(parseInt(event.target.getAttribute('data-max'), 10));
-              }} id="Price : 200-500" value="200-500" data-min="200" data-max="500"/>
-              <label htmlFor="price2">$200 - $500</label>
-            </div>
-            <div>
-              <input type="checkbox" onClick={(event) => {
-                handleCheck(event.target.id, "Price");
-                setMinPrice(parseInt(event.target.getAttribute('data-min'), 10));
-                setMaxPrice(parseInt(event.target.getAttribute('data-max'), 10));
-              }} id="Price : 500-1000" value="500-1000" data-min="500" data-max="1000"/>
-              <label htmlFor="price3">$500 - $1000</label>
-            </div>
-            <div>
-              <input type="checkbox" onClick={(event) => {
-                handleCheck(event.target.id, "Price");
-                setMinPrice(parseInt(event.target.getAttribute('data-min'), 10));
-                setMaxPrice(event.target.id === "Price : 1000+" ? 9999999 : parseInt(event.target.getAttribute('data-max'), 10));
-              }} id="Price : 1000+" value="1000+" data-min="1000" data-max={-1}/>
-              <label htmlFor="price4">$1000+</label>
-            </div>
+          <button className={`dropdown-button ${active[(Object.keys(typeToValues).length + 1)] ? "ativo" : ''}`}
+            id="category" onClick={() => handleClick((Object.keys(typeToValues).length + 1))}><div>Price</div><div className="droparrow"></div></button>
+          <div className="dropdown-content" style={{display: active[(Object.keys(typeToValues).length + 1)] ? "block" : "none"}}>
+          <div>
+            <label htmlFor="minPrice"></label>
+            <input placeholder="Minimum Price" type="number" id="minPrice" name="minPrice" onChange={(event) => setMinPrice(Number(event.target.value))} />
+          </div>
+          <div>
+            <label htmlFor="maxPrice"></label>
+            <input 
+              placeholder="Maximum Price" 
+              type="number" 
+              id="maxPrice" 
+              name="maxPrice" 
+              onChange={(event) => {
+                if (event.target.value !== "") {
+                  setMaxPrice(Number(event.target.value));
+                } else {
+                  setMaxPrice(9999999);
+                }
+              }} 
+            />
+          </div>
           </div>
         </div>
       </aside>
@@ -211,13 +255,13 @@ useEffect(() => {
               style=
               {{
                 display: 
-                  (countChecked > 0 && 
+                  ((countChecked > 0 && 
                   (((filteredTypes["Categories"] > 0) && checked["Categories : " + product.category] == false) || 
                   ((filteredTypes["Condition"] > 0) && checked["Condition : " + product.condition] == false) || 
                   ((filteredTypes["Size"] > 0) && checked["Size : " + product.size] == false) ||
                   ((filteredTypes["Brand"] > 0) && checked["Brand : " + product.brand] == false)) ||
                 currentInput && currentInput.length > 3 && !product.name.toLowerCase().includes(currentInput.toLowerCase())
-                )
+                ) || (product.price < minPrice || product.price > maxPrice))
                   ? "none" : "block"
               }} 
                 id="productli" className="escolhido">
