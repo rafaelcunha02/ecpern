@@ -176,7 +176,7 @@ return (
       <div className={`menu-lateral ${showMenu ? 'animation' : ''}`}>
         <ul>
           <li><Link to={`/profile/${user.username}`}><button id="profile">Profile</button></Link></li>
-          {user.rank === 1 && <li><Link to="/admin/1"><button className="adminButton" id="admin">Admin</button></Link></li>}
+          {user.rank === 1 && <li><Link to="/admin"><button className="adminButton" id="admin">Admin</button></Link></li>}
           <li><button id="LogOut" onClick={logout}>Log Out</button></li>
         </ul>
       </div>

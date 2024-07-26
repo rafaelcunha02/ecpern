@@ -14,6 +14,7 @@ import CredentialsPage from './components/SettingsPage/CredentialsPage';
 import DeleteAccountPage from './components/SettingsPage/EditCredentials/DeleteAccountPage';
 import EmailFormPage from './components/SettingsPage/EditCredentials/EmailFormPage';
 import PasswordFormPage from './components/SettingsPage/EditCredentials/PasswordFormPage';
+import AdminPanel from './components/AdminPage/AdminPanel';
 
 import supabase from './Client';
 
@@ -57,6 +58,7 @@ useEffect(() => {
             <Route path="account/email" element={<EmailFormPage />} />
             <Route path="account/password" element={<PasswordFormPage />} />
             <Route path="account/delete" element={<DeleteAccountPage />} />
+            <Route path="admin" element={<AdminPanel />} />
           </Routes>
         </Router>
       </UserContext.Provider>
