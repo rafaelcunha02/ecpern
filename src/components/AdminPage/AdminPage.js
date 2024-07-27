@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 function AdminPage() {
   return (
@@ -20,42 +21,44 @@ function AdminPage() {
 }
 
 function SideMenuAdmin({ session, db }) {
-  const pagina = window.location.pathname + '?' + new URLSearchParams(window.location.search).toString();
-  const selector = new URLSearchParams(window.location.search).get('selector');
+  const location = useLocation();
+  const { pathname } = location;
+  const selector = 1;
+
 
   return (
-    <div id="sideOptions">
-      <h1>View</h1>
-      <ul>
-        <a href="admin.php?selector=1" className={pagina === 'admin.php?selector=1' ? 'active' : ''}>
-          <li>User</li>
-        </a>
-        <a href="admin.php?selector=2" className={pagina === 'admin.php?selector=2' ? 'active' : ''}>
-          <li>Orders</li>
-        </a>
-        <a href="admin.php?selector=3" className={selector >= 3 ? 'active' : ''}>
-          <li>Caracteristics</li>
-        </a>
-        {selector >= 3 && (
-          <>
-            <a href="admin.php?selector=3" className={pagina === 'admin.php?selector=3' ? 'active' : ''}>
-              <li style={{ marginLeft: '1em' }}>Category</li>
-            </a>
-            <a href="admin.php?selector=4" className={pagina === 'admin.php?selector=4' ? 'active' : ''}>
-              <li style={{ marginLeft: '1em' }}>Size</li>
-            </a>
-            <a href="admin.php?selector=5" className={pagina === 'admin.php?selector=5' ? 'active' : ''}>
-              <li style={{ marginLeft: '1em' }}>Condition</li>
-            </a>
-          </>
-        )}
-      </ul>
-    </div>
-  );
+      <div id="sideOptions">
+        <h1>View</h1>
+        <ul>
+          <Link to={`/admin`} className={pathname === `/admin` ? 'active' : ''}>
+            <li>User</li>
+          </Link>
+          <Link to={`/admin/orders`} className={pathname === 'admin/orders' ? 'active' : ''}>
+            <li>Orders</li>
+          </Link>
+          <Link to={`/admin/caracteristics`} className={selector >= 3 ? 'active' : ''}>
+            <li>Caracteristics</li>
+          </Link>
+          {selector >= 3 && (
+            <>
+              <Link to={`/admin/caracteristics`} className={pathname === 'admin/caracteristics' ? 'active' : ''}>
+                <li style={{ marginLeft: '1em' }}>Category</li>
+              </Link>
+              <Link to={`/admin.php?selector=4`} className={pathname === 'admin.php?selector=4' ? 'active' : ''}>
+                <li style={{ marginLeft: '1em' }}>Size</li>
+              </Link>
+              <Link to={`/admin.php?selector=5`} className={pathname === 'admin.php?selector=5' ? 'active' : ''}>
+                <li style={{ marginLeft: '1em' }}>Condition</li>
+              </Link>
+            </>
+          )}
+        </ul>
+      </div>
+    );
 }
 
 function UsersAdmin({ session, user, db }) {
-  const users = null //User.getAll(db);
+  const users = [1,2,3] //User.getAll(db);
 
   return (
     <div className="adminContainer">
@@ -101,7 +104,10 @@ function OrdersAdmin({ session, user, db }) {
 
   //drawOrderHistory(db, session, products, groupedProducts, admin);
 
-  return null;
+  console.log("ORDERS ADMIN BRO");
+  return(
+    <div><h1>ORDERS ADMIN</h1></div>
+  );
 }
 
 export { AdminPage, SideMenuAdmin, UsersAdmin, OrdersAdmin };

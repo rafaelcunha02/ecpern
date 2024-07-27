@@ -6,6 +6,7 @@ import '../../common.css';
 import './admin.css';
 import { AdminPage, SideMenuAdmin, UsersAdmin, OrdersAdmin } from './AdminPage';
 import { UserContext } from '../../App';
+import { useLocation } from 'react-router-dom';
 
 const AdminPanel = () => {
     const loggedUser = React.useContext(UserContext);
@@ -33,18 +34,25 @@ useEffect(() => {
     }
 }, [loggedUser]);
 
+
+    const location = useLocation();
+    const { pathname } = location;
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
 
 
+
     return (
         <div>
-            <Header isLoggedIn={currentUser} user={currentUser} />
-            <AdminPage />
-            <Footer />
+          <Header isLoggedIn={currentUser} user={currentUser} />
+          <SideMenuAdmin />
+          {pathname === '/admin' && <UsersAdmin />}
+          {pathname === '/admin/orders' && <OrdersAdmin />}
+          {pathname !== '/admin' && pathname !== '/admin/orders' && <CaracteristicsAdmin />}
         </div>
-    );
-}
+      );
+    }
 
 export default AdminPanel;
