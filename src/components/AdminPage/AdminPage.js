@@ -37,22 +37,6 @@ function SideMenuAdmin({ selector, setSelector }) {
           <div onClick={() => setSelector(1)} className={selector === 1 ? 'active' : ''}>
             <li>Orders</li>
           </div>
-          <Link to={`/admin/caracteristics`} className={selector >= 3 ? 'active' : ''}>
-            <li>Caracteristics</li>
-          </Link>
-          {selector >= 3 && (
-            <>
-              <Link to={`/admin/caracteristics`} className={pathname === 'admin/caracteristics' ? 'active' : ''}>
-                <li style={{ marginLeft: '1em' }}>Category</li>
-              </Link>
-              <Link to={`/admin.php?selector=4`} className={pathname === 'admin.php?selector=4' ? 'active' : ''}>
-                <li style={{ marginLeft: '1em' }}>Size</li>
-              </Link>
-              <Link to={`/admin.php?selector=5`} className={pathname === 'admin.php?selector=5' ? 'active' : ''}>
-                <li style={{ marginLeft: '1em' }}>Condition</li>
-              </Link>
-            </>
-          )}
         </ul>
       </div>
     );
@@ -73,7 +57,7 @@ function UsersAdmin({ session, user, db }) {
   
   const rankUser = async (event, id) => {
     event.preventDefault();
-    
+
     const response = await fetch(`http://localhost:4005/api/users/rankUp/${id}`, {
       method: 'POST',
       headers: {

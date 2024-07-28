@@ -6,10 +6,10 @@ import '../../common.css';
 import './admin.css';
 import { AdminPage, SideMenuAdmin, UsersAdmin, OrdersAdmin } from './AdminPage';
 import { UserContext } from '../../App';
-import { useLocation } from 'react-router-dom';
 
 const AdminPanel = () => {
     const loggedUser = React.useContext(UserContext);
+    console.log(loggedUser);
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const params = useParams();
@@ -29,22 +29,40 @@ const AdminPanel = () => {
         }
     };
 
-useEffect(() => {
-    if (loggedUser) {
-        fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser);
-        setLoading(false);
+    useEffect(() => {
+        if (loggedUser) {
+            fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser);
+        }
+        console.log(loggedUser);
+    }, [loggedUser]);
+
+    useEffect(() => {
+        if (loggedUser) {
+          fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser)
+            .catch(error => console.error('Fetch failed:', error))
+        }
+        console.log(loggedUser);
+      }, [loggedUser]);
+
+    useEffect(() => {
+        if(currentUser){
+            if(currentUser.rank !== 1){
+                window.location.href = '/';
+            }
+            else{
+                setLoading(false);
+            }
+        }
+        console.log(currentUser);
+    }, [currentUser]);
+
+
+    if (!currentUser) {
+        return <div></div>;
     }
-}, [loggedUser]);
 
-
-    const location = useLocation();
-    const { pathname } = location;
-
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div></div>;
     if (error) return <div>{error}</div>;
-
-
-
 
     return (
         <div>
@@ -52,9 +70,8 @@ useEffect(() => {
           <SideMenuAdmin selector={selector} setSelector={setSelector}/>
           {selector === 0 && <UsersAdmin />}
           {selector === 1 && <OrdersAdmin />}
-          {/* {selector != 0 && selector != 1 && <CaracteristicsAdmin />}*/}
         </div>
       );
-    }
+}
 
 export default AdminPanel;
