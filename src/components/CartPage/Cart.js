@@ -15,6 +15,40 @@ const Cart = ({ session, orders, setOrders }) => {
   const elements = useElements();
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
+  const stripePromise = loadStripe('pk_test_51PhblQD30EyofdUR6BTc6EcNMg1yEuSOYQl8XtipyqHEZM3zqtYqo7xIm7CUrWjY2mxmpIngIOBoWXUSU3V9zWTp00qmwsXIQV');
+  const [clientSecret, setClientSecret] = useState('');
+
+
+  useEffect(() => {
+    fetch('http://localhost:4005/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: (Number(total) + Number(shippingPrice)) }), // Example amount and currency
+    })
+    .then(res => res.json())
+    .then(data => setClientSecret(data.clientSecret))
+    .catch(error => console.error('Fetch failed:', error));
+  }, []);
+
+  const handlePay = async (event) => {
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+        return;
+    }
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+            card: elements.getElement(CardElement),
+        },
+    });
+
+    if (error) {
+        console.error(error.message);
+    } else if (paymentIntent.status === 'succeeded') {
+        console.log('Payment succeeded!');
+    }
+  };
 
   const [shippingPrice, setShippingPrice] = useState(0);
   const [total, setTotal] = useState(0);
@@ -293,7 +327,7 @@ const Cart = ({ session, orders, setOrders }) => {
             <div id="finalPriceValue" className="finalPriceValue">${Number(total) + Number(shippingPrice)}</div>
           </div>
           <div id="buttonDiv">
-            <button data-buyerid={user ? user.username : ''} id="payButton">PAY</button>
+            <button onClick={(() => handlePay)} data-buyerid={user ? user.username : ''} id="payButton">PAY</button>
           </div>
         </div>
       </section>
