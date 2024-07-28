@@ -4,6 +4,7 @@ const app = express();
 const { Sequelize } = require('sequelize');
 const path = require('path');
 const cors = require('cors');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // CONFIGURATION / MIDDLEWARE
 
@@ -33,6 +34,8 @@ app.use('/api/comments', commentsController);
 const repliesController = require('./controllers/replies_controller');
 app.use('/api/replies', repliesController);
 
+const paymentsController = require('./controllers/payments_controller');
+app.use('/api/payments', paymentsController);
 
 // LISTEN 
 

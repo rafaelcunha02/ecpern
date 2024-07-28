@@ -1,13 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
 
 const Cart = ({ session, orders, setOrders }) => {
   const [isFirstProduct, setIsFirstProduct] = useState(true);
+
+
+
   const [paymentMethod, setPaymentMethod] = useState('');
   const [shippingMethod, setShippingMethod] = useState('');
+
+  const stripe = useStripe();
+  const elements = useElements();
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState(false);
+
   const [shippingPrice, setShippingPrice] = useState(0);
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(0);
   const [user, setUser] = useState(null);
+
   const sectionRef1 = useRef(null);
   const sectionRef2 = useRef(null);
 
