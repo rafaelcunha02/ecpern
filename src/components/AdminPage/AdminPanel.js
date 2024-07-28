@@ -15,6 +15,8 @@ const AdminPanel = () => {
     const params = useParams();
     const [error, setError] = useState(null);
 
+    const [selector, setSelector] = useState(0);
+
     const fetchData = async (url, setter) => {
         try {
             const res = await fetch(url);
@@ -47,10 +49,10 @@ useEffect(() => {
     return (
         <div>
           <Header isLoggedIn={currentUser} user={currentUser} />
-          <SideMenuAdmin />
-          {pathname === '/admin' && <UsersAdmin />}
-          {pathname === '/admin/orders' && <OrdersAdmin />}
-          {pathname !== '/admin' && pathname !== '/admin/orders' && <CaracteristicsAdmin />}
+          <SideMenuAdmin selector={selector} setSelector={setSelector}/>
+          {selector === 0 && <UsersAdmin />}
+          {selector === 1 && <OrdersAdmin />}
+          {/* {selector != 0 && selector != 1 && <CaracteristicsAdmin />}*/}
         </div>
       );
     }

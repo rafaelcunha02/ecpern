@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 function AdminPage() {
   return (
@@ -20,22 +21,22 @@ function AdminPage() {
   );
 }
 
-function SideMenuAdmin({ session, db }) {
+function SideMenuAdmin({ selector, setSelector }) {
   const location = useLocation();
   const { pathname } = location;
-  const selector = 1;
+  
 
 
   return (
       <div id="sideOptions">
         <h1>View</h1>
         <ul>
-          <Link to={`/admin`} className={pathname === `/admin` ? 'active' : ''}>
+          <div onClick={() => setSelector(0)} className={selector === 0 ? 'active' : ''}>
             <li>User</li>
-          </Link>
-          <Link to={`/admin/orders`} className={pathname === 'admin/orders' ? 'active' : ''}>
+          </div>
+          <div onClick={() => setSelector(1)} className={selector === 1 ? 'active' : ''}>
             <li>Orders</li>
-          </Link>
+          </div>
           <Link to={`/admin/caracteristics`} className={selector >= 3 ? 'active' : ''}>
             <li>Caracteristics</li>
           </Link>
@@ -58,7 +59,31 @@ function SideMenuAdmin({ session, db }) {
 }
 
 function UsersAdmin({ session, user, db }) {
-  const users = [1,2,3] //User.getAll(db);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const response = await fetch(`http://localhost:4005/api/users`);
+      const data = await response.json();
+      setUsers(data);
+    };
+    getUsers();
+  }
+  , []);
+  
+  const rankUser = async (event, id) => {
+    event.preventDefault();
+    
+    const response = await fetch(`http://localhost:4005/api/users/rankUp/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ rank: 1 })
+    });
+    const data = await response.json();
+    setUsers(users.map((user) => user.id === id ? { ...user, rank: 1 } : user));
+  }
 
   return (
     <div className="adminContainer">
@@ -77,12 +102,11 @@ function UsersAdmin({ session, user, db }) {
             </div>
             <div className="actions">
               <div className="lock">
-                <button className="lockButton" onClick={() => window.location.href = `../pages/profile.php?username=${user.username}`}>Check Profile</button>
+                <button className="lockButton" onClick={() => window.location.href = `../profile/${user.username}`}>Check Profile</button>
               </div>
               <div className="rank">
                 {user.rank === 0 && (
-                  <form action="../actions/action_rankUser.php" method="post">
-                    <input type="hidden" name="csrf" value={session.getCsrf()} />
+                  <form onSubmit={(e) => rankUser(e, user.id)} method="post">
                     <input type="hidden" name="username" value={user.username} />
                     <button className="rankUpButton" type="submit">Promote to Admin</button>
                   </form>
@@ -104,7 +128,6 @@ function OrdersAdmin({ session, user, db }) {
 
   //drawOrderHistory(db, session, products, groupedProducts, admin);
 
-  console.log("ORDERS ADMIN BRO");
   return(
     <div><h1>ORDERS ADMIN</h1></div>
   );

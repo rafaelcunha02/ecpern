@@ -3,7 +3,6 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f1f1f1;
     font-size: 1.25em;
 }
 .Container{
@@ -49,13 +48,20 @@
     background-color: #f2f2f2;
 }
 
-#sideOptions a.active{
+#sideOptions div.active{
     li{
         background-color: #e6e6e6;
         &:hover{
             background-color: #ddd;
         }
     }
+}
+
+
+
+#sideOptions div:hover{
+    background-color: #f2f2f2;
+    cursor: pointer;
 }
 
 .user {
