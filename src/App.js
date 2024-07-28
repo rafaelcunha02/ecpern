@@ -16,27 +16,32 @@ import EmailFormPage from './components/SettingsPage/EditCredentials/EmailFormPa
 import PasswordFormPage from './components/SettingsPage/EditCredentials/PasswordFormPage';
 import AdminPanel from './components/AdminPage/AdminPanel';
 
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
 import supabase from './Client';
 
 export const SupabaseContext = createContext();
 export const UserContext = createContext();
 
+const stripePromise = loadStripe('pk_test_51PhblQD30EyofdUR6BTc6EcNMg1yEuSOYQl8XtipyqHEZM3zqtYqo7xIm7CUrWjY2mxmpIngIOBoWXUSU3V9zWTp00qmwsXIQV');
+
 const App = () => {
   const [user, setUser] = useState(null);
+
   // Check the user's login state when the component mounts
-useEffect(() => {
-  const fetchUser = async () => {
-    try {
-      const info = await supabase.auth.getUser();
-      setUser(info.data.user);
-    } catch (error) {
-      console.error('Failed to fetch user:', error);
-    }
-  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const info = await supabase.auth.getUser();
+        setUser(info.data.user);
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+      }
+    };
 
-  fetchUser();
-}, []);
-
+    fetchUser();
+  }, []);
 
   return (
     <SupabaseContext.Provider value={supabase}>
@@ -50,7 +55,14 @@ useEffect(() => {
             <Route path="search/category/:category?" element={<SearchPage />} />
             <Route path="sell/:username" element={<SellPage />} />
             <Route path="edit/:productId" element={<EditPage />} />
-            <Route path="Cart/:username?" element={<CartPage />} />
+            <Route 
+              path="Cart/:username?" 
+              element={
+                <Elements stripe={stripePromise}>
+                  <CartPage />
+                </Elements>
+              } 
+            />
             <Route path="SignUp" element={<SignUpPage />} />
             <Route path="Login" element={<LoginPage />} />
             <Route path="settings" element={<SettingsPage />} />
