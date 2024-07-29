@@ -1,6 +1,8 @@
 const orders = require('express').Router();
 const db = require('../models');
 const { Order } = db;
+const { v4: uuidv4 } = require('uuid');
+
 
 
 //GET ALL ORDERS
@@ -101,5 +103,51 @@ orders.delete('/delete/:id', async (req, res) => {
     }
 }
 );
+
+
+
+orders.post('/processCart', async (req, res) => {
+    try {
+        console.log('Received request to process cart:', req.body);
+
+        if (!req.body.userId || !req.body.shippingMethod) {
+            console.error('No userId or shipping provided in request body');
+            res.status(400).json({ error: 'Please include a userId' });
+            return;
+        }
+
+        const unprocessedOrders = await Order.getUnprocessedOrdersByBuyerId(req.body.userId);
+        console.log('Fetched unprocessed orders:', unprocessedOrders);
+
+        if (unprocessedOrders.length === 0) {
+            console.error('No unprocessed orders found for userId:', req.body.userId);
+            res.status(400).json({ error: 'No unprocessed orders found' });
+            return;
+        }
+
+        const group = await Order.max('orderGroup') + 1;
+
+        for (let i = 0; i < unprocessedOrders.length; i++) {
+            unprocessedOrders[i].isProcessed = 1;
+            unprocessedOrders[i].orderGroup = group;
+            unprocessedOrders[i].shipping = req.body.shippingMethod;
+            console.log('Processing order:', unprocessedOrders[i]);
+            await unprocessedOrders[i].save();
+            console.log('Order saved:', unprocessedOrders[i]);
+
+
+            if (unprocessedOrders[i].Product){
+                unprocessedOrders[i].Product.isAvailable = 0;
+                await unprocessedOrders[i].Product.save();
+            }
+        }
+
+        res.status(200).json(unprocessedOrders);
+    } catch (error) {
+        console.error('Error processing cart:', error);
+        res.status(500).json({ error: 'An error occurred while processing the cart', details: error.message });
+    }
+});
+
 
 module.exports = orders;

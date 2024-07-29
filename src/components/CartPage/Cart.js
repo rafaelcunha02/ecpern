@@ -1,62 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {useNavigate} from 'react-router-dom';
 
+const stripePromise = loadStripe('pk_test_51PhblQD30EyofdUR6BTc6EcNMg1yEuSOYQl8XtipyqHEZM3zqtYqo7xIm7CUrWjY2mxmpIngIOBoWXUSU3V9zWTp00qmwsXIQV');
 
-const Cart = ({ session, orders, setOrders }) => {
+const Cart = ({ session, orders, setOrders, currentUser }) => {
+  const navigate = useNavigate();
   const [isFirstProduct, setIsFirstProduct] = useState(true);
-
-
-
   const [paymentMethod, setPaymentMethod] = useState('');
-  const [shippingMethod, setShippingMethod] = useState('');
-
+  const [shippingMethod, setShippingMethod] = useState(0);
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
-  const stripePromise = loadStripe('pk_test_51PhblQD30EyofdUR6BTc6EcNMg1yEuSOYQl8XtipyqHEZM3zqtYqo7xIm7CUrWjY2mxmpIngIOBoWXUSU3V9zWTp00qmwsXIQV');
   const [clientSecret, setClientSecret] = useState('');
-
-
-  useEffect(() => {
-    fetch('http://localhost:4005/api/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: (Number(total) + Number(shippingPrice)) }), // Example amount and currency
-    })
-    .then(res => res.json())
-    .then(data => setClientSecret(data.clientSecret))
-    .catch(error => console.error('Fetch failed:', error));
-  }, []);
-
-  const handlePay = async (event) => {
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-        return;
-    }
-
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-            card: elements.getElement(CardElement),
-        },
-    });
-
-    if (error) {
-        console.error(error.message);
-    } else if (paymentIntent.status === 'succeeded') {
-        console.log('Payment succeeded!');
-    }
-  };
-
   const [shippingPrice, setShippingPrice] = useState(0);
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(0);
   const [user, setUser] = useState(null);
-
   const sectionRef1 = useRef(null);
   const sectionRef2 = useRef(null);
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    setScroll(true);
+    if (!scroll) {
+      scrollToSection1();
+    }
+  }, [scroll]);
 
   const scrollToSection2 = () => {
     sectionRef2.current?.scrollIntoView({ behavior: 'smooth' });
@@ -81,6 +53,83 @@ const Cart = ({ session, orders, setOrders }) => {
 
   }, [orders]);
 
+  useEffect(() => {
+    fetch('http://localhost:4005/api/payments/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: (Number(total) + Number(shippingPrice)) * 100 }), // Amount in cents
+    })
+      .then(res => res.json())
+      .then(data => setClientSecret(data.clientSecret))
+      .catch(error => console.error('Fetch failed:', error));
+  }, [total, shippingPrice]);
+
+
+  const processCart = async () => {
+
+    const data = {
+      userId: currentUser.id,
+      shippingMethod: shippingMethod
+    };
+
+    const response = await fetch('http://localhost:4005/api/orders/processCart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      const processedOrders = await response.json();
+      console.log("success, processedOrders: ")
+      console.log(processedOrders);
+    }
+
+
+
+  }
+
+  const handlePay = async (event) => {
+    event.preventDefault();
+
+    if(shippingPrice != 0){
+
+    
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement);
+
+    setProcessing(true);
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: user ? user.username : 'Guest',
+        },
+      },
+    });
+
+    setProcessing(false);
+
+    if (error) {
+      setError(error.message);
+      alert(error.message);
+    } else if (paymentIntent.status === 'succeeded') {
+      processCart();
+
+      console.log('Payment succeeded!');
+      alert('Payment succeeded!');
+    }
+  }
+  else{
+    alert("Please select a shipping method");
+  }
+  };
+
 
   const handleRemove = async (event) => {
     const orderid = event.target.getAttribute('data-orderid');
@@ -96,17 +145,31 @@ const Cart = ({ session, orders, setOrders }) => {
       const updatedOrders = orders.filter(order => order.id !== parseInt(orderid));
       console.log(updatedOrders);
       setOrders(updatedOrders);
-    }
-    else {
+    } else {
       console.error('HTTP error ' + response.status);
     }
-
-  }
-
+  };
 
   const showForm = (formId) => {
     const forms = ['mbWayForm', 'creditCardForm', 'ATMForm'];
     forms.forEach(id => document.getElementById(id).style.display = id === formId ? 'block' : 'none');
+  };
+
+
+  const cardElementOptions = {
+    style: {
+      base: {
+        fontSize: '16px',
+        color: '#32325d',
+        '::placeholder': {
+          color: '#aab7c4',
+        },
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
+    },
   };
 
   return (
@@ -146,7 +209,7 @@ const Cart = ({ session, orders, setOrders }) => {
                           data-buyerid={user ? user.username : ''}
                           data-orderid={order.id}
                           className="removeButton"
-                          onClick={(event) => {handleRemove(event)}}
+                          onClick={(event) => handleRemove(event)}
                         >
                           Remove from Cart
                         </button>
@@ -191,10 +254,10 @@ const Cart = ({ session, orders, setOrders }) => {
           <div className="topFlex" id="finalPrice">
             <div>FINAL PRICE</div>
             <div></div>
-            <div id="finalPriceValue">${Number(total) + Number(shippingPrice)}</div>
+            <div id="finalPriceValue">${(Number(total) + Number(shippingPrice)).toFixed(2)}</div>
           </div>
           <div id="buttonDiv">
-            <button onClick={() => scrollToSection2()} data-productslength={count} id="checkoutButton">Checkout</button>
+            <button onClick={scrollToSection2} data-productslength={count} id="checkoutButton">Checkout</button>
           </div>
         </div>
       </section>
@@ -225,41 +288,13 @@ const Cart = ({ session, orders, setOrders }) => {
                 <div className="radioinputs">
                   <input type="radio" id="creditCard" name="paymentMethod" value="creditCard" onClick={() => showForm('creditCardForm')} />
                   <label htmlFor="creditCard">
-                    Credit Card <img src="../assets/visa.webp" alt="VISA" id="visaimg" />
+                    Credit or Debit Card <img src="../assets/visa.webp" alt="VISA" id="visaimg" />
                     <img src="../assets/mastercard.svg" alt="mc" id="mcimg" />
                   </label>
                 </div>
-                <form className="cartForms" id="creditCardForm" style={{ display: 'none' }}>
-                  <label htmlFor="cardNumber">Card Number:</label>
-                  <input type="text" id="cardNumber" name="cardNumber" required /><br />
-                  <label htmlFor="expiryDate">Expiry Date:</label>
-                  <div id="expiryDate">
-                    <select id="expiryMonth" name="expiryMonth">
-                      <option value="">Month</option>
-                      {Array.from({ length: 12 }, (_, i) => i + 1).map(i => (
-                        <option value={i} key={i}>{i}</option>
-                      ))}
-                    </select>
-                    <select id="expiryYear" name="expiryYear">
-                      <option value="">Year</option>
-                      {Array.from({ length: 9 }, (_, i) => new Date().getFullYear() + i).map(year => (
-                        <option value={year} key={year}>{year}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <br />
-                  <label htmlFor="cvv">CVV:</label>
-                  <input type="text" id="cvv" name="cvv" required /><br />
+                <form id="creditCardForm" style={{ display: 'none' }}>
+                  <CardElement options={cardElementOptions}/>
                 </form>
-
-                <div className="radioinputs">
-                  <input type="radio" id="ATM" name="paymentMethod" value="ATM" onClick={() => showForm('ATMForm')} />
-                  <label htmlFor="ATM">
-                    <img src="../assets/multibanco.png" alt="MB" id="mbimg" />
-                    ATM
-                  </label>
-                  <br />
-                </div>
                 <form className="cartForms" id="ATMForm" style={{ display: 'none' }}>
                   <p id="atmtext">Proceed to an ATM within the next 24 hours to complete your payment.</p>
                 </form>
@@ -269,36 +304,39 @@ const Cart = ({ session, orders, setOrders }) => {
               <div className="shippingMethods">
                 <h3>Choose a Shipping Method</h3>
                 <div className="radioinputs">
-                  <input 
-                  onChange = {() => {
-                    setShippingPrice(10*orders.length);
-                  }}
-                  type="radio" id="expressDelivery" name="shippingMethod" value="expressDelivery" />
+                  <input
+                    onChange={() => {
+                      setShippingMethod(10);
+                      setShippingPrice(10 * orders.length);
+                    }}
+                    type="radio" id="expressDelivery" name="shippingMethod" value="expressDelivery" />
                   <label htmlFor="expressDelivery">Express Delivery - Additional $10 per product</label>
                   <br />
                 </div>
                 <div className="radioinputs">
-                  <input 
-                  onChange = {() => {
-                    setShippingPrice(5*orders.length);
-                  }}
-                  type="radio" id="standardShipping" name="shippingMethod" value="standardShipping" />
+                  <input
+                    onChange={() => {
+                      setShippingMethod(5);
+                      setShippingPrice(5 * orders.length);
+                    }}
+                    type="radio" id="standardShipping" name="shippingMethod" value="standardShipping" />
                   <label htmlFor="standardShipping">Standard Shipping - Additional $5 per product</label>
                   <br />
                 </div>
                 <div className="radioinputs">
                   <input
-                  onChange = {() => {
-                    setShippingPrice(2*orders.length);
-                  }}
-                  type="radio" id="economyShipping" name="shippingMethod" value="economyShipping" />
+                    onChange={() => {
+                      setShippingMethod(2);
+                      setShippingPrice(2 * orders.length);
+                    }}
+                    type="radio" id="economyShipping" name="shippingMethod" value="economyShipping" />
                   <label htmlFor="economyShipping">Economy Shipping - Additional $2 per product</label>
                   <br />
                 </div>
               </div>
             </li>
           </div>
-          <button id="backToCart" className="goBack" onClick={() => scrollToSection1()}>Go Back to the Cart</button>
+          <button id="backToCart" className="goBack" onClick={scrollToSection1}>Go Back to the Cart</button>
         </div>
 
         <div className="inlineContain" id="rightSide">
@@ -324,10 +362,12 @@ const Cart = ({ session, orders, setOrders }) => {
           <div className="topFlex" id="finalPrice">
             <div>FINAL PRICE</div>
             <div></div>
-            <div id="finalPriceValue" className="finalPriceValue">${Number(total) + Number(shippingPrice)}</div>
+            <div id="finalPriceValue" className="finalPriceValue">${(Number(total) + Number(shippingPrice)).toFixed(2)}</div>
           </div>
           <div id="buttonDiv">
-            <button onClick={(() => handlePay)} data-buyerid={user ? user.username : ''} id="payButton">PAY</button>
+            <button onClick={handlePay} data-buyerid={user ? user.username : ''} id="payButton" disabled={!stripe || processing}>
+              {processing ? 'Processing...' : 'PAY'}
+            </button>
           </div>
         </div>
       </section>
@@ -335,4 +375,10 @@ const Cart = ({ session, orders, setOrders }) => {
   );
 };
 
-export default Cart;
+const CartWrapper = (props) => (
+  <Elements stripe={stripePromise}>
+    <Cart {...props} />
+  </Elements>
+);
+
+export default CartWrapper;

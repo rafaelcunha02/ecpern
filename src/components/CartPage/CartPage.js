@@ -107,7 +107,7 @@ const CartPage = () => {
     return (
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
-            <Cart session={currentUser} orders={orders} setOrders={setOrders} />
+            <Cart currentUser={currentUser} session={currentUser} orders={orders} setOrders={setOrders} />
             <Footer/>
         </div>
     );
