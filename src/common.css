@@ -709,7 +709,7 @@ em::before{
   box-shadow: 0 0 0.3125em rgba(81, 203, 238, 1);
 }
 
-input[type="submit"] {
+button#footerSearch {
   background: linear-gradient(to right, #003366, #0047b3);
   border: none;
   color: white;
@@ -724,7 +724,7 @@ input[type="submit"] {
   border-radius: 0.3125em;
 }
 
-input[type="submit"]:hover {
+button#footerSearch:hover {
   background: linear-gradient(to right, #00264d, #003399);
 }
 

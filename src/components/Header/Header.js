@@ -117,7 +117,7 @@ const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch })
                 navigate(`/search/input/${input}`);
             }
             else{
-                navigate(`/search`);
+                navigate(`/search/input/`);
             }
         }
     }

@@ -81,7 +81,7 @@ orders.get('/buys/:userId', async (req, res) => {
 
 orders.get('/sales/:userId', async (req, res) => {
     try {
-        const processedOrders = await Order.getProcessedOrdersByBuyerId(req.params.userId);
+        const processedOrders = await Order.getProcessedOrdersBySellerId(req.params.userId);
         res.status(200).json(processedOrders);
     } catch (error) {
         res.status(500).json(error);
@@ -103,6 +103,8 @@ orders.delete('/delete/:id', async (req, res) => {
     }
 }
 );
+
+
 
 
 

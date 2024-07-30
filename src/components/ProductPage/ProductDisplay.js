@@ -62,6 +62,13 @@ useEffect(() => {
   }
 }, [product, cartProducts]);
 
+  useEffect(() => {
+      if (product) {
+          if (product.isAvailable === 0) {
+              navigate('/');
+          }
+      }
+  }, [product]);
 
   if (!product || !seller ) {
     return <div>Loading...</div>;

@@ -7,6 +7,7 @@ import ProductDisplay from './ProductDisplay';
 import RelatedProducts from './RelatedProducts';
 import CommentSection from './CommentSection';
 import { UserContext } from '../../App';
+import { useNavigate } from 'react-router-dom'
 
 const ProductPage = () => {
   const loggedUser = React.useContext(UserContext);
@@ -16,6 +17,8 @@ const ProductPage = () => {
   const [categorias, setCategorias] = useState([]);
   const { id } = useParams();
   const [produto, setProduto] = useState(null);
+  const navigate = useNavigate();
+
 
   // Helper function remains the same
   const fetchData = async (url, setter) => {

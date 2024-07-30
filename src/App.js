@@ -14,6 +14,7 @@ import CredentialsPage from './components/SettingsPage/CredentialsPage';
 import DeleteAccountPage from './components/SettingsPage/EditCredentials/DeleteAccountPage';
 import EmailFormPage from './components/SettingsPage/EditCredentials/EmailFormPage';
 import PasswordFormPage from './components/SettingsPage/EditCredentials/PasswordFormPage';
+import OrdersPage from './components/SettingsPage/OrdersPage';
 import AdminPanel from './components/AdminPage/AdminPanel';
 
 import { Elements } from '@stripe/react-stripe-js';
@@ -71,6 +72,7 @@ const App = () => {
             <Route path="account/password" element={<PasswordFormPage />} />
             <Route path="account/delete" element={<DeleteAccountPage />} />
             <Route path="admin" element={<AdminPanel />} />
+            <Route path="orders" element={<OrdersPage />} />
           </Routes>
         </Router>
       </UserContext.Provider>

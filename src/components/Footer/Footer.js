@@ -1,8 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'; 
 import '../../common.css';
 
 const Footer = ({ isLoggedIn, user }) => {
+
+  const [currentInput, setCurrentInput] = useState('');
+  const navigate = useNavigate('');
+
+  const handleWriteEvent = (input) => {
+    setCurrentInput(input);
+}
+
+const handleKeydownEvent = (event, input) => {
+    if(event.key === 'Enter'){
+        if(input){
+            navigate(`/search/input/${input}`);
+        }
+        else{
+            navigate(`/search/input/`);
+        }
+    }
+}
+
+const searchEvent = (input) => {
+  if(input){
+    navigate(`/search/input/${input}`);
+  }
+  else{
+    navigate(`/search/input/`);
+  }
+}
+
   return (
     <footer id="footer">
       <div className="footer-section">
@@ -27,8 +57,9 @@ const Footer = ({ isLoggedIn, user }) => {
           )}
         </div>
         <form id="footer-search-form" className="footer-search" action="/search" method="get">
-          <input type="text" className="searchbar" id="footer-searchbar" name="query" placeholder="Search for products" />
-          <input type="submit" value="Search" />
+          <input onKeyDown={(event) => {handleKeydownEvent(event, event.target.value)}}
+          onChange={(event) => handleWriteEvent(event.target.value)} type="text" className="searchbar" id="footer-searchbar" placeholder="Search for products" />
+          <button id="footerSearch" onClick={() => searchEvent(currentInput)}>Search</button>
         </form>
       </div>
     </footer>
