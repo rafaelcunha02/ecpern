@@ -53,7 +53,7 @@ const ProfilePage = () => {
 
         const fetchProducts = async (user) => {
             if (user) {
-                const res = await fetch(`http://localhost:4005/api/products/available/${user.id}`);
+                const res = await fetch(`http://localhost:4005/api/products/user/${user.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 setProducts(data);

@@ -137,8 +137,8 @@ const Orders = () => {
 									<div className="orderFlex">
 										<div className="orderSummary">
 											<h3>Order Summary:</h3>
-											<p>Products Sold: {totalProducts}</p>
-											<p>Money Earned: ${totalAmount}</p>
+											<p>Products Bought: {totalProducts}</p>
+											<p>Money Spent: ${totalAmount}</p>
 										</div>
 										<button className="printForm" onClick={() => handlePrintShippingForm(groupNumber)}>
 											Print Shipping Form

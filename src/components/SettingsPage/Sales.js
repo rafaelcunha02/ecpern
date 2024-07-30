@@ -37,7 +37,7 @@ const Sales = () => {
         if(currentUser){
         const fetchProducts = async () => {
             try {
-                const res = await fetch('http://localhost:4005/api/orders/buys/' + currentUser.id);
+                const res = await fetch('http://localhost:4005/api/orders/sales/' + currentUser.id);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 const groupedProducts = data.reduce((acc, product) => {
@@ -108,14 +108,14 @@ const Sales = () => {
 									{ordersInGroup.map((index) => {
 										totalProducts++;
 										totalAmount += Number(index.Product.price);
-										const order = index
-										const buyer = currentUser;
+										const order = index;
+										const buyer = index.Buyer;
 
 										return (
 											<li className="productList" key={index.id}>
 												<div className="productInfo">
 													<div id="imgproduct">
-														<img src={`../${index.Product.imageUrl}`} alt={index.Product.name} />
+														<img src={index.Product.imageUrl.startsWith("http") ? index.Product.imageUrl : `../${index.Product.imageUrl}`} alt={index.Product.name} />
 													</div>
 													<div className="infoList">
 														<div>{index.Product.name}</div>
@@ -140,9 +140,7 @@ const Sales = () => {
 											<p>Products Sold: {totalProducts}</p>
 											<p>Money Earned: ${totalAmount}</p>
 										</div>
-										<button className="printForm" onClick={() => handlePrintShippingForm(groupNumber)}>
-											Print Shipping Form
-										</button>
+
 									</div>
 								</div>
 							);
