@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import supabase from '../../Client';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -14,6 +15,7 @@ function SellForm({ user, categories, conditions, sizes, errors, session }) {
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [file, setFile] = useState('');
+  const navigate = useNavigate();
 
 
   
@@ -55,6 +57,8 @@ const handleSubmit = async (event) => {
   });
 
   if (response.ok) {
+    alert('Product submitted successfully!');
+    navigate('/');
     // If the request was successful, clear the form
     setName('');
     setPrice('');
@@ -122,7 +126,7 @@ const handleFileUpload = async (event) => {
 
 
 
-  if(!categories[0] || !conditions[0]) {
+  if(!categories[0] || !conditions[0] || !sizes[0]) {
     return <p>Loading...</p>;
   }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import supabase from '../../Client';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,7 +16,7 @@ function EditForm({product, user, categories, conditions, sizes, errors, session
   const [description, setDescription] = useState(product.productDescription);
   const [imageUrl, setImageUrl] = useState(product.imageUrl);
   const [file, setFile] = useState('');
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(categories[0] && sizes[0] && conditions[0]) {
@@ -56,15 +57,8 @@ function EditForm({product, user, categories, conditions, sizes, errors, session
 
     if (response.ok) {
 
-      setName('');
-      setPrice('');
-      setCategory('');
-      setBrand('');
-      setModel('');
-      setSize('');
-      setCondition('');
-      setDescription('');
-      setImageUrl('');
+      navigate('/product/' + product.id);
+
     } else {
 
       console.error('Error:', response);

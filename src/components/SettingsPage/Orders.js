@@ -115,7 +115,7 @@ const Orders = () => {
 											<li className="productList" key={index.id}>
 												<div className="productInfo">
 													<div id="imgproduct">
-														<img src={`../${index.Product.imageUrl}`} alt={index.Product.name} />
+														<img src={index.Product.imageUrl.startsWith("http") ? index.Product.imageUrl : `../${index.Product.imageUrl}`} alt={index.Product.name} />
 													</div>
 													<div className="infoList">
 														<div>{index.Product.name}</div>

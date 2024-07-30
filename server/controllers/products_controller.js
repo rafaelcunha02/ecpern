@@ -14,6 +14,32 @@ products.get('/', async (req, res) => {
 }
 );
 
+//GET ALL AVAILABLE
+
+products.get('/available', async (req, res) => {
+    try {
+        const allProducts = await Product.getAvailableProducts();
+        res.status(200).json(allProducts);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+);
+
+
+
+//GET AVAILABLE PRODUCTS FROM USER
+
+products.get('/available/:id', async (req, res) => {
+    try {
+        const allProducts = await Product.getAvailableProductsFromUser(req.params.id);
+        res.status(200).json(allProducts);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+);
+
 products.get('/withsellers', async (req, res) => {
     try {
         const allProducts = await Product.getAllProductsWithSeller();

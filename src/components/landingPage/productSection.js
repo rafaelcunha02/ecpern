@@ -45,7 +45,7 @@ return (
 
     <ul>
       {products.map((product, index) => {
-        if (!currentUser || product.SellerId !== currentUser.id) {
+        if (!currentUser || product.sellerId !== currentUser.id) {
           return (
             <li key={index} style={{ display: index > showCounter ? 'none' : 'block' }}>
               <div className="productImage">

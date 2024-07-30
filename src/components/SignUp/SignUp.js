@@ -55,10 +55,9 @@ const SignUp = () => {
 
         console.log('User inserted into Users table successfully');
 
-        // Wait for 2 seconds before navigating to the login page
         setTimeout(() => {
             navigate('/login');
-        }, 2000);
+        }, 500);
     };
 
 

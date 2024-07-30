@@ -53,7 +53,7 @@ const ProfilePage = () => {
 
         const fetchProducts = async (user) => {
             if (user) {
-                const res = await fetch(`http://localhost:4005/api/products/user/${user.id}`);
+                const res = await fetch(`http://localhost:4005/api/products/available/${user.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 setProducts(data);
@@ -61,13 +61,12 @@ const ProfilePage = () => {
         };
 
         Promise.all([fetchUser(), fetchProfile()])
-            .then(() => setLoading(false)) // Set loading to false after all fetches are done
+            .then(() => setLoading(false)) 
             .catch(error => console.error('Fetch failed:', error));
     }, []);
 
-    if (loading) return <div>Loading...</div>; // Show a loading message while loading
-    console.log("products: ", products);
-    console.log("logged user: ", currentUser)
+    if (loading) return <div></div>;
+
     return (
         <div>
             <Header isLoggedIn ={currentUser} user = {currentUser}/>

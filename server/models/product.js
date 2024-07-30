@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static async getAllProductsWithSeller(){
       return await this.findAll({
+        where: {isAvailable: 1},
         include : { model: sequelize.models.User, as: 'seller' }
       });
     }
@@ -99,6 +100,18 @@ module.exports = (sequelize, DataTypes) => {
         } 
       });
     }
+
+//GET AVAILABLE FROM USER
+
+    static async getAvailableProductsFromUser(sellerId) {
+      return await this.findAll({ 
+        where: { 
+          sellerId,
+          isAvailable: 1 
+        } 
+      });
+    }
+
 
   static async findNextAvailableProduct(id) {
     const products = await this.findAll({ 

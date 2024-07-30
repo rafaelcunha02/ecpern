@@ -71,7 +71,7 @@ const SellPage = () => {
         }
 
         const fetchTamanhos = async () => {
-            return fetch('http://localhost:4005/api/caracs/Tamanho')
+            return fetch('http://localhost:4005/api/caracs/Size')
                 .then(res => res.json())
                 .then(data => {
                     setTamanhos(data);
