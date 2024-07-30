@@ -116,7 +116,7 @@ function CommentSection({ user }) {
 
   return (
     <section id="comments">
-      <h1 style={{ textAlign: 'center' }}>Questions & Answers</h1>
+      <h1 id="producth1" style={{ textAlign: 'center' }}>Questions & Answers</h1>
       {user && (
         <form onSubmit={publishComment} className="commentForm">
           <textarea

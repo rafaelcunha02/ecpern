@@ -8,6 +8,8 @@ const Orders = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+	
+
     const loggedUser = React.useContext(UserContext);
 
     const fetchData = async (url, setter) => {
@@ -56,54 +58,74 @@ const Orders = () => {
     }, [currentUser]);
 
 
-	const handlePrintShippingForm = (groupNumber) => {
-		// Implement print functionality
-		console.log(`Print shipping form for group ${groupNumber}`);
-	};
+	function handlePrintShippingForm(groupNumber) {
+		let shippingForm = document.getElementById("shippingForm" + groupNumber);
+		console.log(shippingForm);
+		let header = document.getElementById("fixedHeader");
+		header.style.display = 'none';
+		let sideOpt = document.getElementById("sideOptions");
+		sideOpt.style.display = 'none';
+		let container = document.getElementById("orderHistory");
+		container.style.display = 'none';
+		let footer = document.getElementById("footer");
+		footer.style.display = 'none';
+	
+		shippingForm.style.display = 'block';
+		shippingForm.classList.add('print');
+		window.print();
+	
+		shippingForm.style.display = 'none';
+		header.style.display = 'block';
+		header.style.position = 'fixed';
+		header.style.removeProperty('display');
+		sideOpt.style.display = 'block';
+		container.style.display = 'block';
+	}
 
     if (loading || !loggedUser || !currentUser) return null;
     if (error) return <div>{error}</div>;
 
-	const sortedGroupedProducts = Object.entries(groupedProducts).sort(([a], [b]) => b - a);
+	const sortedGroupedOrders = Object.entries(groupedProducts).sort(([a], [b]) => b - a);
 
-
+	console.log(sortedGroupedOrders);
 
 	return (
+		<div>
 		<section id="orderHistory" className="orderHistoryContainer">
 			<div className="inlineContain">
-				<div className="topFlex" id="first">
-					<h1>Sales History</h1>
+				<div className="topFlex" id="first" style={{fontSize:"1em"}}>
+					<h1>Order History</h1>
 				</div>
-				<div className="overflowContainer">
+				<div className="overflowContainer" style={{maxHeight:"70vh"}}>
 					<div className="productGroup">
-						{sortedGroupedProducts.map(([groupNumber, productsInGroup]) => {
-							let totalProducts = 0;
-							let totalAmount = 0;
+						{sortedGroupedOrders.map(([groupNumber, ordersInGroup]) => {
+							let totalProducts = Number(0);
+							let totalAmount = Number(0);
 
 							return (
 								<div className="listingWithTitle" key={groupNumber}>
 									<div className="orderDiv">Order {groupNumber}:</div>
-									{productsInGroup.map((product) => {
+									{ordersInGroup.map((index) => {
 										totalProducts++;
-										totalAmount += product.price;
-										const order = true
-										const buyer = product.Buyer
+										totalAmount += Number(index.Product.price);
+										const order = index
+										const buyer = currentUser;
 
 										return (
-											<li className="productList" key={product.id}>
+											<li className="productList" key={index.id}>
 												<div className="productInfo">
 													<div id="imgproduct">
-														<img src={`../${product.imageUrl}`} alt={product.name} />
+														<img src={`../${index.Product.imageUrl}`} alt={index.Product.name} />
 													</div>
 													<div className="infoList">
-														<div>{product.name}</div>
-														<div>{product.category}</div>
-														<div className="priceInfo">${product.price}</div>
+														<div>{index.Product.name}</div>
+														<div>{index.Product.category}</div>
+														<div className="priceInfo">${index.Product.price}</div>
 														{order && (
 															<div id="productBuyer">
 																Bought by
-																<a id="productBuyer" href={`profile.php?id=${buyer?.username}`}>
-																	{buyer ? `${buyer.firstName} ${buyer.lastName}` : 'Deleted User'}
+																<a id="productBuyer" href={`profile/${buyer?.username}`}> 
+																	 {buyer ? ` ${buyer.firstName} ${buyer.lastName}` : ' Deleted User'}
 																</a>
 															</div>
 														)}
@@ -128,9 +150,9 @@ const Orders = () => {
 					</div>
 				</div>
 			</div>
-
-			{sortedGroupedProducts.map(([groupNumber, productsInGroup]) => {
-				let totalAmount = 0;
+		</section>
+			{sortedGroupedOrders.map(([groupNumber, ordersInGroup]) => {
+				let totalAmount = Number(0);
 
 				return (
 					<div id={`shippingForm${groupNumber}`} style={{ display: 'none' }} key={`shippingForm${groupNumber}`}>
@@ -146,26 +168,30 @@ const Orders = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{productsInGroup.map((product) => {
-									totalAmount += product.price;
-									const order = true
-									const buyer = product.Buyer
+								{ordersInGroup.map((index) => {
+									totalAmount += Number(index.Product.price);
+									const order = index;
+									const buyer = currentUser;
 
 									return (
-										<tr key={product.id}>
-											<td>{product.name}</td>
-											<td>${product.price}</td>
+										<tr key={index.Product.id}>
+											<td>{index.Product.name}</td>
+											<td>${index.Product.price}</td>
 											<td>{buyer ? `${buyer.firstName} ${buyer.lastName}` : 'Deleted User'}</td>
 										</tr>
 									);
 								})}
 							</tbody>
 						</table>
-						<p>Total Amount Earned: ${totalAmount}</p>
+						<p>Total Amount Spent: ${totalAmount}</p>
+						<p>Shipping company: {ordersInGroup[0].shipping === 2 ? 'Economy Shipping' 
+											: ordersInGroup[0].shipping === 5 ? 'Standard Shipping' 
+											: ordersInGroup[0].shipping === 10 ? 'Express Delivery' 
+											: ''}</p>
 					</div>
 				);
 			})}
-		</section>
+		</div>
 	);
 };
 

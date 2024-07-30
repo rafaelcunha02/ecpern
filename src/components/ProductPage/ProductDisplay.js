@@ -229,7 +229,7 @@ useEffect(() => {
       </div>
       <div style={{marginTop: '21em'}}
       >
-      <h1>Product description</h1>
+      <h1 id="producth1" >Product description</h1>
       <p style={{ marginBottom: '5em' }} id="desc">
         {product.productDescription}
       </p>

@@ -9,7 +9,7 @@
 #orderHistory {
     min-height: 100vh;
     display: flex;
-    margin-left: 20vw;
+    margin-left: 15vw;
     font-weight: bold;
     color: #333;
     font-family: Arial, sans-serif;
@@ -374,3 +374,4 @@ table{
     justify-content: space-between;
     align-items: center;
 }
+

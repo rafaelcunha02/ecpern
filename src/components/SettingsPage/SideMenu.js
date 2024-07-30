@@ -15,7 +15,7 @@ const SideMenu = ({ user }) => {
         </Link>
         <Link to={`/account`} className={['/account', '/account/delete', '/account/email', '/account/password'].includes(pathname) ? 'active' : ''}><li>Account Settings</li>
         </Link>
-        <Link to={`/profileSettingsOrderHistory/${username}`} className={pathname === `/profileSettingsOrderHistory/${username}` ? 'active' : ''}>
+        <Link to={`/orders`} className={pathname === `/orders` ? 'active' : ''}>
           <li>Order History</li>
         </Link>
         <Link to={`/profileSettingsSalesHistory/${username}`} className={pathname === `/profileSettingsSalesHistory/${username}` ? 'active' : ''}>
