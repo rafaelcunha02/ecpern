@@ -15,6 +15,7 @@ import DeleteAccountPage from './components/SettingsPage/EditCredentials/DeleteA
 import EmailFormPage from './components/SettingsPage/EditCredentials/EmailFormPage';
 import PasswordFormPage from './components/SettingsPage/EditCredentials/PasswordFormPage';
 import OrdersPage from './components/SettingsPage/OrdersPage';
+import SalesPage from './components/SettingsPage/SalesPage';
 import AdminPanel from './components/AdminPage/AdminPanel';
 
 import { Elements } from '@stripe/react-stripe-js';
@@ -54,7 +55,7 @@ const App = () => {
             <Route path="profile/:username" element={<ProfilePage />} />
             <Route path="search/input/:input?" element={<SearchPage />} />
             <Route path="search/category/:category?" element={<SearchPage />} />
-            <Route path="sell/:username" element={<SellPage />} />
+            <Route path="sell/:username?" element={<SellPage />} />
             <Route path="edit/:productId" element={<EditPage />} />
             <Route 
               path="Cart/:username?" 
@@ -73,6 +74,7 @@ const App = () => {
             <Route path="account/delete" element={<DeleteAccountPage />} />
             <Route path="admin" element={<AdminPanel />} />
             <Route path="orders" element={<OrdersPage />} />
+            <Route path="sales" element={<SalesPage />} />
           </Routes>
         </Router>
       </UserContext.Provider>

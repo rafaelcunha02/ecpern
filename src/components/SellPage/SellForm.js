@@ -122,7 +122,7 @@ const handleFileUpload = async (event) => {
 
 
 
-  if(!categories[0] || !conditions[0] || !sizes[0]) {
+  if(!categories[0] || !conditions[0]) {
     return <p>Loading...</p>;
   }
 

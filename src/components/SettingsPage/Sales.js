@@ -94,7 +94,7 @@ const Sales = () => {
 		<section id="orderHistory" className="orderHistoryContainer">
 			<div className="inlineContain">
 				<div className="topFlex" id="first" style={{fontSize:"1em"}}>
-					<h1>Order History</h1>
+					<h1>Sales History</h1>
 				</div>
 				<div className="overflowContainer" style={{maxHeight:"70vh"}}>
 					<div className="productGroup">

@@ -18,7 +18,7 @@ const SideMenu = ({ user }) => {
         <Link to={`/orders`} className={pathname === `/orders` ? 'active' : ''}>
           <li>Order History</li>
         </Link>
-        <Link to={`/profileSettingsSalesHistory/${username}`} className={pathname === `/profileSettingsSalesHistory/${username}` ? 'active' : ''}>
+        <Link to={`/sales`} className={pathname === `/sales` ? 'active' : ''}>
           <li>Sales History</li>
         </Link>
       </ul>
