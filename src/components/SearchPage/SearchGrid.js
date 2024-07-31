@@ -181,7 +181,6 @@ useEffect(() => {
   }
 }, []);
 */
-  if(!currentUser){return null}
 
   return (
     <main id="searchMain">
@@ -248,7 +247,7 @@ useEffect(() => {
         </div>
         <ul style={{display: "grid", gridTemplateColumns: "repeat(3,33%)"}} >
           {products.map(product => {
-            if (currentUser.id === product.sellerId || product.isAvailable === 0) return null;
+            if ((currentUser && currentUser.id === product.sellerId) || product.isAvailable === 0) return null;
 
             let inCart = cartProducts.some(cartProduct => cartProduct.productId === product.id);
             return (
