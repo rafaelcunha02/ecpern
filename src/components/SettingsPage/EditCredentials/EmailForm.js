@@ -85,7 +85,7 @@ const EditEmailForm = ({ user }) => {
         id: user.id
       }
   
-      const res = await fetch(`http://localhost:4005/api/users/change-email`, {
+      const res = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/change-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

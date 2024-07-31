@@ -12,7 +12,7 @@ function RelatedProducts({ user }) {
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:4005/api/products/${id}`)
+        fetch(`https://vintech-ecommerce-pern.onrender.com/api/products/${id}`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error('HTTP error ' + res.status);
@@ -31,7 +31,7 @@ function RelatedProducts({ user }) {
 
     useEffect(() => {
         if(product){
-            fetch(`http://localhost:4005/api/products/category/${product.category}`)
+            fetch(`https://vintech-ecommerce-pern.onrender.com/api/products/category/${product.category}`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error('HTTP error ' + res.status);

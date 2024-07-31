@@ -35,7 +35,7 @@ const LandingPage = () => {
 useEffect(() => {
   // Check if user is logged in
   if (loggedUser) {
-    fetch(`http://localhost:4005/api/users/id/${loggedUser.id}`)
+    fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`)
       .then(res => {
         if (!res.ok) { // if HTTP status is not OK
           throw new Error('HTTP error ' + res.status);
@@ -81,7 +81,7 @@ useEffect (() => {
   const [categorias, setCategorias] = useState([]);
 
   useEffect (() => {
-    fetch('http://localhost:4005/api/caracs/Categories')
+    fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Categories')
     .then(res => {
       if (!res.ok) { 
         throw new Error('HTTP error ' + res.status);
@@ -98,7 +98,7 @@ useEffect (() => {
 
   useEffect (() => {
     if(currentUser === null) return;
-    fetch(`http://localhost:4005/api/orders/cart/${currentUser.id}`)
+    fetch(`https://vintech-ecommerce-pern.onrender.com/api/orders/cart/${currentUser.id}`)
     .then(res => {
       if (!res.ok) { 
         console.log(res.status);

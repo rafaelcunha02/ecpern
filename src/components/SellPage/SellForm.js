@@ -47,7 +47,6 @@ const handleSubmit = async (event) => {
 
   console.log(formData);
 
-  // Make a POST request to your API
   const response = await fetch('/api/products/sell', {
     method: 'POST',
     headers: {
@@ -59,7 +58,7 @@ const handleSubmit = async (event) => {
   if (response.ok) {
     alert('Product submitted successfully!');
     navigate('/');
-    // If the request was successful, clear the form
+    
     setName('');
     setPrice('');
     setCategory('');

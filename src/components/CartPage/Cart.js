@@ -59,7 +59,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   }, [orders]);
 
   useEffect(() => {
-    fetch('http://localhost:4005/api/payments/create-payment-intent', {
+    fetch('https://vintech-ecommerce-pern.onrender.com/api/payments/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ amount: (Number(total) + Number(shippingPrice)) * 100 }), // Amount in cents
@@ -77,7 +77,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
       shippingMethod: shippingMethod
     };
 
-    const response = await fetch('http://localhost:4005/api/orders/processCart', {
+    const response = await fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/processCart', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -139,7 +139,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   const handleRemove = async (event) => {
     const orderid = event.target.getAttribute('data-orderid');
 
-    const response = await fetch(`http://localhost:4005/api/orders/delete/${orderid}`, {
+    const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/orders/delete/${orderid}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

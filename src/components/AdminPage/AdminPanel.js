@@ -31,14 +31,14 @@ const AdminPanel = () => {
 
     useEffect(() => {
         if (loggedUser) {
-            fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser);
+            fetchData(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`, setCurrentUser);
         }
         console.log(loggedUser);
     }, [loggedUser]);
 
     useEffect(() => {
         if (loggedUser) {
-          fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser)
+          fetchData(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`, setCurrentUser)
             .catch(error => console.error('Fetch failed:', error))
         }
         console.log(loggedUser);

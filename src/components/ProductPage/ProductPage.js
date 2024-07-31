@@ -31,7 +31,7 @@ const ProductPage = () => {
   // Adjusted to handle null loggedUser
   useEffect(() => {
     if (loggedUser) {
-      fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser)
+      fetchData(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`, setCurrentUser)
         .catch(error => console.error('Fetch failed:', error))
         .finally(() => setLoading(false));
     } else {
@@ -41,14 +41,14 @@ const ProductPage = () => {
 
   // Fetch product details regardless of user login
   useEffect(() => {
-    fetchData(`http://localhost:4005/api/products/${id}`, setProduto)
+    fetchData(`https://vintech-ecommerce-pern.onrender.com/api/products/${id}`, setProduto)
       .catch(error => console.error('Fetch failed:', error));
   }, [id]);
 
   // Adjusted to handle null currentUser
   useEffect(() => {
     if (currentUser) {
-      fetchData(`http://localhost:4005/api/orders/cart/${currentUser.id}`, setCartProducts)
+      fetchData(`https://vintech-ecommerce-pern.onrender.com/api/orders/cart/${currentUser.id}`, setCartProducts)
         .catch(error => console.error('Fetch failed:', error))
         .finally(() => setLoading(false));
     }
@@ -56,7 +56,7 @@ const ProductPage = () => {
 
   // Fetch categories regardless of user login
   useEffect(() => {
-    fetch('http://localhost:4005/api/caracs/Categories')
+    fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Categories')
       .then(res => {
         if (!res.ok) {
           throw new Error('HTTP error ' + res.status);

@@ -41,7 +41,7 @@ const EditPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             if (loggedUser) {
-                const res = await fetch(`http://localhost:4005/api/users/id/${loggedUser.id}`);
+                const res = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 setCurrentUser(data);
@@ -55,7 +55,7 @@ const EditPage = () => {
 
     useEffect(() => {
         const fetchCategorias = async () => {
-            return fetch('http://localhost:4005/api/caracs/Categories')
+            return fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Categories')
                 .then(res => res.json())
                 .then(data => {
                     setCategorias(data);
@@ -64,7 +64,7 @@ const EditPage = () => {
         }
 
         const fetchTamanhos = async () => {
-            return fetch('http://localhost:4005/api/caracs/Size')
+            return fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Size')
                 .then(res => res.json())
                 .then(data => {
                     setTamanhos(data);
@@ -73,7 +73,7 @@ const EditPage = () => {
         }
 
         const fetchCondicoes = async () => {
-            return fetch('http://localhost:4005/api/caracs/Condition')
+            return fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Condition')
                 .then(res => res.json())
                 .then(data => {
                     setCondicoes(data);
@@ -82,7 +82,7 @@ const EditPage = () => {
         };
 
         const fetchProduto = async () => {
-            return fetch('http://localhost:4005/api/products/' + prodId)
+            return fetch('https://vintech-ecommerce-pern.onrender.com/api/products/' + prodId)
                 .then(res => res.json())
                 .then(data => {
                     setProduto(data);

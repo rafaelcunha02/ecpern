@@ -34,7 +34,7 @@ const CartPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             if (loggedUser) {
-                const res = await fetch(`http://localhost:4005/api/users/id/${loggedUser.id}`);
+                const res = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 setCurrentUser(data);
@@ -50,7 +50,7 @@ const CartPage = () => {
         if(currentUser){
 
         
-        fetch('http://localhost:4005/api/orders/cart/' + currentUser.id)
+        fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/cart/' + currentUser.id)
         .then(res => res.json())
         .then(data => {
             setOrders(data);

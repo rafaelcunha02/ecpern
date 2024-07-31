@@ -33,7 +33,7 @@ const EmailFormPage = () => {
 
 useEffect(() => {
     if (loggedUser) {
-        fetchData(`http://localhost:4005/api/users/id/${loggedUser.id}`, setCurrentUser);
+        fetchData(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`, setCurrentUser);
         setLoading(false);
     }
 }, [loggedUser]);

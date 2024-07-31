@@ -16,7 +16,7 @@ function CommentSection({ user }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await fetch(`http://localhost:4005/api/comments/${params.id}`);
+        const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/comments/${params.id}`);
         const data = await response.json();
         setComments(data || []);
         setCommentsFetched(true);
@@ -33,7 +33,7 @@ function CommentSection({ user }) {
       const fetchReplies = async () => {
         try {
           const promises = comments.map(comment =>
-            fetch(`http://localhost:4005/api/replies/${comment.id}`)
+            fetch(`https://vintech-ecommerce-pern.onrender.com/api/replies/${comment.id}`)
               .then(response => response.json())
               .then(repliesData => ({ commentId: comment.id, repliesData }))
               .catch(error => console.error(`Failed to fetch replies for comment ${comment.id}:`, error))
