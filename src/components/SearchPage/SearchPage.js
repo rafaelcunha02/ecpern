@@ -67,7 +67,7 @@ useEffect(() => {
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
             <ProductsGridSearch products={produtos} caracs={categorias} currentInput={currentInput} currentCategory={currentCategory} cartProducts={cart} currentUser={currentUser} />
-            <Footer />
+            <Footer user={currentUser}/>
         </div>
     );
 }

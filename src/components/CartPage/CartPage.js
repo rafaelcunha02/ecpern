@@ -68,7 +68,7 @@ const CartPage = () => {
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
             <Cart currentUser={currentUser} session={currentUser} orders={orders} setOrders={setOrders} />
-            <Footer/>
+            <Footer user={currentUser}/>
         </div>
     );
 }

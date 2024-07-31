@@ -79,8 +79,8 @@ const ProductPage = () => {
       <ProductDisplay user={currentUser} cartProducts={cartProducts} />
       <CommentSection user={currentUser} />
       <RelatedProducts />
-      <Footer />
-    </div>
+      <Footer user={currentUser}/>
+      </div>
   );
 };
 

@@ -48,7 +48,6 @@ useEffect(() => {
             <Header isLoggedIn={currentUser} user={currentUser}/>
             <DeleteAccountForm user={currentUser} />
             <SideMenu user={currentUser}/>
-            <Footer />
         </div>
     );
 }

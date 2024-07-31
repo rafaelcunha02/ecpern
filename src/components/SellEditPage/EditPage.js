@@ -105,7 +105,7 @@ const EditPage = () => {
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
             <EditForm product={produto} user={currentUser} categories={categorias} sizes={tamanhos} conditions={condicoes} />
-            <Footer/>
+            <Footer user={currentUser}/>
         </div>
     );
 }

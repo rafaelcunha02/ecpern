@@ -124,8 +124,8 @@ useEffect (() => {
         <HeroSection heroSearch={heroSearch} setHeroSearch={setHeroSearch}/>
         <CategorySection categories={categorias}/>
         <ProductSection cartProducts={cartProducts} currentUser={currentUser} products={produtos}/>
-        <Footer />
-      </div>
+        <Footer user={currentUser}/>
+        </div>
   );
 }
 

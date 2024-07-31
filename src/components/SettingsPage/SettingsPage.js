@@ -42,7 +42,7 @@ const SettingsPage = () => {
             <Header isLoggedIn={currentUser} user={currentUser} />
             <ProfileForm user={currentUser} />
             <SideMenu user={currentUser}/>
-            <Footer />
+            <Footer user={currentUser}/>
         </div>
     );
 }

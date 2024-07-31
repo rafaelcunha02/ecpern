@@ -49,7 +49,7 @@ useEffect(() => {
             <Header isLoggedIn={currentUser} user={currentUser}/>
             <Orders/>
             <SideMenu user={currentUser}/>
-            <Footer />
+            <Footer user={currentUser}/>
         </div>
     );
 }

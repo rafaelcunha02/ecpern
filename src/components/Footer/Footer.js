@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'; 
 import '../../common.css';
+import supabase from '../../Client';
 
-const Footer = ({ isLoggedIn, user }) => {
+const Footer = ({ user }) => {
 
+  
   const [currentInput, setCurrentInput] = useState('');
   const navigate = useNavigate('');
 
@@ -33,6 +35,17 @@ const searchEvent = (input) => {
   }
 }
 
+const logout = async () => {
+  await supabase.auth.signOut();
+  if(window.location.pathname != '/'){
+      navigate('/');
+      window.location.reload();
+  }
+  else {
+      window.location.reload();
+  }
+}
+
   return (
     <footer id="footer">
       <div className="footer-section">
@@ -44,10 +57,10 @@ const searchEvent = (input) => {
       </div>
       <div className="footer-section">
         <div className="footer-links">
-          {isLoggedIn ? (
+          {user ? (
             <>
               <Link to={`/profile/${user.username}`}>Profile</Link>
-              <Link to="/logout">Log Out</Link>
+              <Link onClick={logout}>Log Out</Link>
             </>
           ) : (
             <>

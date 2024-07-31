@@ -72,7 +72,7 @@ const ProfilePage = () => {
             <Header isLoggedIn ={currentUser} user = {currentUser}/>
             <Profile user={user} currentUser={currentUser} count={products.length} />
             <UserProducts  user={user} currentUser={currentUser} sellingProducts={products} cartProducts={[]}/>
-            <Footer />
+            <Footer user={currentUser}/>
         </div>
     );
 }
