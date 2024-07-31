@@ -93,6 +93,7 @@ orders.post('/process', async (req, res) => {
 orders.get('/cart/:userId', async (req, res) => {
     try {
         const unprocessedOrders = await Order.getUnprocessedOrdersByBuyerId(req.params.userId);
+        
         res.status(200).json(unprocessedOrders);
     } catch (error) {
         res.status(500).json(error);
@@ -140,7 +141,6 @@ orders.delete('/delete/:id', async (req, res) => {
     }
 }
 );
-
 
 
 

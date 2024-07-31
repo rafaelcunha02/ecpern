@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     return await this.findAll({ 
       where: { buyerId: buyerId, isProcessed: 0 },
       include: [
-        { model: sequelize.models.Product },
+        { model: sequelize.models.Product, 
+          where : { isAvailable: 1 } },
         { model: sequelize.models.User, as: 'Seller' }
       ]
     });

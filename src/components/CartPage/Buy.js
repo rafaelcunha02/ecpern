@@ -96,9 +96,6 @@ const Buy = ({ orders, currentUser }) => {
           const createdOrder = await createResponse.json();
             console.log("Success, createdOrder:", createdOrder);
 
-          
-            console.log("Product id: ");
-            console.log(orders[0].Product.id);
           const data = {
               buyerId: currentUser.id,
               shipping: shippingMethod,
