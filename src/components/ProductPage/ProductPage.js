@@ -78,7 +78,7 @@ const ProductPage = () => {
       <Header isLoggedIn={currentUser} user={currentUser} />
       <ProductDisplay user={currentUser} cartProducts={cartProducts} />
       <CommentSection user={currentUser} />
-      <RelatedProducts />
+      <RelatedProducts user={currentUser} />
       <Footer user={currentUser}/>
       </div>
   );

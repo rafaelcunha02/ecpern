@@ -68,6 +68,11 @@ function CommentSection({ user }) {
   const publishComment = (event) => {
     event.preventDefault();
 
+    if(!user){
+      alert("Log In to ask a question");
+      return;
+    }
+
     supabase.from('Comments').insert([
       {
         productId: params.id,
@@ -86,6 +91,12 @@ function CommentSection({ user }) {
 
   const publishReply = (event, commentId) => {
     event.preventDefault();
+
+    if(!user){
+      alert("Log In to answer a question");
+      return;
+    }
+    
     const replyText = replyContent[commentId] || '';
 
     supabase.from('Replies').insert([
@@ -117,7 +128,7 @@ function CommentSection({ user }) {
   return (
     <section id="comments">
       <h1 id="producth1" style={{ textAlign: 'center' }}>Questions & Answers</h1>
-      {user && (
+       
         <form onSubmit={publishComment} className="commentForm">
           <textarea
             name="content"
@@ -130,7 +141,7 @@ function CommentSection({ user }) {
             Submit
           </button>
         </form>
-      )}
+      
 
       <ul id="commented">
         {comments.map((comment) => {

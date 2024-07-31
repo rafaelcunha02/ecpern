@@ -234,7 +234,7 @@ useEffect(() => {
           />
       )}
       </div>
-      <div style={{marginTop: '21em'}}
+      <div style={{marginTop: '3em'}}
       >
       <h1 id="producth1" >Product description</h1>
       <p style={{ marginBottom: '5em' }} id="desc">
