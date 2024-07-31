@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       return await this.findAll({ where: { orderGroup: group } });
     }
 
+    static async getOrderWithProduct(orderId) {
+      return await this.findByPk(orderId, { include: [ { model: sequelize.models.Product } ] });
+    }
+
   static async getUnprocessedOrdersByBuyerId(buyerId) {
     return await this.findAll({ 
       where: { buyerId: buyerId, isProcessed: 0 },

@@ -78,7 +78,14 @@ useEffect(() => {
 
 
   const handleBuy = () => {
-    // Add your logic for buying the product here
+
+    const order = {
+      Product: product,
+      Seller: seller,
+    }
+  
+
+    navigate('/buy', { state: { order } });
   };
 
 

@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom';
 
 const stripePromise = loadStripe('pk_test_51PhblQD30EyofdUR6BTc6EcNMg1yEuSOYQl8XtipyqHEZM3zqtYqo7xIm7CUrWjY2mxmpIngIOBoWXUSU3V9zWTp00qmwsXIQV');
 
-const Cart = ({ orders, setOrders, currentUser }) => {
+const Buy = ({ orders, currentUser }) => {
   const navigate = useNavigate();
   const [isFirstProduct, setIsFirstProduct] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -22,6 +22,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   const sectionRef1 = useRef(null);
   const sectionRef2 = useRef(null);
   const [scroll, setScroll] = useState(false);
+    const [createdOrderId, setCreatedOrderId] = useState(null);
 
   useEffect(() => {
     setScroll(true);
@@ -70,30 +71,60 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   }, [total, shippingPrice]);
 
 
-  const processCart = async () => {
 
-    const data = {
-      userId: currentUser.id,
-      shippingMethod: shippingMethod
-    };
+  const processOrder = async () => {
+      try {
+          const createResponse = await fetch('http://localhost:4005/api/orders/create', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  buyerId: currentUser.id,
+                  productId: orders[0].Product.id,
+                  sellerId: orders[0].Seller.id
+              })
+          });
+  
+          console.log("buyer: ");
+            console.log(currentUser.id);
+          if (!createResponse.ok) {
+              console.error('Failed to create order:', createResponse);
+              return;
+          }
+  
+          const createdOrder = await createResponse.json();
+            console.log("Success, createdOrder:", createdOrder);
 
-    const response = await fetch('http://localhost:4005/api/orders/processCart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-
-    if (response.ok) {
-      const processedOrders = await response.json();
-      console.log("success, processedOrders: ")
-      console.log(processedOrders);
-    }
-
-
-
-  }
+          
+            console.log("Product id: ");
+            console.log(orders[0].Product.id);
+          const data = {
+              buyerId: currentUser.id,
+              shipping: shippingMethod,
+              product: orders[0].Product.id
+          };
+  
+          const response = await fetch('http://localhost:4005/api/orders/process', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          });
+  
+          if (!response.ok) {
+              const errorText = await response.text();
+              console.error('Failed to process order:', response, errorText);
+              return;
+          }
+  
+          const processedOrders = await response.json();
+          console.log("Success, processedOrders:", processedOrders);
+      } catch (error) {
+          console.error('Error processing order:', error);
+      }
+  };
 
   const handlePay = async (event) => {
     event.preventDefault();
@@ -124,7 +155,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
       setError(error.message);
       alert(error.message);
     } else if (paymentIntent.status === 'succeeded') {
-      processCart();
+      processOrder();
 
       console.log('Payment succeeded!');
       alert('Payment succeeded!');
@@ -136,24 +167,6 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   };
 
 
-  const handleRemove = async (event) => {
-    const orderid = event.target.getAttribute('data-orderid');
-
-    const response = await fetch(`http://localhost:4005/api/orders/delete/${orderid}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (response.ok) {
-      const updatedOrders = orders.filter(order => order.id !== parseInt(orderid));
-      console.log(updatedOrders);
-      setOrders(updatedOrders);
-    } else {
-      console.error('HTTP error ' + response.status);
-    }
-  };
 
   const showForm = (formId) => {
     const forms = ['mbWayForm', 'creditCardForm', 'ATMForm'];
@@ -182,7 +195,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
       <section ref={sectionRef1} id="cartSection" className="cartContainer">
         <div className="inlineContain">
           <div className="topFlex" id="first">
-            <div>Your Cart</div>
+            <div>Buy a Product</div>
           </div>
           <div className="overflowContainer">
             {orders.map((order, index) => (
@@ -207,17 +220,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
                       </h3>
                       <div>{order.Product.category}</div>
                       <div id="removeDiv">
-                        <button
-                          id="remover"
-                          data-price={order.Product.price}
-                          data-productid={order.Product.id}
-                          data-buyerid={user ? user.username : ''}
-                          data-orderid={order.id}
-                          className="removeButton"
-                          onClick={(event) => handleRemove(event)}
-                        >
-                          Remove from Cart
-                        </button>
+
                       </div>
                     </div>
                   </div>
@@ -380,10 +383,10 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   );
 };
 
-const CartWrapper = (props) => (
+const BuyWrapper = (props) => (
   <Elements stripe={stripePromise}>
-    <Cart {...props} />
+    <Buy {...props} />
   </Elements>
 );
 
-export default CartWrapper;
+export default BuyWrapper;

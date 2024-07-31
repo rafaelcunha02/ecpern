@@ -7,6 +7,7 @@ import SearchPage from './components/SearchPage/SearchPage';
 import SellPage from './components/SellPage/SellPage';
 import EditPage from './components/SellEditPage/EditPage';
 import CartPage from './components/CartPage/CartPage'
+import BuyPage from './components/CartPage/BuyPage';
 import SignUpPage from './components/SignUp/SignUpPage';
 import LoginPage from './components/SignIn/SignInPage';
 import SettingsPage from './components/SettingsPage/SettingsPage';
@@ -64,6 +65,14 @@ const App = () => {
                   <CartPage />
                 </Elements>
               } 
+            />
+            <Route
+              path="Buy/:username?"
+              element={
+                <Elements stripe={stripePromise}>
+                  <BuyPage />
+                </Elements>
+              }
             />
             <Route path="SignUp" element={<SignUpPage />} />
             <Route path="Login" element={<LoginPage />} />

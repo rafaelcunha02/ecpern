@@ -1,6 +1,6 @@
 const orders = require('express').Router();
 const db = require('../models');
-const { Order } = db;
+const { Order, Product } = db;
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -48,6 +48,43 @@ orders.post('/create', async (req, res) => {
         res.status(500).json(error);
     }
 });
+
+
+//PROCESS ORDER BY ID
+
+orders.post('/process', async (req, res) => {
+    try {
+        const maxOrderId = await Order.max('id', { where: { buyerId: req.body.buyerId } });
+        const order = await Order.findOne({ where: { id: maxOrderId } });
+        
+        if (!order) {
+            res.status(404).json({ error: 'Order not found' });
+            return;
+        }
+
+        const group = await Order.max('orderGroup') + 1;
+        order.orderGroup = group;
+        order.isProcessed = 1;
+        order.shipping = req.body.shipping;
+
+        console.log('Product:', order.Product);
+
+        if (req.body.product) {
+            product = await Product.findByPk(req.body.product);
+            product.isAvailable = 0;
+            await product.save();
+            console.log('Product saved:', product);
+        }
+
+        await order.save();
+        res.status(200).json(order);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+
 
 
 
@@ -150,6 +187,8 @@ orders.post('/processCart', async (req, res) => {
         res.status(500).json({ error: 'An error occurred while processing the cart', details: error.message });
     }
 });
+
+
 
 
 module.exports = orders;

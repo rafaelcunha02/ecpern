@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { UserContext } from '../../App';
+import { useLocation } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import Cart from './Cart';
+import Buy from './Buy';
 import './CartPage.css';
 
 
-const CartPage = () => {
+const BuyPage = () => {
 
-    const [orders, setOrders] = useState([]);
+    const location = useLocation();
+    const { order } = location.state || {};
+    console.log('order:', order);
+    console.log(order);
+    const [orders, setOrders] = useState([order]);
+    
+    const [seller, setSeller] = useState(null);
 
     const [currentInput, setCurrentInput] = useState('');
     
@@ -46,31 +53,18 @@ const CartPage = () => {
             .catch(error => console.error('Fetch failed:', error));
     }, []);
 
-    useEffect (() => {
-        if(currentUser){
-
-        
-        fetch('http://localhost:4005/api/orders/cart/' + currentUser.id)
-        .then(res => res.json())
-        .then(data => {
-            setOrders(data);
-        })
-        .catch(error => console.error('Fetch failed:', error));
-        }
-    }, [currentUser]);
-
 
     if (!currentUser
         || !orders
-    ) return <div></div>;
+    ) return <div>Loading buy page...</div>;
 
     return (
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} currentInput={currentInput} setCurrentInput={setCurrentInput} />
-            <Cart currentUser={currentUser} session={currentUser} orders={orders} setOrders={setOrders} />
+            <Buy orders={orders} currentUser={currentUser} />
             <Footer/>
         </div>
     );
 }
 
-export default CartPage;
+export default BuyPage;
