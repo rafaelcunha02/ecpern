@@ -139,6 +139,10 @@ const Orders = () => {
 											<h3>Order Summary:</h3>
 											<p>Products Bought: {totalProducts}</p>
 											<p>Money Spent: ${totalAmount}</p>
+											<p>Shipping company: {ordersInGroup[0].shipping === 2 ? 'Economy Shipping' 
+												: ordersInGroup[0].shipping === 5 ? 'Standard Shipping' 
+												: ordersInGroup[0].shipping === 10 ? 'Express Delivery' 
+												: ''}</p>
 										</div>
 										<button className="printForm" onClick={() => handlePrintShippingForm(groupNumber)}>
 											Print Shipping Form
@@ -185,9 +189,9 @@ const Orders = () => {
 						</table>
 						<p>Total Amount Spent: ${totalAmount}</p>
 						<p>Shipping company: {ordersInGroup[0].shipping === 2 ? 'Economy Shipping' 
-											: ordersInGroup[0].shipping === 5 ? 'Standard Shipping' 
-											: ordersInGroup[0].shipping === 10 ? 'Express Delivery' 
-											: ''}</p>
+                                : ordersInGroup[0].shipping === 5 ? 'Standard Shipping' 
+                                : ordersInGroup[0].shipping === 10 ? 'Express Delivery' 
+                                : ''}</p>
 					</div>
 				);
 			})}

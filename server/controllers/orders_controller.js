@@ -114,6 +114,18 @@ orders.get('/buys/:userId', async (req, res) => {
 }
 );
 
+//GET ALL PROCESSED FROM EVERYONE
+
+orders.get('/buys', async (req, res) => {
+    try {
+        const processedOrders = await Order.getAllProcessedOrders();
+        res.status(200).json(processedOrders);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+);
+
 
 //GET ALL PROCESSED ORDERS FROM A SELLER
 

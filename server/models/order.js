@@ -38,6 +38,18 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
+    static async getAllProcessedOrders() {
+      return await this.findAll({ 
+        where: { isProcessed: 1 },
+        include: [ { model: sequelize.models.Product },
+                    { model: sequelize.models.User, as: 'Seller' },
+                    { model: sequelize.models.User, as: 'Buyer' }
+                  ]
+      });
+    }
+
+
+
     static async getProcessedOrdersBySellerId(sellerId) {
       return await this.findAll({ 
         where: { sellerId: sellerId, isProcessed: 1 },

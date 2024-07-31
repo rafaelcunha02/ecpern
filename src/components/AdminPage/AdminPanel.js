@@ -69,7 +69,7 @@ const AdminPanel = () => {
           <Header isLoggedIn={currentUser} user={currentUser} />
           <SideMenuAdmin selector={selector} setSelector={setSelector}/>
           {selector === 0 && <UsersAdmin />}
-          {selector === 1 && <OrdersAdmin />}
+          {selector === 1 && <OrdersAdmin currentUser={currentUser} />}
         </div>
       );
 }
