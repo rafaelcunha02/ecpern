@@ -201,7 +201,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
                     </div>
                     <div className="infoLista">
                       <h3>
-                        <a id="productHref" href={`product.php?id=${order.Product.id}`} title={order.Product.name}>
+                        <a id="productHref" href={`../product/${order.Product.id}`} title={order.Product.name}>
                           {order.Product.name}
                         </a>
                       </h3>
@@ -233,7 +233,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
               </>
             ))}
           </div>
-          <button className="goBack" onClick={() => window.location.href = 'search.php'}>Browse Products</button>
+          <button className="goBack" onClick={() => window.location.href = '../search/input'}>Browse Products</button>
         </div>
 
         <div className="inlineContain" id="rightSide">
