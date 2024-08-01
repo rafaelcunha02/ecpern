@@ -40,7 +40,7 @@ const Login = () => {
               type="text"
               id="username"
               name="username"
-              placeholder="Username or Email"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
