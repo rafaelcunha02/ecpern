@@ -59,15 +59,6 @@ const handleSubmit = async (event) => {
     alert('Product submitted successfully!');
     navigate('/');
     
-    setName('');
-    setPrice('');
-    setCategory('');
-    setBrand('');
-    setModel('');
-    setSize('');
-    setCondition('');
-    setDescription('');
-    setImageUrl('');
   } else {
     // If there was an error, you can handle it here
     console.error('Error:', response);

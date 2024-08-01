@@ -156,6 +156,7 @@ const Buy = ({ orders, currentUser }) => {
 
       console.log('Payment succeeded!');
       alert('Payment succeeded!');
+      navigate(`/buys`);
     }
   }
   else{
