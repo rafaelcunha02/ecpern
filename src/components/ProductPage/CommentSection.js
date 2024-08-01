@@ -6,11 +6,9 @@ function CommentSection({ user }) {
   const [content, setContent] = useState('');
   const params = useParams();
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState(false);
   const [activeReply, setActiveReply] = useState({});
   const [activeSeeReply, setActiveSeeReply] = useState({});
-  const [replyContent, setReplyContent] = useState({}); 
-  const [newReply, setNewReply] = useState(false);
+  const [replyContent, setReplyContent] = useState({});
   const [commentsFetched, setCommentsFetched] = useState(false);
 
   useEffect(() => {
@@ -26,10 +24,10 @@ function CommentSection({ user }) {
     };
 
     fetchComments();
-  }, [params.id, newComment]);
+  }, [params.id]);
 
   useEffect(() => {
-    if (comments) {
+    if (commentsFetched) {
       const fetchReplies = async () => {
         try {
           const promises = comments.map(comment =>
@@ -54,7 +52,7 @@ function CommentSection({ user }) {
 
       fetchReplies();
     }
-  }, [params.id, newReply, commentsFetched]);
+  }, [params.id, commentsFetched]);
 
   useEffect(() => {
     const initialActiveReplies = comments.reduce((acc, comment) => {
@@ -65,53 +63,67 @@ function CommentSection({ user }) {
     setActiveSeeReply(initialActiveReplies);
   }, [comments]);
 
-  const publishComment = (event) => {
+  const publishComment = async (event) => {
     event.preventDefault();
 
-    if(!user){
+    if (!user) {
       alert("Log In to ask a question");
       return;
     }
 
-    supabase.from('Comments').insert([
+    const { data, error } = await supabase.from('Comments').insert([
       {
         productId: params.id,
         authorId: user.id,
         content: content,
       },
-    ]).then(() => {
+    ]).single();
+
+    if (error) {
+      console.error('Error publishing comment:', error);
+    } else {
+      setComments(prevComments => [...prevComments, data]);
       setContent('');
-    });
-    setNewComment(!newComment);
+    }
   };
 
   const handleReplyChange = (commentId, value) => {
     setReplyContent(prev => ({ ...prev, [commentId]: value }));
   };
 
-  const publishReply = (event, commentId) => {
+  const publishReply = async (event, commentId) => {
     event.preventDefault();
 
-    if(!user){
+    if (!user) {
       alert("Log In to answer a question");
       return;
     }
-    
+
     const replyText = replyContent[commentId] || '';
 
-    supabase.from('Replies').insert([
+    const { data, error } = await supabase.from('Replies').insert([
       {
         commentId: commentId,
         authorId: user.id,
         replyText: replyText,
       },
-    ]).then(() => {
-      setReplyContent(prev => ({ ...prev, [commentId]: '' })); 
-    });
-    setNewReply(!newReply);
+    ]).single();
+
+    if (error) {
+      console.error('Error publishing reply:', error);
+    } else {
+      setComments(prevComments => 
+        prevComments.map(comment => 
+          comment.id === commentId
+            ? { ...comment, replies: [...comment.replies, data] }
+            : comment
+        )
+      );
+      setReplyContent(prev => ({ ...prev, [commentId]: '' }));
+    }
   };
 
-  const toggleReplies = (event, commentId) => {
+  const toggleReplies = (commentId) => {
     setActiveSeeReply(prevActiveSeeReplies => ({
       ...prevActiveSeeReplies,
       [commentId]: !prevActiveSeeReplies[commentId]
@@ -176,7 +188,7 @@ function CommentSection({ user }) {
                 )}
 
                 <div>
-                  <button className="seeReplies" onClick={(e) => toggleReplies(e, comment.id)}>
+                  <button className="seeReplies" onClick={() => toggleReplies(comment.id)}>
                     <span>{activeSeeReply[comment.id] ? "▲" : "▼"}</span> See replies
                   </button>
                 </div>
