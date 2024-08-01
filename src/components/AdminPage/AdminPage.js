@@ -227,7 +227,7 @@ console.log(sortedGroupedOrders);
 										<div className="orderSummary">
 											<h3>Order Summary:</h3>
 											<p>Total Products Involved: {totalProducts}</p>
-											<p>Total Money Involved: ${totalAmount}</p>
+											<p>Total Money Involved: ${totalAmount.toFixed(2)}</p>
 										</div>
 									</div>
 								</div>
@@ -269,7 +269,7 @@ console.log(sortedGroupedOrders);
 								})}
 							</tbody>
 						</table>
-						<p>Total Amount Spent: ${totalAmount}</p>
+						<p>Total Amount Spent: ${totalAmount.toFixed(2)}</p>
 						<p>Shipping company: {ordersInGroup[0].shipping === 2 ? 'Economy Shipping' 
 											: ordersInGroup[0].shipping === 5 ? 'Standard Shipping' 
 											: ordersInGroup[0].shipping === 10 ? 'Express Delivery' 

@@ -193,7 +193,7 @@ useEffect(() => {
                       Log In to Add to Cart
                     </button>
                   ) : (
-                    <button id="cart" onClick={handleAddToCart} disabled={inCart}>
+                    <button style={{marginTop:'2em'}} id="cart" onClick={handleAddToCart} disabled={inCart}>
                       {inCart ? "Already in your Cart" : "Add to Cart"}
                     </button>
                   )}

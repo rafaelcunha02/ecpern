@@ -148,7 +148,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
 
       console.log('Payment succeeded!');
       alert('Payment succeeded!');
-      navigate(`/buys`);
+      navigate(`/orders`);
 
     }
   }
