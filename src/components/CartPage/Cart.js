@@ -61,10 +61,13 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   useEffect(() => {
     const createPaymentIntent = async () => {
       try {
+        const amount = (Number(total) + Number(shippingPrice)) * 100; // Amount in cents
+        console.log('Sending amount:', amount); // Log the amount being sent
+  
         const response = await fetch('https://vintech-ecommerce-pern.onrender.com/api/payments/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: (Number(total) + Number(shippingPrice)) * 100 }), // Amount in cents
+          body: JSON.stringify({ amount }),
         });
   
         if (!response.ok) {
