@@ -107,6 +107,7 @@ function CommentSection({ user }) {
         commentId: commentId,
         authorId: user.id,
         replyText: replyText,
+        User: user
       },
     ]).single();
 
