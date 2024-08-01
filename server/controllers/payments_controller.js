@@ -9,6 +9,10 @@ router.post('/create-payment-intent', async (req, res) => {
 	return res.status(400).send({ error: 'Invalid amount' });
   }
 
+
+  amount = Math.round(amount * 100);
+
+
   try {
 	const paymentIntent = await stripe.paymentIntents.create({
 	  amount,
