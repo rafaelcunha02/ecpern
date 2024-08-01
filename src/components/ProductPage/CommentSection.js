@@ -16,7 +16,7 @@ function CommentSection({ user }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/${params.id}`);
+        const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/comments/${params.id}`);
         const data = await response.json();
         setComments(data || []);
         setCommentsFetched(true);
@@ -33,7 +33,7 @@ function CommentSection({ user }) {
       const fetchReplies = async () => {
         try {
           const promises = comments.map(comment =>
-            fetch(`https://vintech-ecommerce-pern.onrender.com/${comment.id}`)
+            fetch(`https://vintech-ecommerce-pern.onrender.com/api/replies/${comment.id}`)
               .then(response => response.json())
               .then(repliesData => ({ commentId: comment.id, repliesData }))
               .catch(error => console.error(`Failed to fetch replies for comment ${comment.id}:`, error))
@@ -68,6 +68,11 @@ function CommentSection({ user }) {
   const publishComment = (event) => {
     event.preventDefault();
 
+    if(!user){
+      alert("Log In to ask a question");
+      return;
+    }
+
     supabase.from('Comments').insert([
       {
         productId: params.id,
@@ -86,6 +91,12 @@ function CommentSection({ user }) {
 
   const publishReply = (event, commentId) => {
     event.preventDefault();
+
+    if(!user){
+      alert("Log In to answer a question");
+      return;
+    }
+    
     const replyText = replyContent[commentId] || '';
 
     supabase.from('Replies').insert([
@@ -116,8 +127,8 @@ function CommentSection({ user }) {
 
   return (
     <section id="comments">
-      <h1 style={{ textAlign: 'center' }}>Questions & Answers</h1>
-      {user && (
+      <h1 id="producth1" style={{ textAlign: 'center' }}>Questions & Answers</h1>
+       
         <form onSubmit={publishComment} className="commentForm">
           <textarea
             name="content"
@@ -130,7 +141,7 @@ function CommentSection({ user }) {
             Submit
           </button>
         </form>
-      )}
+      
 
       <ul id="commented">
         {comments.map((comment) => {
