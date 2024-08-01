@@ -59,14 +59,31 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   }, [orders]);
 
   useEffect(() => {
-    fetch('https://vintech-ecommerce-pern.onrender.com/api/payments/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: (Number(total) + Number(shippingPrice)) * 100 }), // Amount in cents
-    })
-      .then(res => res.json())
-      .then(data => setClientSecret(data.clientSecret))
-      .catch(error => console.error('Fetch failed:', error));
+    const createPaymentIntent = async () => {
+      try {
+        const response = await fetch('https://vintech-ecommerce-pern.onrender.com/api/payments/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: (Number(total) + Number(shippingPrice)) * 100 }), // Amount in cents
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+  
+        const data = await response.json();
+  
+        if (!data.clientSecret) {
+          throw new Error('Missing client secret in response');
+        }
+  
+        setClientSecret(data.clientSecret);
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
+    };
+  
+    createPaymentIntent();
   }, [total, shippingPrice]);
 
 
