@@ -14,6 +14,7 @@ function CommentSection({ user }) {
   const [commentsFetched, setCommentsFetched] = useState(false);
 
   useEffect(() => {
+    console.log('fetching comments and replies');
     const fetchCommentsAndReplies = async () => {
       try {
         const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/comments/${params.id}`);
