@@ -14,47 +14,24 @@ function CommentSection({ user }) {
   const [commentsFetched, setCommentsFetched] = useState(false);
 
   useEffect(() => {
-    const fetchComments = async () => {
+    const fetchCommentsAndReplies = async () => {
       try {
         const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/comments/${params.id}`);
         const data = await response.json();
-        setComments(data || []);
+        const commentsWithReplies = await Promise.all(data.map(async (comment) => {
+          const repliesResponse = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/replies/${comment.id}`);
+          const repliesData = await repliesResponse.json();
+          return { ...comment, replies: repliesData };
+        }));
+        setComments(commentsWithReplies || []);
         setCommentsFetched(true);
       } catch (error) {
-        console.error('Failed to fetch comments:', error);
+        console.error('Failed to fetch comments and replies:', error);
       }
     };
 
-    fetchComments();
-  }, [params.id, newComment]);
-
-  useEffect(() => {
-    if (comments) {
-      const fetchReplies = async () => {
-        try {
-          const promises = comments.map(comment =>
-            fetch(`https://vintech-ecommerce-pern.onrender.com/api/replies/${comment.id}`)
-              .then(response => response.json())
-              .then(repliesData => ({ commentId: comment.id, repliesData }))
-              .catch(error => console.error(`Failed to fetch replies for comment ${comment.id}:`, error))
-          );
-
-          const results = await Promise.all(promises);
-
-          setComments(currentComments =>
-            currentComments.map(comment => ({
-              ...comment,
-              replies: results.find(result => result && result.commentId === comment.id)?.repliesData || []
-            }))
-          );
-        } catch (error) {
-          console.error('Failed to fetch replies:', error);
-        }
-      };
-
-      fetchReplies();
-    }
-  }, [params.id, newReply, commentsFetched]);
+    fetchCommentsAndReplies();
+  }, [params.id, newComment, newReply]);
 
   useEffect(() => {
     const initialActiveReplies = comments.reduce((acc, comment) => {
@@ -65,7 +42,7 @@ function CommentSection({ user }) {
     setActiveSeeReply(initialActiveReplies);
   }, [comments]);
 
-  const publishComment = (event) => {
+  const publishComment = async (event) => {
     event.preventDefault();
 
     if(!user){
@@ -73,23 +50,26 @@ function CommentSection({ user }) {
       return;
     }
 
-    supabase.from('Comments').insert([
-      {
-        productId: params.id,
-        authorId: user.id,
-        content: content,
-      },
-    ]).then(() => {
+    try {
+      await supabase.from('Comments').insert([
+        {
+          productId: params.id,
+          authorId: user.id,
+          content: content,
+        },
+      ]);
       setContent('');
-    });
-    setNewComment(!newComment);
+      setNewComment(!newComment);
+    } catch (error) {
+      console.error('Failed to publish comment:', error);
+    }
   };
 
   const handleReplyChange = (commentId, value) => {
     setReplyContent(prev => ({ ...prev, [commentId]: value }));
   };
 
-  const publishReply = (event, commentId) => {
+  const publishReply = async (event, commentId) => {
     event.preventDefault();
 
     if(!user){
@@ -99,16 +79,19 @@ function CommentSection({ user }) {
     
     const replyText = replyContent[commentId] || '';
 
-    supabase.from('Replies').insert([
-      {
-        commentId: commentId,
-        authorId: user.id,
-        replyText: replyText,
-      },
-    ]).then(() => {
+    try {
+      await supabase.from('Replies').insert([
+        {
+          commentId: commentId,
+          authorId: user.id,
+          replyText: replyText,
+        },
+      ]);
       setReplyContent(prev => ({ ...prev, [commentId]: '' })); 
-    });
-    setNewReply(!newReply);
+      setNewReply(!newReply);
+    } catch (error) {
+      console.error('Failed to publish reply:', error);
+    }
   };
 
   const toggleReplies = (event, commentId) => {
