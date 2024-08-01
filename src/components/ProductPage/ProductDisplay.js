@@ -169,16 +169,6 @@ useEffect(() => {
   return (
     <span>
     <div id="containerProduct">
-      {prevProductId && (
-        <button
-          className="nextProduct"
-          id="back"
-          onClick={() => {
-            navigate(`/product/${prevProductId}`);
-            setInCart(cartProducts.some(cartProduct => cartProduct.id === prevProductId));
-          }}
-        />
-      )}
       <section id="s1">
         <div>
           <img src={product.imageUrl.startsWith("http") ? product.imageUrl : `/${product.imageUrl}`} id="imagemproduto" alt={product.name} />
@@ -208,8 +198,6 @@ useEffect(() => {
                     </button>
                   )}
                   <div id="sharedm">
-                    <button id="DM">Send Message</button>
-                    <button id="share">Share</button>
                   </div>
                 </>
               ) : (
@@ -223,16 +211,7 @@ useEffect(() => {
           </div>
         </div>
       </section>
-      {nextProductId && (
-        <button
-          className="nextProduct"
-          id="next"
-          onClick={() => {
-            navigate(`/product/${nextProductId}`);
-            setInCart(cartProducts.some(cartProduct => cartProduct.id === nextProductId));
-          }}        
-          />
-      )}
+
       </div>
       <div style={{marginTop: '3em'}}
       >

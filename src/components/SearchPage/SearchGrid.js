@@ -17,7 +17,7 @@ function ProductsGridSearch({products, caracs, currentInput, currentCategory, ca
       buyerId: currentUser.id,
       sellerId: product.sellerId,
     };
-    fetch('http://localhost:4005/api/orders/create', {
+    fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

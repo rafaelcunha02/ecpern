@@ -133,6 +133,8 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   else{
     alert("Please select a shipping method");
   }
+
+  navigate('/');
   };
 
 

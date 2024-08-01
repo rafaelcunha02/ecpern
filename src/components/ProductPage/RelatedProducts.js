@@ -53,7 +53,7 @@ function RelatedProducts({ user }) {
             <h2>Related Products</h2>
             <ul>
                 {categoryProducts.map(relatedProduct => {
-                    if (relatedProduct.id !== product.id && relatedProduct.isAvailable === 1 && (user && user.id !== relatedProduct.sellerId)) {
+                    if (relatedProduct.id !== product.id && relatedProduct.isAvailable === 1) {
                         return (
                             <li key={relatedProduct.id}>
                                 <div id="productImage">
