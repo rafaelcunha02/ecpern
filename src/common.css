@@ -899,7 +899,6 @@ header {
   .hamburger:before {
     content: '\2630';
     font-size: 0.8em;
-    color: #0047AB;
   }
 
   .left-header {
@@ -997,6 +996,165 @@ header {
     color: #0047AB;
     cursor: pointer;
   }
+
+
+  #footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    font-size: 1em;
+    font-weight: 700;
+    margin: 0;
+    margin-top: 7.5em;
+    margin-bottom: 0;
+    padding: 0;
+    bottom: 0;
+    border-top: solid;
+    border-color: black;
+    border-width: 0.1em;
+    padding-top: 5em;
+    padding-bottom: 5em;
+  }
+  
+  #footer #name {
+    font-size: 2em;
+    margin-bottom: 1.25em;
+  }
+  
+  #footer #catchphrase {
+    font-size: 1.25em;
+  }
+  
+  #footer #footer-categories {
+    font-size: 1.5em;
+  }
+  
+  .footer-section a {
+    color: #333;
+    margin-right: 0.625em;
+    text-decoration: none;
+  }
+  
+  .searchbar {
+    padding: 0.625em;
+    font-size: 1em;
+    border: none;
+    border-radius: 0.3125em;
+    width: 12.5em;
+    transition: width 0.4s ease-in-out;
+    background-color: #fff;
+  }
+  
+  .searchbar:focus {
+    width: 15.625em;
+    outline: none;
+    box-shadow: 0 0 0.3125em rgba(81, 203, 238, 1);
+  }
+  
+  button#footerSearch {
+    background: linear-gradient(to right, #003366, #0047b3);
+    border: none;
+    color: white;
+    padding: 0.625em 1.25em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 0.25em 0.125em;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 0.3125em;
+  }
+  
+  button#footerSearch:hover {
+    background: linear-gradient(to right, #00264d, #003399);
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25em;
+  }
+  
+  .footer-links a {
+    margin-bottom: 0.625em;
+  }
+  
+  .footer-search {
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer-search .searchbar {
+    margin-right: 0.625em;
+  }
+  
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    #footer {
+      flex-direction: column;
+      align-items: center;
+      padding-top: 2em;
+      padding-bottom: 2em;
+    }
+  
+    .footer-section {
+      margin-bottom: 2em;
+      text-align: center;
+    }
+  
+    .footer-search {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .searchbar {
+      width: 100%;
+      margin-bottom: 0.625em;
+    }
+  
+    button#footerSearch {
+      width: 100%;
+    }
+  
+    .footer-links {
+      align-items: center;
+    }
+  
+    .footer-links a {
+      margin-right: 0;
+    }
+  }
 }
+
+
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .hero {
+    height: 50vh; /* Adjust height for mobile */
+    margin-bottom: 2.5em; /* Adjust margin for mobile */
+  }
+
+
+
+  .hero-text h1 {
+    width: 100%;
+    font-size: 1.2em; /* Adjust h1 size for mobile */
+  }
+
+  .hero-text p {
+    display: none;
+  }
+
+  .hero-input {
+    display: none;
+    width: 90%; /* Increase width for easier input on mobile */
+    top: 30%; /* Adjust top position */
+    font-size: 0.9em; /* Adjust font size for mobile */
+    padding: 0.8em; /* Adjust padding for mobile */
+  }
+}
+
 
 
