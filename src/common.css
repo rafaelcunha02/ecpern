@@ -266,12 +266,13 @@ a{
   border-radius: 0.2em;
   border-top-right-radius: 0em;
   border-bottom-right-radius: 0em;
-  border: none;    
+  border:none;
   padding: 0.5em;
   font-size: 0.8em;
   transition: all 0.3s ease;
   height: 0.4em;
   border-style: solid;
+  border-color: #0047AB;
   border-right-style: none;
 }
 
@@ -890,7 +891,6 @@ header {
 }
 
 .hamburger {
-  font-size: 1.5em;
   cursor: pointer;
 }
 
@@ -921,7 +921,7 @@ header {
 
 #searchInput {
   margin: 0.25em 0;
-  border-radius: 0.2em;
+  border-color: linear-gradient(to right, #0047AB, #0055CC) !important;
 }
 
 .searchImgContainer {
@@ -939,7 +939,7 @@ header {
 
 #searchInput.active {
   width: 100%;
-  border-radius: 0.2em;
+  border-radius: 0.05em;
 }
 
 .left-header #announce {

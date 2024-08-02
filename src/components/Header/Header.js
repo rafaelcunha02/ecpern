@@ -13,7 +13,7 @@ const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch })
 //LANDING PAGE SCROLL EFFECTS:
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(window.innerWidth < 1080 ? true : false);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -27,9 +27,10 @@ const Header = ({ isLoggedIn, user, currentInput, setCurrentInput, heroSearch })
         console.log(isScrolled)
       } else {
         setIsScrolled(false);
+
       }
 
-      if (window.scrollY > 435){
+      if (window.scrollY > 435 || window.innerWidth < 800) {
         setShowSearchBar(true);
       }
       else {
