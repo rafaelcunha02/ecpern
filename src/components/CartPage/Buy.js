@@ -60,7 +60,7 @@ const Buy = ({ orders, currentUser }) => {
   }, [orders]);
 
   useEffect(() => {
-    fetch('https://vintech-ecommerce-pern.onrender.com/api/payments/create-payment-intent', {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/payments/create-payment-intent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ amount: (Number(total) + Number(shippingPrice)) * 100 }), // Amount in cents
@@ -74,7 +74,7 @@ const Buy = ({ orders, currentUser }) => {
 
   const processOrder = async () => {
       try {
-          const createResponse = await fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/create', {
+          const createResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/create`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'
@@ -102,7 +102,7 @@ const Buy = ({ orders, currentUser }) => {
               product: orders[0].Product.id
           };
   
-          const response = await fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/process', {
+          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/process`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'

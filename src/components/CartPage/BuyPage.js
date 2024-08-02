@@ -41,7 +41,7 @@ const BuyPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             if (loggedUser) {
-                const res = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`);
+                const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/id/${loggedUser.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 setCurrentUser(data);

@@ -33,13 +33,13 @@ const SearchPage = () => {
 
 useEffect(() => {
     if (loggedUser) {
-        fetchData(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`, setCurrentUser);
+        fetchData(`${process.env.REACT_APP_API_BASE_URL}/users/id/${loggedUser.id}`, setCurrentUser);
     }
 }, [loggedUser]);
 
     useEffect(() => {
-        fetchData('https://vintech-ecommerce-pern.onrender.com/api/products/withsellers', setProdutos);
-        fetchData('https://vintech-ecommerce-pern.onrender.com/api/caracs', setCategorias);
+        fetchData(`${process.env.REACT_APP_API_BASE_URL}/products/withsellers`, setProdutos);
+        fetchData(`${process.env.REACT_APP_API_BASE_URL}/caracs`, setCategorias);
         if(params){
             if(params.input){
                 setCurrentInput(params.input);
@@ -53,7 +53,7 @@ useEffect(() => {
 
     useEffect(() => {
         if(currentUser){
-            fetchData(`https://vintech-ecommerce-pern.onrender.com/api/orders/cart/${loggedUser.id}`, setCart);
+            fetchData(`${process.env.REACT_APP_API_BASE_URL}/orders/cart/${loggedUser.id}`, setCart);
         }
     }
     , [currentUser]);

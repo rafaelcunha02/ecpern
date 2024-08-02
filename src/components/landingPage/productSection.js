@@ -13,7 +13,7 @@ const ProductSection = ({ currentUser, cartProducts, products}) => {
       buyerId: currentUser.id,
       sellerId: product.sellerId,
     };
-    fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/create', {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -47,7 +47,7 @@ function UsersAdmin({ session, user, db }) {
 
   useEffect(() => {
     const getUsers = async () => {
-      const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users`);
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users`);
       const data = await response.json();
       setUsers(data);
     };
@@ -58,7 +58,7 @@ function UsersAdmin({ session, user, db }) {
   const rankUser = async (event, id) => {
     event.preventDefault();
 
-    const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/rankUp/${id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/rankUp/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ function OrdersAdmin(currentUser) {
         console.log(currentUser);
       const fetchProducts = async () => {
           try {
-              const res = await fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/buys');
+              const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/buys`);
               if (!res.ok) throw new Error('HTTP error ' + res.status);
               const data = await res.json();
               const groupedProducts = data.reduce((acc, product) => {

@@ -26,7 +26,7 @@ const Sales = () => {
 
     useEffect(() => {
         if (loggedUser) {
-            fetchData(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`, setCurrentUser);
+            fetchData(`${process.env.REACT_APP_API_BASE_URL}/api/users/id/${loggedUser.id}`, setCurrentUser);
         }
     }, [loggedUser]);
     
@@ -37,7 +37,7 @@ const Sales = () => {
         if(currentUser){
         const fetchProducts = async () => {
             try {
-                const res = await fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/sales/' + currentUser.id);
+                const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/orders/sales/` + currentUser.id);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 const groupedProducts = data.reduce((acc, product) => {

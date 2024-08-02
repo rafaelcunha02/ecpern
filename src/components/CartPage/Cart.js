@@ -64,7 +64,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
         const amount = (Number(total) + Number(shippingPrice)) * 100; // Amount in cents
         console.log('Sending amount:', amount); // Log the amount being sent
   
-        const response = await fetch('https://vintech-ecommerce-pern.onrender.com/api/payments/create-payment-intent', {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/payments/create-payment-intent`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ amount }),
@@ -97,7 +97,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
       shippingMethod: shippingMethod
     };
 
-    const response = await fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/processCart', {
+    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/processCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -163,7 +163,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
   const handleRemove = async (event) => {
     const orderid = event.target.getAttribute('data-orderid');
 
-    const response = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/orders/delete/${orderid}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/delete/${orderid}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

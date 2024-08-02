@@ -27,13 +27,13 @@ const fetchData = async (url, setter) => {
 };
 
 useEffect(() => {
-  fetchData('https://vintech-ecommerce-pern.onrender.com/api/products/' + id, setProduct)
+  fetchData(`${process.env.REACT_APP_API_BASE_URL}/products/` + id, setProduct)
     .catch(error => console.error('Fetch failed:', error));
 }, [id]);
 
 useEffect(() => {
   if (product) {
-    fetchData('https://vintech-ecommerce-pern.onrender.com/api/users/id/' + product.sellerId, setSeller)
+    fetchData(`${process.env.REACT_APP_API_BASE_URL}/users/id/` + product.sellerId, setSeller)
       .catch(error => console.error('Fetch failed:', error));
   }
 }, [product]);
@@ -41,8 +41,8 @@ useEffect(() => {
 useEffect(() => {
   if (product) {
     Promise.all([
-      fetch('https://vintech-ecommerce-pern.onrender.com/api/products/' + product.id + '/next'),
-      fetch('https://vintech-ecommerce-pern.onrender.com/api/products/' + product.id + '/previous')
+      fetch(`${process.env.REACT_APP_API_BASE_URL}/products/` + product.id + '/next'),
+      fetch(`${process.env.REACT_APP_API_BASE_URL}/products/` + product.id + '/previous')
     ])
     .then(([res1, res2]) => {
       if (!res1.ok || !res2.ok) {
@@ -98,7 +98,7 @@ useEffect(() => {
       sellerId: product.sellerId,
     }
 
-    fetch('https://vintech-ecommerce-pern.onrender.com/api/orders/create', {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

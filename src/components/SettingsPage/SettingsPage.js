@@ -29,7 +29,7 @@ const SettingsPage = () => {
 
     useEffect(() => {
         if (loggedUser) {
-            fetchData(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`, setCurrentUser);
+            fetchData(`${process.env.REACT_APP_API_BASE_URL}/users/id/${loggedUser.id}`, setCurrentUser);
             setLoading(false);
         }
     }, [loggedUser]);

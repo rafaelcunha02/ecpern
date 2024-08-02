@@ -35,7 +35,7 @@ const LandingPage = () => {
 useEffect(() => {
   // Check if user is logged in
   if (loggedUser) {
-    fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/users/id/${loggedUser.id}`)
       .then(res => {
         if (!res.ok) { // if HTTP status is not OK
           throw new Error('HTTP error ' + res.status);
@@ -58,7 +58,7 @@ const [produtos, setProdutos] = useState([]);
   
 
 useEffect (() => {
-  fetch('https://vintech-ecommerce-pern.onrender.com/api/products/withsellers')
+  fetch(`${process.env.REACT_APP_API_BASE_URL}/products/withsellers`)
   .then(res => {
     if (!res.ok) { // if HTTP status is not OK
       throw new Error('HTTP error ' + res.status);
@@ -81,7 +81,7 @@ useEffect (() => {
   const [categorias, setCategorias] = useState([]);
 
   useEffect (() => {
-    fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Categories')
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/caracs/Categories`)
     .then(res => {
       if (!res.ok) { 
         throw new Error('HTTP error ' + res.status);
@@ -98,7 +98,7 @@ useEffect (() => {
 
   useEffect (() => {
     if(currentUser === null) return;
-    fetch(`https://vintech-ecommerce-pern.onrender.com/api/orders/cart/${currentUser.id}`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/cart/${currentUser.id}`)
     .then(res => {
       if (!res.ok) { 
         console.log(res.status);

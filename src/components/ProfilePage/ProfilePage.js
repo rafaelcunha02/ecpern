@@ -36,7 +36,7 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             if (loggedUser) {
-                const res = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`);
+                const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/id/${loggedUser.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 setCurrentUser(data);
@@ -44,7 +44,7 @@ const ProfilePage = () => {
         };
 
         const fetchProfile = async () => {
-            const res = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/${username}`);
+            const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/${username}`);
             if (!res.ok) throw new Error('HTTP error ' + res.status);
             const data = await res.json();
             setUser(data);
@@ -53,7 +53,7 @@ const ProfilePage = () => {
 
         const fetchProducts = async (user) => {
             if (user) {
-                const res = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/products/user/${user.id}`);
+                const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/products/user/${user.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 setProducts(data);

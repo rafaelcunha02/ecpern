@@ -39,7 +39,7 @@ const SellPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             if (loggedUser) {
-                const res = await fetch(`https://vintech-ecommerce-pern.onrender.com/api/users/id/${loggedUser.id}`);
+                const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/id/${loggedUser.id}`);
                 if (!res.ok) throw new Error('HTTP error ' + res.status);
                 const data = await res.json();
                 setCurrentUser(data);
@@ -52,7 +52,7 @@ const SellPage = () => {
     }, []);
 
     useEffect (() => {
-        fetch('https://vintech-ecommerce-pern.onrender.com/api/products/withsellers')
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/products/withsellers`)
         .then(res => res.json())
         .then(data => {
             setProdutos(data);
@@ -62,7 +62,7 @@ const SellPage = () => {
 
     useEffect(() => {
         const fetchCategorias = async () => {
-            return fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Categories')
+            return fetch(`${process.env.REACT_APP_API_BASE_URL}/caracs/Categories`)
                 .then(res => res.json())
                 .then(data => {
                     setCategorias(data);
@@ -71,7 +71,7 @@ const SellPage = () => {
         }
 
         const fetchTamanhos = async () => {
-            return fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Size')
+            return fetch(`${process.env.REACT_APP_API_BASE_URL}/caracs/Size`)
                 .then(res => res.json())
                 .then(data => {
                     setTamanhos(data);
@@ -80,7 +80,7 @@ const SellPage = () => {
         }
 
         const fetchCondicoes = async () => {
-            return fetch('https://vintech-ecommerce-pern.onrender.com/api/caracs/Condition')
+            return fetch(`${process.env.REACT_APP_API_BASE_URL}/caracs/Condition`)
                 .then(res => res.json())
                 .then(data => {
                     setCondicoes(data);
