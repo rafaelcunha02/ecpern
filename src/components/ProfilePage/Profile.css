@@ -10,10 +10,10 @@ body {
 }
 
 #s1profile {
+    flex-direction: row;
     margin-top: 4.25em;
     height: 35vh;
     display: flex;
-    column-gap: 1em;
     width: 100vw;
     align-items: center;
     padding: 1vw;
@@ -90,7 +90,6 @@ p#username {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 75vw;
 }
 
 /* Media query for screens with a maximum width of 480px */

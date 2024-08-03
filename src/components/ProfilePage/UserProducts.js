@@ -2,7 +2,7 @@ import React from 'react';
 
 function UserProducts({user, currentUser, sellingProducts, cartProducts }) {
   return (
-    <section id="productsGrid">
+    <section id="productsGrid" style={{padding: "0"}}>
       {
         sellingProducts.length === 0 
         ? <h2></h2>
