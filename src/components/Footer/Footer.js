@@ -64,8 +64,8 @@ const logout = async () => {
             </>
           ) : (
             <>
-              <Link to="/signup">SignUp</Link>
-              <Link to="/login">LogIn</Link>
+              <Link to="/signup">Sign Up</Link>
+              <Link to="/login">Log In</Link>
             </>
           )}
         </div>
