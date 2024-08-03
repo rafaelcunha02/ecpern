@@ -49,6 +49,7 @@ p#username {
     margin-top: 0;
 }
 
+
 #numberproducts {
     opacity: 0.9;
     font-size: 1em;
@@ -119,9 +120,12 @@ p#username {
         font-size: 1.5em;
     }
 
+    #containerProfile {
+    
     #username {
         font-size: 1em;
     }
+}
 
     
     #numberproducts {
