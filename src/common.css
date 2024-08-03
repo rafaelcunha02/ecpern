@@ -1354,3 +1354,86 @@ button#footerSearch:hover {
     padding: 0.7em;
   }
 }
+
+@media (max-width: 480px) {
+  #cathegory {
+      margin-left: 1em;
+      margin-right: 1em;
+      margin-bottom: 2em;
+  }
+
+  #cathegory h1 {
+      margin: 0.5em;
+      font-size: 1.2em;
+      text-align: center;
+  }
+
+  #cathegory ul {
+      gap: 1.5em;
+      padding: 0.5em;
+  }
+
+  #cathegory ul li {
+      width: 10em;
+  }
+
+  #cathegory ul li a {
+      font-size: 1em;
+  }
+
+  #cathegory ul li img {
+      width: 7.5em;
+      height: 7.5em;
+  }
+}
+
+
+@media (max-width: 480px) {
+  #productsGrid {
+      margin-left: 1em;
+      margin-right: 1em;
+  }
+
+  #productsGrid h2 div {
+      font-size: 1.5em;
+      line-height: 2em;
+  }
+
+  #productsGrid ul {
+      grid-template-columns: repeat(1, 85%);
+      grid-gap: 1em;
+      row-gap: 1.5em;
+      padding: 0.5em;
+  }
+
+  #productsGrid li {
+      width: 100%;
+  }
+
+  #productsGrid img {
+      height: 10em;
+  }
+
+  #productsGrid .description {
+      -webkit-line-clamp: 3;
+  }
+
+  #productsGrid .h3 {
+      font-size: 1em;
+      line-height: 1.2em;
+  }
+
+  #productsGrid .priceInGrid {
+      font-size: 1em;
+  }
+
+  .cartButtonLp {
+      font-size: 0.9em;
+      padding: 0.4em 0.8em;
+      top: 40%;
+  }
+
+  #loadMore {
+      font-size: 1.2em;
+  }
+}
