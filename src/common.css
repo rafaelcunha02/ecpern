@@ -1015,10 +1015,6 @@ header {
   padding-bottom: 5em;
 }
 
-#footer #name {
-  font-size: 2em;
-  margin-bottom: 1.25em;
-}
 
 #footer #catchphrase {
   font-size: 1.25em;
@@ -1304,6 +1300,7 @@ button#footerSearch:hover {
   }
 
   #footer #name {
+    justify-content: center !important;
     font-size: 1.5em;
   }
 
