@@ -91,7 +91,7 @@ em {
     color: #0047ab;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     #signUpForm {
         width: 80vw;
         padding: 1em;

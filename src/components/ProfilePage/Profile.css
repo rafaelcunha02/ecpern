@@ -92,8 +92,7 @@ p#username {
     align-items: center;
 }
 
-/* Media query for screens with a maximum width of 480px */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     #s1profile {
         flex-direction: column;
         height: auto;
@@ -221,7 +220,7 @@ p#username {
 }
 
 /* Media query for screens with a maximum width of 480px */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     #productsGrid {
         padding: 1em;
     }

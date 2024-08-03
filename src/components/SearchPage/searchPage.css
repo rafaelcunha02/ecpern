@@ -30,7 +30,7 @@ p{
 }
 
 #filters {
-    width: 20%;
+    width: 12%;
     max-height: 90vh;
     position: fixed;
     margin-top: 5%;
@@ -222,7 +222,7 @@ p{
 
 
 
-@media (max-width: 480px) {
+@media (max-width: 780px) {
 
     #productsGrid{
         width: 100%;
@@ -275,8 +275,7 @@ p{
     grid-template-columns: repeat(3, 33%);
 }
 
-/* Media query for screens with a maximum width of 480px */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .productGrid {
         grid-template-columns: 1fr !important;
     }

@@ -1244,7 +1244,7 @@ button#footerSearch:hover {
 
 
 /* Even Smaller Screens */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   #header h1 {
     font-size: 1em;
   }
@@ -1356,7 +1356,7 @@ button#footerSearch:hover {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   #cathegory {
       margin-left: 1em;
       margin-right: 1em;
@@ -1389,7 +1389,7 @@ button#footerSearch:hover {
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   #productsGrid {
       margin-left: 1em;
       margin-right: 1em;
