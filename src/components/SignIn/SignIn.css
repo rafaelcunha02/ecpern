@@ -1,19 +1,17 @@
 body {
     margin: 0;
     padding: 0;
-    
     height: 100vh;
 }
 
-.container{
+.container {
     justify-content: center;
     align-items: center;
     height: 100vh;
     text-align: center;
-
 }
 
-.containerLogin{
+.containerLogin {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,7 +30,6 @@ body {
     border-color: #eaeaea;
     width: 25vw;
     border-radius: 0.3em;
-
 }
 
 h1#login {
@@ -41,23 +38,22 @@ h1#login {
     margin-top: 0;
 }
 
-#signInForm{
-    input#username, input#password, input#email, input#firstName, input#lastName {
-        font-weight: bold;
-        width: 100%;
-        border: 1px solid #ddd;
-        padding-top: 1em;
-        margin: 0;
-        padding-bottom: 1em;
-        margin-bottom: 2em;
-        padding-left: 1em;
-        border-radius: 3px;
-    }
-    input::placeholder {
-        color: #a9a9a9;
-    }
+#signInForm input#username,
+#signInForm input#password {
+    font-weight: bold;
+    width: 100%;
+    border: 1px solid #ddd;
+    padding-top: 1em;
+    margin: 0;
+    padding-bottom: 1em;
+    margin-bottom: 2em;
+    padding-left: 1em;
+    border-radius: 3px;
 }
 
+input::placeholder {
+    color: #a9a9a9;
+}
 
 button#login {
     font-weight: bold;
@@ -81,13 +77,44 @@ em {
     margin-bottom: 1em;
 }
 
-.register{
+.register {
     text-align: center;
     margin-top: 1em;
     margin-bottom: 0;
-    a{
-        text-decoration: none;
-        color: #0047ab;
-    }
 }
 
+.register a {
+    text-decoration: none;
+    color: #0047ab;
+}
+
+@media (max-width: 480px) {
+    #signInForm {
+        width: 80vw;
+        padding: 1em;
+        padding-top: 1em;
+        padding-left: 0.5em;
+    }
+
+    h1#login {
+        font-size: 1.5em;
+        text-align: center;
+    }
+
+    #signInForm input#username,
+    #signInForm input#password {
+        padding-top: 0.75em;
+        padding-bottom: 0.75em;
+        margin-bottom: 1.5em;
+        padding-left: 0.75em;
+    }
+
+    button#login {
+        width: 100%;
+        padding: 0.75em;
+    }
+
+    .register p {
+        font-size: 0.9em;
+    }
+}
