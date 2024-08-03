@@ -236,7 +236,7 @@ useEffect(() => {
           </div>
         </div>
       </aside>
-      <section style={{marginLeft:"20em", width:"100%"}}id="productsGrid" className="gridsection">
+      <section style={{ width:"100%"}}id="productsGrid" className="gridsection">
         <h4><span className="divtitle">Search Results</span></h4>
         <div id="divfiltros" className="filtros"><span style={{display: countChecked == 0 ? "block" : "none"}}>No Filters</span>
         {Object.keys(checked).map((key, index) => {
@@ -245,7 +245,7 @@ useEffect(() => {
           );
         })}
         </div>
-        <ul style={{display: "grid", gridTemplateColumns: "repeat(3,33%)"}} >
+        <ul id="searchUl">
           {products.map(product => {
             if ((currentUser && currentUser.id === product.sellerId) || product.isAvailable === 0) return null;
 
