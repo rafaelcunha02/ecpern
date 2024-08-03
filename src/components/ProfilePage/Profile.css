@@ -238,7 +238,7 @@ p#username {
     }
 
     #productsGrid li {
-        width: 85vw;
+        width: 75vw !important;
     }
 
     .cartButtonLp {
