@@ -15,18 +15,13 @@ function Profile({ user, currentUser, count}) {
                 <div>
                     <img id="profilePic" src="../assets/placeholder-1-1.webp" />
                 </div>
-                <div id="info" style={{border:"none"}}>
+                <div id="info" style={{ border: "none" }}>
                     <div id="flex1">
                         <div id="name">{user.firstName} {user.lastName}</div>
-                        {currentUser && (currentUser.id == user.id) ? (
+                        {currentUser && (currentUser.id === user.id) && (
                             <button id="EditPf" onClick={() => navigate(`/settings`)}>
-                            Settings
+                                Settings
                             </button>
-                        ) : (
-                            <>
-                                <button id="DM">Message</button>
-                                <button id="Share">Share Profile</button>
-                            </>
                         )}
                     </div>
                     <p id="username">@{user.username}</p>

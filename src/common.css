@@ -766,6 +766,8 @@ button#footerSearch:hover {
   font-weight: bold;
   margin: auto;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 2em;
+
 }
 
 #loadMore:hover {
@@ -880,7 +882,6 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em;
   width: 100%;
 }
 
