@@ -7,7 +7,7 @@ const SideMenu = ({ user }) => {
   const { username } = user;
 
   return (
-    <div id="sideOptions">
+    <aside id="sideOptions">
       <h1 style={{textAlign:"left"}}>Settings</h1>
       <ul>
         <Link to={`/settings`} className={pathname === `/settings` ? 'active' : ''}>
@@ -22,7 +22,7 @@ const SideMenu = ({ user }) => {
           <li>Sales History</li>
         </Link>
       </ul>
-    </div>
+    </aside>
   );
 };
 
