@@ -82,7 +82,7 @@ const Sales = () => {
 		container.style.display = 'block';
 	}
 
-    if (loading || !loggedUser || !currentUser) return null;
+    if (loading || !loggedUser || !currentUser) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
 	const sortedGroupedOrders = Object.entries(groupedProducts).sort(([a], [b]) => b - a);

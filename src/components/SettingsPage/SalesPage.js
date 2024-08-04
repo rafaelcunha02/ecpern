@@ -19,8 +19,17 @@ const SalesPage = () => {
 
     const fetchData = async (url, setter) => {
         try {
-            const res = await fetch(url);
+            console.log('Fetching URL:', url); // Log the URL being fetched
+            const res = await fetch(url, { redirect: 'follow' });
             if (!res.ok) throw new Error('HTTP error ' + res.status);
+    
+            const contentType = res.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const text = await res.text(); // Read the response as text
+                console.error('Response is not JSON:', text); // Log the response text
+                throw new TypeError('Response is not JSON');
+            }
+    
             const data = await res.json();
             setter(data);
         } catch (error) {
@@ -29,13 +38,13 @@ const SalesPage = () => {
         }
     };
 
-useEffect(() => {
-    if (loggedUser) {
-        fetchData(`${process.env.REACT_APP_API_BASE_URL}api/users/id/${loggedUser.id}`, setCurrentUser);
-        setLoading(false);
-    }
 
-}, [loggedUser]);
+    useEffect(() => {
+        if (loggedUser) {
+            fetchData(`${process.env.REACT_APP_API_BASE_URL}/users/id/${loggedUser.id}`, setCurrentUser);
+            setLoading(false);
+        }
+    }, [loggedUser]);
 
 
 
