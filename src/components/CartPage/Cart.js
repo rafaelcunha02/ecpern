@@ -214,7 +214,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
                 {isFirstProduct && (
                   <div className="topFlex" id="second">
                     <div className="productHeader">PRODUCT INFORMATION</div>
-                    <div className="priceHeader" id="price">PRICE</div>
+                    <div className="priceHeader" id="priceInCart">PRICE</div>
                     <div id="seller">SELLER</div>
                   </div>
                 )}

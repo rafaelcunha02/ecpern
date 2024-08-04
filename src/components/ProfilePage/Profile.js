@@ -17,7 +17,7 @@ function Profile({ user, currentUser, count}) {
                 </div>
                 <div id="info" style={{ border: "none" }}>
                     <div id="flex1">
-                        <div id="name">{user.firstName} {user.lastName}</div>
+                        <div id="nameInProfile">{user.firstName} {user.lastName}</div>
                         {currentUser && (currentUser.id === user.id) && (
                             <button id="EditPf" onClick={() => navigate(`/settings`)}>
                                 Settings

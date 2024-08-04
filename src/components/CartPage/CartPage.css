@@ -501,7 +501,7 @@ form#mbWay {
     .productHeader{
         display: none;
     }
-    #price{
+    #priceInCart{
         display: none;
     }
     #seller{
