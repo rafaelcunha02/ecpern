@@ -296,7 +296,7 @@ const Cart = ({ orders, setOrders, currentUser }) => {
           <div className="topFlex" id="first">
             <div>Payment & Shipping</div>
           </div>
-          <div className="overflowContainer">
+          <div id="secondOverflow" className="overflowContainer">
             <li className="topFlex" id="productlisting">
               <div className="paymentMethods">
                 <h3>Choose a Payment Method</h3>

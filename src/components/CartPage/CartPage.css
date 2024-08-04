@@ -363,6 +363,25 @@ form#mbWay {
 
 
 @media (max-width: 768px) {
+
+    div.shippingMethods{
+        h3{
+            display: flex;
+            justify-content: center;
+            width: 12.5em;
+        }
+    }
+    .radioinputs{
+        width: 16em;
+    }
+
+    #secondOverflow{
+        max-height: none !important;
+    }
+    .overflowContainer{
+        max-height: 50vh !important;
+    }
+
     body{
         overflow: hidden;
         overflow-y: auto !important;
@@ -388,7 +407,11 @@ form#mbWay {
         align-items: flex-start;
     }
 
+
+
     .topFlex {
+
+
         grid-template-columns: 1fr;
         text-align: left;
 
@@ -412,11 +435,7 @@ form#mbWay {
         }
 
         .infoLista{
-            div:nth-child(2){
-                display: flex;
-                justify-content: center;
-                margin: 0;
-            }
+
             div:nth-child(3){
                 display: flex;
                 justify-content: center;
@@ -431,10 +450,18 @@ form#mbWay {
         padding: 1em 0;
     }
 
+
+
     #second{
         div:nth-child(1){
             display: flex;
             justify-content: center;
+        }
+        div.productHeader{
+            display: none;
+        }
+        #seller{
+            display: none;
         }
         div:nth-child(3){
             display: flex;
@@ -469,6 +496,7 @@ form#mbWay {
     #productSeller {
         width: 100%;
     }
+
 
     .productHeader{
         display: none;
