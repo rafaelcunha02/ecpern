@@ -48,8 +48,8 @@ useEffect(() => {
     return (
         <div>
             <Header isLoggedIn={currentUser} user={currentUser}/>
-            <CredentialsForm user={currentUser} />
             <SideMenu user={currentUser}/>
+            <CredentialsForm user={currentUser} />
             <Footer user={currentUser}/>
         </div>
     );

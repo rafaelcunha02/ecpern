@@ -54,8 +54,8 @@ const SalesPage = () => {
     return (
         <div>
             <Header isLoggedIn={currentUser} user={currentUser}/>
-            <Sales/>
             <SideMenu user={currentUser}/>
+            <Sales/>
             <Footer user={currentUser}/>
         </div>
     );

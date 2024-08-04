@@ -1,15 +1,17 @@
-.adminContainer{
+/* General Styles */
+.adminContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     font-size: 1.25em;
 }
-.Container{
+
+.Container {
     margin-top: 5em;
 }
 
-
+/* Sidebar Styles */
 #sideOptions {
     position: fixed;
     left: 0;
@@ -18,13 +20,13 @@
     width: 15vw;
     padding: 2.5vw;
     overflow: auto;
+}
 
-    h1{
-        font-size: 1.5em;
-        color: #757575;
-        margin-bottom: 1em;
-        margin-left: 0.25em;
-    }
+#sideOptions h1 {
+    font-size: 1.5em;
+    color: #757575;
+    margin-bottom: 1em;
+    margin-left: 0.25em;
 }
 
 #sideOptions ul {
@@ -35,9 +37,6 @@
 #sideOptions ul li {
     padding: 0.7em;
     border-radius: 0.3em;
-}
-
-#sideOptions ul li {
     color: black;
     font-weight: bold;
     text-decoration: none;
@@ -48,46 +47,53 @@
     background-color: #f2f2f2;
 }
 
-#sideOptions div.active{
-    li{
-        background-color: #e6e6e6;
-        &:hover{
-            background-color: #ddd;
-        }
-    }
+#sideOptions div.active li {
+    background-color: #e6e6e6;
 }
 
+#sideOptions div.active li:hover {
+    background-color: #ddd;
+}
 
-
-#sideOptions div:hover{
+#sideOptions div:hover {
     background-color: #f2f2f2;
     cursor: pointer;
 }
 
+/* User Card Styles */
 .user {
     display: flex;
     justify-content: space-between;
     background-color: #f1f1f1;
     border: 1px solid #ddd;
     border-radius: 4px;
-    width: 45em; 
-    height: 6em; 
-    margin: 0.625em; 
-    padding: 1.25em; 
-    box-shadow: 0 0.25em 0.5em 0 rgba(0,0,0,0.2);
+    width: 45em;
+    height: auto;
+    margin: 0.625em;
+    padding: 1.25em;
+    box-shadow: 0 0.25em 0.5em 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
+    flex-wrap: wrap;
 }
 
 .user:hover {
-    box-shadow: 0 0.5em 1em 0 rgba(0,0,0,0.2);
+    box-shadow: 0 0.5em 1em 0 rgba(0, 0, 0, 0.2);
 }
 
-.userID, .username, .email, .rank, .lock {
+.userID, .username, .email, .rank {
     margin-bottom: 10px;
+    flex: 1 1 45%;
+    white-space: nowrap;
 }
 
-.lock button {
-    background-color: #4CAF50; 
+.row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.lock button, .rankUpButton {
+    background-color: #4CAF50;
     border: none;
     color: white;
     padding: 0.703125em 1.5em;
@@ -100,48 +106,17 @@
     transition: transform 0.3s ease;
 }
 
-.lock button:hover {
+.lock button:hover, .rankUpButton:hover {
     transform: scale(1.1);
-}
-
-.row {
-    display: flex;
-    justify-content: space-between;
-}
-
-.userID, .username, .email, .rank {
-    flex: 1;
-    margin-right: 0.46875em;
-    white-space: nowrap;
+    background-color: #45a049;
 }
 
 .rankUpButton {
-    background-color: #008CBA; 
-    border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.75em;
-    margin: 0.1875em 0.09375em;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    justify-content: center;
+    background-color: #008CBA;
 }
 
 .rankUpButton:hover {
-    transform: scale(1.1);
     background-color: #007B9E;
-}
-
-.lockButton:hover {
-    transform: scale(1.1);
-    background-color: #45a049; 
-}
-
-.unlockButton:hover {
-    transform: scale(1.1);
-    background-color: #d32f2f; 
 }
 
 .info, .actions {
@@ -151,18 +126,8 @@
 }
 
 .lockButton, .unlockButton, .rankUpButton {
-    width: 10em; 
-    height: 3em; 
-}
-
-.orderTile {
-    border: 0.0625em solid #000;
-    padding: 0.625em;
-    margin: 0.625em 0;
-}
-
-.orderID, .orderDate, .orderStatus {
-    margin-bottom: 0.625em;
+    width: 10em;
+    height: 3em;
 }
 
 .orderTile {
@@ -178,21 +143,20 @@
 .caracteristicTile {
     position: relative;
     border: 1px solid #ddd;
-    border-radius: 0.5em; 
+    border-radius: 0.5em;
     box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
-    padding: 2em; 
-    background-color: #fff; 
-    width: 25em; 
-    height: 5em; 
+    padding: 2em;
+    background-color: #fff;
+    width: 25em;
+    height: 5em;
     overflow: hidden;
     display: flex;
-    
 }
 
 .caracteristicId, .caracteristicName {
     margin-bottom: 10px;
     font-size: 1em;
-    color: #333; 
+    color: #333;
 }
 
 .tileButtons {
@@ -206,39 +170,18 @@
 .tileButton {
     display: block;
     margin-bottom: 0.5em;
-    background-color: #007BFF; 
-    color: #fff; 
-    border: none; 
-    border-radius: 0.25em; 
-    padding: 0.5em 0.5em;
-    text-align: center; 
-    text-decoration: none; 
-    transition: background-color 0.3s ease; 
-    font-size: 1.25em;
-}
-
-.tileButton:hover {
-    background-color: #0056b3; 
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.addButton {
-    padding: 0.5em 1em;
-    font-size: 1em;
     background-color: #007BFF;
     color: #fff;
     border: none;
     border-radius: 0.25em;
-    cursor: pointer;
+    padding: 0.5em 0.5em;
+    text-align: center;
+    text-decoration: none;
     transition: background-color 0.3s ease;
+    font-size: 1.25em;
 }
 
-.addButton:hover {
+.tileButton:hover {
     background-color: #0056b3;
 }
 
@@ -442,5 +385,89 @@
 }
 
 .myEditFormDiv form {
-    margin-bottom: 1em; 
+    margin-bottom: 1em;
+}
+
+@media (max-width: 768px) {
+    /* Container Adjustments */
+    .adminContainer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1em;
+    }
+
+    .Container {
+        margin-top: 1em;
+        width: 100%;
+    }
+
+    /* Sidebar Adjustments */
+    #sideOptions {
+        position: static;
+        width: 100%;
+        padding: 1em;
+        background-color: #f9f9f9; /* Added background color for better visual separation */
+        box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1); /* Added subtle shadow */
+        margin-bottom: 1em; /* Added margin for spacing */
+    }
+
+    /* User Card Adjustments */
+    .user {
+        width: 100%;
+        flex-direction: column;
+        padding: 1em;
+        box-shadow: none;
+        margin: 0.5em 0;
+        border: 0.0625em solid #ddd; /* Added border for better visual separation */
+        border-radius: 0.25em; /* Added border-radius for a smoother look */
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .info, .actions {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .userID, .username, .email, .rank {
+        flex: 1 1 100%;
+        margin-right: 0;
+        margin-bottom: 0.5em; /* Added margin-bottom for spacing */
+    }
+
+    .lockButton, .unlockButton, .rankUpButton {
+        width: 100%;
+        margin-bottom: 0.5em; /* Added margin-bottom for spacing */
+    }
+
+    /* Button Adjustments */
+    .addButton {
+        width: 100%;
+        margin-bottom: 1em; /* Added margin-bottom for spacing */
+    }
+
+    .addForm, .editForm {
+        width: 100%;
+    }
+
+    .tile {
+        width: 100%;
+        margin-bottom: 1em; /* Added margin-bottom for spacing */
+        border: 0.0625em solid #ddd; /* Added border for better visual separation */
+        border-radius: 0.25em; /* Added border-radius for a smoother look */
+        padding: 1em; /* Added padding for better spacing */
+    }
+
+    .tileButton {
+        width: 100%;
+        margin-bottom: 0.5em; /* Added margin-bottom for spacing */
+    }
+
+    /* Typography Adjustments */
+    h1, h2, h3, h4, h5, h6, p {
+        font-size: 1em; /* Adjusted font size for better readability */
+        margin-bottom: 0.5em; /* Added margin-bottom for spacing */
+    }
 }

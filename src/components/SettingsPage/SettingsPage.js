@@ -40,8 +40,8 @@ const SettingsPage = () => {
     return (
         <div>
             <Header isLoggedIn={currentUser} user={currentUser} />
-            <ProfileForm user={currentUser} />
             <SideMenu user={currentUser}/>
+            <ProfileForm user={currentUser} />
             <Footer user={currentUser}/>
         </div>
     );
