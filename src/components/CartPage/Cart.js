@@ -156,7 +156,6 @@ const Cart = ({ orders, setOrders, currentUser }) => {
     alert("Please select a shipping method");
   }
 
-  navigate('/');
   };
 
 

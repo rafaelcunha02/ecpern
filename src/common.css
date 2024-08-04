@@ -791,23 +791,31 @@ button#footerSearch:hover {
   transform: translateY(-50%) rotate(180deg);
 }
 
-.adminButton{
-  background-color: #B22222;
-  color: white;
-  transition: all 0.15em ease;
-  border-radius: 0.5em;
-  border-style: none;
-  padding: 0.5em 1em 0.5em 1em;
-  font-weight: bold;
-  font-size: 1em;
-  margin: 0.5em;
-  box-shadow: 0em 0.5em 1em rgba(0, 0, 0, 0.1); 
+.adminButton {
+    background-color: #343a40; /* Dark gray color */
+    color: #fff; /* White text */
+    border: none; /* Remove default border */
+    border-radius: 0.25em; /* Slightly rounded corners */
+    padding: 0.75em 1.5em; /* Padding for size */
+    font-size: 1em; /* Standard font size */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
 }
 
 .adminButton:hover {
-  background-color: #8B0000;
-  box-shadow: 0em 0.3em 0.6em rgba(0, 0, 0, 0.2); 
-  cursor: pointer;
+    background-color: #23272b; /* Darker gray on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+.adminButton:active {
+    background-color: #1d2124; /* Even darker gray on active */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly more pronounced shadow */
+}
+
+.adminButton:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 3px rgba(52, 58, 64, 0.5); /* Custom focus outline */
 }
 
 
@@ -961,7 +969,6 @@ header {
 }
 
 .menu-lateral {
-  width: 19.5vw;
   padding: 1em;
   background-color: #f7fbfc;
   position: fixed;
@@ -970,6 +977,15 @@ header {
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 10;
+
+  #LogOut{
+    background: #000428;
+    color: white;
+    border: none; 
+    margin-top: 60vh !important;
+    transition: all 0.15s ease;
+}
+
 }
 
 .menu-lateral.animation {
@@ -986,16 +1002,7 @@ header {
   margin: 1em 0;
 }
 
-.menu-lateral ul li button {
-  width: 100%;
-  padding: 1em;
-  text-align: left;
-  background: none;
-  border: none;
-  font-size: 1.2em;
-  color: #0047AB;
-  cursor: pointer;
-}
+
 
 #footer {
   display: flex;
@@ -1121,7 +1128,7 @@ button#footerSearch:hover {
   }
 
   .menu-lateral {
-    width: 80%;
+    width: 65%;
     padding: 1em;
   }
 
@@ -1139,7 +1146,6 @@ button#footerSearch:hover {
     height: 100%;
     padding: 1em;
     font-size: 1.2em;
-    color: #0047AB;
   }
 
   #footer {

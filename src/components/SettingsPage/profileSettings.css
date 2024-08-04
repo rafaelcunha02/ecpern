@@ -51,7 +51,6 @@
 .productInfo {
     display: flex;
     width: 90%;
-    margin-left: 1em;
 }
 
 .infoList {
@@ -201,7 +200,6 @@
 .info-items {
     display: flex;
     font-weight: bold;
-    font-size: 1.2em;
     justify-content: space-between;
     margin-bottom: 0.75em;
     border-style: solid;
