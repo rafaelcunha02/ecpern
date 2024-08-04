@@ -360,3 +360,190 @@ form#mbWay {
 #ATM{
     margin-bottom: 10em;
 }
+
+
+@media (max-width: 768px) {
+    body{
+        overflow: hidden;
+        overflow-y: auto !important;
+    }
+
+    #imgproduct{
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .cartContainer {
+        
+        flex-direction: column;
+        padding: 1em;
+       
+    }
+
+    .inlineContain {
+        margin: 0;
+        width: 100%;
+        padding: 1em;
+        align-items: flex-start;
+    }
+
+    .topFlex {
+        grid-template-columns: 1fr;
+        text-align: left;
+
+        img {
+            width: 5em !important;
+            height: 5em !important;
+        }
+
+        div {
+            font-size: 1em;
+            margin-bottom: 0.5em;
+        }
+
+        .priceInfo {
+            display: flex;
+            justify-content: center;
+        }
+        #productSeller{
+            display: flex;
+            justify-content: center;
+        }
+
+        .infoLista{
+            div:nth-child(2){
+                display: flex;
+                justify-content: center;
+                margin: 0;
+            }
+            div:nth-child(3){
+                display: flex;
+                justify-content: center;
+                margin: 0;
+            }
+        }
+    }
+
+    #first, #second {
+        width: 100%;
+        margin: 0;
+        padding: 1em 0;
+    }
+
+    #second{
+        div:nth-child(1){
+            display: flex;
+            justify-content: center;
+        }
+        div:nth-child(3){
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .overflowContainer {
+        max-height: none;
+        width: 100%;
+        margin: 0;
+        padding: 1em 0;
+    }
+
+    .productInfo {
+        flex-direction: column;
+        margin-bottom: 1em;
+    }
+
+    .infoLista {
+        margin: 0;
+        h3 {
+            font-size: 1.2em;
+        }
+    }
+
+    .removeButton {
+        font-size: 0.9em;
+        padding: 0.5em;
+    }
+
+    #productSeller {
+        width: 100%;
+    }
+
+    .productHeader{
+        display: none;
+    }
+    #price{
+        display: none;
+    }
+    #seller{
+        display: none;
+    }
+
+    #rightSide {
+        width: 100%;
+        margin: 0;
+        padding: 1em 0;
+
+        #finalPrice {
+            margin-top: 1em;
+        }
+    }
+
+    #checkoutButton, #payButton {
+        font-size: 1em;
+        padding: 0.8em;
+        width: 100%;
+    }
+
+    .radioinputs {
+        flex-direction: column;
+
+        img {
+            width: 1.5em !important;
+            height: 0.75em !important;
+            margin-right: 0.25em;
+        }
+
+        label {
+            font-size: 1em;
+        }
+
+        label:before {
+            width: 0.875em;
+            height: 0.875em;
+            left: -0.06em;
+            top: -0.1em;
+        }
+
+        input[type="radio"]:checked + label:after {
+            left: 0.25em;
+            top: 0.25em;
+            width: 0.375em;
+            height: 0.375em;
+        }
+    }
+
+    .cartForms input[type="text"], select {
+        font-size: 0.75em;
+        padding: 0.5em;
+    }
+
+    .cartForms input[type="submit"] {
+        font-size: 0.875em;
+        padding: 0.5em;
+    }
+
+    .goBack {
+        padding: 0.5em 1em;
+        font-size: 0.9em;
+        margin-top: 2em;
+    }
+    #shippingOptions{
+        grid-template-columns: 0.5fr;
+    }
+
+    .overflowContainer{
+        overflow-x: hidden;
+    }
+}
